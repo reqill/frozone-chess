@@ -15,6 +15,7 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - [ ] Customization
 - [ ] ELO System
 - [ ] Further AI improvements (game analisis, scoring)
+- [ ] CD/CI
 
 ### Technologies and languages
 - Svelte
