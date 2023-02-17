@@ -2,7 +2,8 @@
 Chess portal with custom chessAI - project created self-improve and learn new technologies/tools
 
 ### TO-DO
-- [ ] Project setup FE/BE
+- [ ] Project setup FE
+- [ ] Project setup BE
 - [ ] UI prototype/design
 - [ ] Base UI setup
 - [ ] Database setup
