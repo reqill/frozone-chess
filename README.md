@@ -25,7 +25,7 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - tRPC
 - Typescript
 - Websockets
-- 0auth (or maybe svelte/auth)
+- Auth0 (or maybe svelte/auth)
 - PocketBase/SupraBase/AWS/Firestore/(more research needed)
 - TailwindCSS
 - vite
@@ -40,5 +40,11 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - SvelteKit [(link)](https://kit.svelte.dev/docs/introduction)
 - TailwindCSS [(link)](https://tailwindcss.com)
 - RefactoringUI [(link)](https://www.refactoringui.com)
+- tRPC docs [(link)](https://trpc.io/docs)
+- websockets [(link)](https://appmaster.io/pl/blog/czym-sa-websockety-i-jak-je-tworzyc)
+- socket.io docs [(link)](https://socket.io/docs/v4/)
+- SvelteKit with socket.io [(link)](https://dev.to/theether0/sveltekit-with-socketio-and-nodejs-285h)
+- SvelteKit authorization [(link)](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/sveltekit)
+- Auth0 docs [(link)](https://auth0.com/docs/)
 
 (the more I read the more I add here)
