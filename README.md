@@ -38,12 +38,12 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 
 ## Learning resources
 
-- Svelte introduction [(link)](https://www.youtube.com/watch?v=rv3Yq-B8qp4)
-- SvelteKit introduction [(link)](https://www.youtube.com/watch?v=uEJ-Rnm2yOE)
-- Svelte tutorial [(link)](https://svelte.dev/tutorial)
+- Svelte introduction [(link)](https://www.youtube.com/watch?v=rv3Yq-B8qp4) :white_check_mark:
+- SvelteKit introduction [(link)](https://www.youtube.com/watch?v=uEJ-Rnm2yOE) :white_check_mark:
+- Svelte(kit) tutorial [(link)](https://learn.svelte.dev/tutorial) :white_check_mark:
 - Svelte docs [(link)](https://svelte.dev/docs)
 - SvelteKit [(link)](https://kit.svelte.dev/docs/introduction)
-- TailwindCSS [(link)](https://tailwindcss.com)
+- TailwindCSS [(link)](https://tailwindcss.com) :white_check_mark:
 - RefactoringUI [(link)](https://www.refactoringui.com)
 - tRPC docs [(link)](https://trpc.io/docs)
 - websockets [(link)](https://appmaster.io/pl/blog/czym-sa-websockety-i-jak-je-tworzyc)
