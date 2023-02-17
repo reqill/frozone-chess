@@ -1,6 +1,6 @@
 # Frozone Chess
 
-Chess portal with custom chessAI - project created self-improve and learn new technologies/tools
+Chess portal with custom chessAI - project created to self-improve and learn new technologies/tools
 
 ## TO-DO
 
