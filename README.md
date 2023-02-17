@@ -24,12 +24,20 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - tRPC
 - Typescript
 - Websockets
-- 0auth
+- 0auth (or maybe svelte/auth)
 - PocketBase/SupraBase/AWS/Firestore/(more research needed)
 - TailwindCSS
 - vite
 - Express.js (?)
 - (propably more as I go)
 
-### Lerning resources
+### Learning resources
+- Svelte introduction [(link)](https://www.youtube.com/watch?v=rv3Yq-B8qp4)
+- SvelteKit introduction [(link)](https://www.youtube.com/watch?v=uEJ-Rnm2yOE)
+- Svelte tutorial [(link)](https://svelte.dev/tutorial)
+- Svelte docs [(link)](https://svelte.dev/docs)
+- SvelteKit [(link)](https://kit.svelte.dev/docs/introduction)
+- TailwindCSS [(link)](https://tailwindcss.com)
+- RefactoringUI [(link)](https://www.refactoringui.com)
+
 (the more I read the more I add here)
