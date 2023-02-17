@@ -13,6 +13,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - [ ] Chess game single (manuall play with restrictions possible moves)
 - [ ] Chess game automated (create and teach AI as enemy)
 - [ ] UI refinement
+- [x] FEN notation support
 - [ ] Chess game multiplayer (link sessions, live games)
 - [ ] Tournament structure
 - [ ] Customization
