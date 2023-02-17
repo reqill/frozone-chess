@@ -1,6 +1,6 @@
 # Frozone Chess
 
-Chess portal with custom chessAI - project created self-improve and learn new technologies/tools
+Chess portal with custom chessAI - project created to self-improve and learn new technologies/tools
 
 ## TO-DO
 
@@ -25,7 +25,7 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - Svelte
 - SvelteKit
 - Python
-- Machine lerning
+- Machine learning
 - tRPC
 - Typescript
 - Websockets
@@ -38,12 +38,12 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 
 ## Learning resources
 
-- Svelte introduction [(link)](https://www.youtube.com/watch?v=rv3Yq-B8qp4)
-- SvelteKit introduction [(link)](https://www.youtube.com/watch?v=uEJ-Rnm2yOE)
-- Svelte tutorial [(link)](https://svelte.dev/tutorial)
+- Svelte introduction [(link)](https://www.youtube.com/watch?v=rv3Yq-B8qp4) :white_check_mark:
+- SvelteKit introduction [(link)](https://www.youtube.com/watch?v=uEJ-Rnm2yOE) :white_check_mark:
+- Svelte(kit) tutorial [(link)](https://learn.svelte.dev/tutorial) :white_check_mark:
 - Svelte docs [(link)](https://svelte.dev/docs)
 - SvelteKit [(link)](https://kit.svelte.dev/docs/introduction)
-- TailwindCSS [(link)](https://tailwindcss.com)
+- TailwindCSS [(link)](https://tailwindcss.com) :white_check_mark:
 - RefactoringUI [(link)](https://www.refactoringui.com)
 - tRPC docs [(link)](https://trpc.io/docs)
 - websockets [(link)](https://appmaster.io/pl/blog/czym-sa-websockety-i-jak-je-tworzyc)
@@ -52,6 +52,7 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - SvelteKit authorization [(link)](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/sveltekit)
 - Auth0 docs [(link)](https://auth0.com/docs/)
 - Angular Commit Convention [(link)](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+- tRPC crash course [(link)](https://www.youtube.com/watch?v=UfUbBWIFdJs)
 
 (the more I read the more I add here)
 
