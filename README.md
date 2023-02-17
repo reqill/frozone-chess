@@ -51,6 +51,7 @@ Chess portal with custom chessAI - project created self-improve and learn new te
 - SvelteKit with socket.io [(link)](https://dev.to/theether0/sveltekit-with-socketio-and-nodejs-285h)
 - SvelteKit authorization [(link)](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/sveltekit)
 - Auth0 docs [(link)](https://auth0.com/docs/)
+- Angular Commit Convention [(link)](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
 
 (the more I read the more I add here)
 
