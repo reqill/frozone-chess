@@ -25,7 +25,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - Svelte
 - SvelteKit
 - Python
-- Machine lerning
+- Machine learning
 - tRPC
 - Typescript
 - Websockets
