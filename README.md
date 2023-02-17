@@ -52,6 +52,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - SvelteKit authorization [(link)](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/sveltekit)
 - Auth0 docs [(link)](https://auth0.com/docs/)
 - Angular Commit Convention [(link)](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+- tRPC crash course [(link)](https://www.youtube.com/watch?v=UfUbBWIFdJs)
 
 (the more I read the more I add here)
 
