@@ -2,6 +2,7 @@
 	import Counter from './Counter.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import ChessPiece from '$lib/components/pieces/ChessPiece.svelte';
 </script>
 
 <svelte:head>
@@ -24,6 +25,15 @@
 	<h2>
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2>
+
+	<div class="flex bg-black">
+		<ChessPiece piece="pawn" side="white" />
+		<ChessPiece piece="king" side="white" />
+		<ChessPiece piece="queen" side="white" />
+		<ChessPiece piece="bishop" side="white" />
+		<ChessPiece piece="rook" side="white" />
+		<ChessPiece piece="knight" side="white" />
+	</div>
 
 	<Counter />
 </section>
