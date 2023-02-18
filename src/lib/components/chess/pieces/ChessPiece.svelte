@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ChessColorConfig, Piece, Side } from '$lib/types/chess.types';
-	import BlackPiece from './black/BlackPiece.svelte';
-	import WhitePiece from './white/WhitePiece.svelte';
+	import { BlackPiece } from './black';
+	import { WhitePiece } from './white';
 
 	export let piece: Piece;
 	export let side: Side;
@@ -29,9 +29,11 @@
 	};
 </script>
 
-<svelte:component
-	this={pieces[side]}
-	{piece}
-	main={colors[side].main}
-	accent={colors[side].accent}
-/>
+<div class="pointer-events-none">
+	<svelte:component
+		this={pieces[side]}
+		{piece}
+		main={colors[side].main}
+		accent={colors[side].accent}
+	/>
+</div>

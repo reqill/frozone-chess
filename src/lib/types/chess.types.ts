@@ -11,10 +11,16 @@ export type ChessColorConfig = {
     }
 }
 
-export type CastlingInfoType = {[key in Side]: {
-    queenSide: boolean;
-    kingSide: boolean;
-}};
+export type CastlingSingleType = {
+    queenSide: string;
+    kingSide: string;
+}
+
+export type CastleDirection = keyof CastlingSingleType;
+
+export type CastlingInfoType = {[key in Side]: CastlingSingleType};
+
+export type SquareColor = "light" | "dark";
 
 export type PiecePositionInfoType = {piece: Piece, side: Side, square: Required<SquareInfoType>}
 

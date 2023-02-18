@@ -1,4 +1,4 @@
-import type { PiecePositionInfoType } from "$lib/types/chess.types";
+import type { PiecePositionInfoType, SquareInfoType } from "$lib/types/chess.types";
 import { getFullSquareInfo } from "./getFullSquareInfo";
 import { getPieceFromString } from "./getPieceFromString";
 
@@ -23,7 +23,7 @@ export const stringPositionToObject = (position: string): PiecePositionInfoType[
             } else {
                 const piece = getPieceFromString(char);
                 const index = 63 - ((7 - rowIdx) * 8 + (7 - fileIndex));
-                pieces.push({ ...piece, square: getFullSquareInfo(index) });
+                pieces.push({ ...piece, square: getFullSquareInfo(index) as Required<SquareInfoType> });
                 fileIndex++;
             }
         }

@@ -3,7 +3,7 @@ import { getCastlingRightsFromString } from "./getCastlingRightsFromString";
 import { getFullSquareInfo } from "./getFullSquareInfo";
 import { stringPositionToObject } from "./stringPositionToObject";
 
-export const parseFanNotation = (fen: string): FenNotationObjectType => {
+export const parseFenNotation = (fen: string): FenNotationObjectType => {
     const [positionStr, moveStr, castlingStr, enPassantStr, halfMoveClockStr, fullMoveNumberStr] = fen.split(" ");
 
     const position = stringPositionToObject(positionStr);
