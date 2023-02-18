@@ -1,5 +1,5 @@
 import {expect, describe, it} from "vitest"
-import { parseFanNotation } from "./parseFanNotation";
+import { parseFenNotation } from "./parseFenNotation";
 
 describe("parseFanNotation", () => {
     const testCases = [
@@ -54,7 +54,7 @@ describe("parseFanNotation", () => {
 
     it("should parse FAN notation", () => {
         testCases.forEach(({ input, expected }) => {
-            expect(parseFanNotation(input)).toEqual(expected);
+            expect(parseFenNotation(input)).toEqual(expected);
         });
     });
 
