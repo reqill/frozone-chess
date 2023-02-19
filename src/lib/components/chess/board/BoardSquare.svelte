@@ -15,6 +15,8 @@
 	export let boundaries = DEFAULT_BOARD_BOUNDARIES;
 	export let isHovered = false;
 	export let isLegal = false;
+	export let isCapture = false;
+	export let renderIndex = -1;
 
 	//TODO: move to a global state
 	export let squareColors = {
@@ -27,15 +29,15 @@
 		dark: 'ring-[#f0d9b5]',
 	};
 
-	$: isBottomEdge = square?.index > 55;
-	$: isLeftEdge = square?.index % 8 === 0;
+	$: isBottomEdge = renderIndex > 55;
+	$: isLeftEdge = renderIndex % 8 === 0;
 
 	$: squareColor = getSquareColor(square);
 	$: corner =
-		(square?.index === 0 && 'top-left') ||
-		(square?.index === 7 && 'top-right') ||
-		(square?.index === 56 && 'bottom-left') ||
-		(square?.index === 63 && 'bottom-right');
+		(renderIndex === 0 && 'top-left') ||
+		(renderIndex === 7 && 'top-right') ||
+		(renderIndex === 56 && 'bottom-left') ||
+		(renderIndex === 63 && 'bottom-right');
 
 	const onPieceDown = (e: CustomEvent<MousePositionType>) => {
 		dispatch('piecedown', { mousePos: e.detail, piece, side, square });
@@ -83,8 +85,13 @@
 			<ChessPiece {piece} {side} />
 		</Draggable>
 	{/if}
-	{#if isLegal}
-		<div class="absolute inset-0 z-20 m-[30%] rounded-full bg-zinc-700 bg-opacity-40" />
+	{#if isLegal && !isCapture}
+		<div class="absolute inset-0 z-20 m-[35%] rounded-full bg-zinc-700 bg-opacity-30" />
+	{/if}
+	{#if isLegal && isCapture}
+		<div
+			class="absolute inset-0 z-20 m-[2%] rounded-full border-[.475rem] border-solid border-zinc-700 border-opacity-30"
+		/>
 	{/if}
 </div>
 

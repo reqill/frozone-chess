@@ -87,11 +87,21 @@
 		on:contextmenu|preventDefault
 	>
 		{#key gameObject}
-			{#each SQUARES as square (`chess-square-${square.code}`)}
+			{#each SQUARES as square, i (`chess-square-${square.code}`)}
 				<BoardSquare
 					{boundaries}
 					{square}
+					renderIndex={i}
 					isLegal={legalMoves.find((legalSquare) => legalSquare.index === square.index)
+						? true
+						: false}
+					isCapture={gameObject.position.find(
+						(piece) =>
+							legalMoves.find((legalSquare) => legalSquare.index === square.index) &&
+							piece.square.index === square.index
+					) ||
+					(square.index === gameObject.enPassant.index &&
+						gameObject.position.find((pos) => pos.square.index === square.index)?.piece === 'pawn')
 						? true
 						: false}
 					isHovered={intersectIndex === square.index}

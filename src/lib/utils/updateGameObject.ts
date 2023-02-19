@@ -22,6 +22,22 @@ export const updateGameObject = (gameObject: FenNotationObjectType, oldPosition?
     //TODO: add capturing logic
     //TODO: check legality of move
 
+    // Disable castling if king moved
+    if(oldPosition.piece === "king") {
+        tmpGameObject.castling[oldPosition.side].kingSide = false;
+        tmpGameObject.castling[oldPosition.side].queenSide = false;
+    }
+
+    // Disable castling if queen rook moved
+    if(oldPosition.piece === "rook" && oldPosition.square.index % 8 === 0) {
+        tmpGameObject.castling[oldPosition.side].queenSide = false;
+    }
+
+    // Disable castling if king rook moved
+    if(oldPosition.piece === "rook" && oldPosition.square.index % 8 === 7) {
+        tmpGameObject.castling[oldPosition.side].kingSide = false;
+    }
+
     // check if pawn did double move so en passant is possible
     if (oldPosition.piece === "pawn" && Math.abs(oldPosition.square.index - newPosition.square.index) === 16) {
         tmpGameObject.enPassant = getFullSquareInfo((oldPosition.square.index + newPosition.square.index) / 2);
