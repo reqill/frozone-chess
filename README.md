@@ -20,6 +20,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - [ ] ELO System
 - [ ] Further AI improvements (game analisis, scoring)
 - [ ] CD/CI
+- [ ] Refactor FEN notation parser
 
 ## Technologies and languages
 
