@@ -12,7 +12,7 @@ export const getLegalPawnMoves = (gameObject: FenNotationObjectType, pieceInfo: 
     const forwardSquare = side === "black" ? square.index + 8 : square.index - 8;
     const doubleForwardSquare = side === "black" ? square.index + 16 : square.index - 16;
     const leftCapture = square.index % 8 !== 0 ? (side === "black" ? square.index + 7 : square.index - 7): -1;
-    const rightCapture = square.index % 7 !== 0 ? (side === "black" ? square.index + 9 : square.index - 9) : -1;
+    const rightCapture = square.index % 8 !== 7 ? (side === "black" ? square.index + 9 : square.index - 9): -1;
 
     const isOnEnPassantEnemySquare = side === "white" ? square.index >= 24 && square.index <= 31 : square.index >= 32 && square.index <= 39;
 

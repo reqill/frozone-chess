@@ -12,8 +12,8 @@ export type ChessColorConfig = {
 }
 
 export type CastlingSingleType = {
-    queenSide: string;
-    kingSide: string;
+    queenSide: boolean;
+    kingSide: boolean;
 }
 
 export type CastleDirection = keyof CastlingSingleType;
