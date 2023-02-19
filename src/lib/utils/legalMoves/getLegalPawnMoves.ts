@@ -8,11 +8,12 @@ export const getLegalPawnMoves = (gameObject: FenNotationObjectType, pieceInfo: 
     const hasPawnMoved = side === "white" ? (square.index <= 55 && square.index >= 48) : (square.index <= 15 && square.index >= 8);
 
     const legalMoves: SquareInfoType[] = [];
+	const legalAttacks: SquareInfoType[] = [];
 
     const forwardSquare = side === "black" ? square.index + 8 : square.index - 8;
     const doubleForwardSquare = side === "black" ? square.index + 16 : square.index - 16;
-    const leftCapture = square.index % 8 !== 0 ? (side === "black" ? square.index + 7 : square.index - 7): -1;
-    const rightCapture = square.index % 8 !== 7 ? (side === "black" ? square.index + 9 : square.index - 9): -1;
+    const leftCapture = side === "white" ? square.index % 8 !== 7 ? square.index - 7: -1 : square.index % 8 !== 0 ?  square.index + 7 : -1;
+    const rightCapture = side === "white" ? square.index % 8 !== 0 ?  square.index - 9: -1: square.index % 8 !== 7 ?  square.index + 9: -1;
 
     const isOnEnPassantEnemySquare = side === "white" ? square.index >= 24 && square.index <= 31 : square.index >= 32 && square.index <= 39;
 
@@ -37,5 +38,13 @@ export const getLegalPawnMoves = (gameObject: FenNotationObjectType, pieceInfo: 
         legalMoves.push(getFullSquareInfo(rightCapture));
     }
 
-    return legalMoves as Required<SquareInfoType>[];
+	if(leftCapture !== -1){
+		legalAttacks.push(getFullSquareInfo(leftCapture));
+	}
+
+	if(rightCapture !== -1){
+		legalAttacks.push(getFullSquareInfo(rightCapture));
+	}
+
+    return { legalMoves, legalAttacks };
 }

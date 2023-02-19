@@ -1,3 +1,3 @@
-import WhitePiece from "./WhitePiece.svelte";
+import WhitePiece from './WhitePiece.svelte';
 
 export { WhitePiece };

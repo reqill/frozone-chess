@@ -17,6 +17,7 @@
 	export let isLegal = false;
 	export let isCapture = false;
 	export let renderIndex = -1;
+	export let isSelected = false;
 
 	//TODO: move to a global state
 	export let squareColors = {
@@ -52,12 +53,16 @@
 	};
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class={`square relative ${isHovered && 'z-50 ring-4 ring-inset ring-opacity-50'} ${
-		ring[squareColor]
-	}`}
+	class={`square relative ${
+		isHovered || (isSelected && 'z-50 ring-4 ring-inset ring-opacity-50')
+	} ${ring[squareColor]}`}
 	style={`background-color: ${squareColors[squareColor]}; 
 	${corner && `border-${corner}-radius: 6%;`}`}
+	on:click={(e) => dispatch('squareclick', { e, pos: { piece, side, square } })}
+	on:contextmenu|preventDefault={(e) =>
+		dispatch('squareclick', { e, pos: { piece, side, square } })}
 >
 	{#if isBottomEdge}
 		<p
