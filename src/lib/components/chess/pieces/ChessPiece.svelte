@@ -10,26 +10,26 @@
 	const defaultColors: Required<ChessColorConfig> = {
 		white: {
 			main: '#ffffff',
-			accent: '#000000'
+			accent: '#000000',
 		},
 		black: {
 			main: '#000000',
-			accent: '#ffffff'
-		}
+			accent: '#ffffff',
+		},
 	};
 
 	$: colors = {
 		white: { ...defaultColors.white, ...colorsOverride?.white },
-		black: { ...defaultColors.black, ...colorsOverride?.black }
+		black: { ...defaultColors.black, ...colorsOverride?.black },
 	} satisfies Required<ChessColorConfig>;
 
 	const pieces = {
 		black: BlackPiece,
-		white: WhitePiece
+		white: WhitePiece,
 	};
 </script>
 
-<div class="pointer-events-none">
+<div class="pointer-events-none cursor-none select-none p-1">
 	<svelte:component
 		this={pieces[side]}
 		{piece}

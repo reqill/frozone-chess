@@ -5,7 +5,7 @@ export const getSquareColor = (square?: number | string | SquareInfoType): Squar
     let index: number | undefined = undefined;
 
     if(typeof square === "object" && square?.index){
-        index = square.index;
+        index = square?.index;
     } else if(typeof square === "object" && square.code) {
         index = getFullSquareInfo(square.code).index;
     } else if(typeof square === "string") {
