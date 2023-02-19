@@ -1,3 +1,3 @@
-import BlackPiece from "./BlackPiece.svelte";
+import BlackPiece from './BlackPiece.svelte';
 
 export { BlackPiece };

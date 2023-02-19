@@ -61,6 +61,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 (the more I read the more I add here)
 
 ## SvelteKit
+
 <details>
 <summary>see more...</summary>
 

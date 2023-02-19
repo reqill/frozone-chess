@@ -18,7 +18,7 @@
 		knight: KnightW,
 		pawn: PawnW,
 		queen: QueenW,
-		rook: RookW
+		rook: RookW,
 	};
 </script>
 

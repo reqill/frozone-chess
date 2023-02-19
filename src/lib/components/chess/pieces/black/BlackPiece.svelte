@@ -18,7 +18,7 @@
 		knight: KnightB,
 		pawn: PawnB,
 		queen: QueenB,
-		rook: RookB
+		rook: RookB,
 	};
 </script>
 
