@@ -24,7 +24,7 @@ export type SquareColor = "light" | "dark";
 
 export type PiecePositionInfoType = {piece: Piece, side: Side, square: Required<SquareInfoType>}
 
-export type SquareInfoType = {index?: number, code?: string};
+export type SquareInfoType = {index: number, code: string};
 
 export type FenNotationObjectType = {
     position: PiecePositionInfoType[];
@@ -34,3 +34,13 @@ export type FenNotationObjectType = {
     halfMoveClock: number;
     fullMoveNumber: number;
 }
+
+export type BoundariesType = {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+}
+
+export type SquareBoundariesType = {[key: number]: BoundariesType}
+

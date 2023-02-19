@@ -1,4 +1,4 @@
-import type { SquareInfoType } from "$lib/types/chess.types";
+    import type { SquareInfoType } from "$lib/types/chess.types";
 
 export const HEX_COLOR_REGEX = /^#[0-9A-F]{6}$/i;
 
@@ -18,7 +18,14 @@ export const COLORS = {
 
 export const STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
-export const SQUARES: SquareInfoType[] = [
+export const DEFAULT_BOARD_BOUNDARIES = {
+    top: -1,
+    right: -1,
+    bottom: -1,
+    left: -1,
+};
+
+export const SQUARES: Required<SquareInfoType>[] = [
     { index: 0, code: 'a8' },
     { index: 1, code: 'b8' },
     { index: 2, code: 'c8' },

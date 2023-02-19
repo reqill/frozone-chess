@@ -1,6 +1,6 @@
 import type { SquareInfoType } from "$lib/types/chess.types";
 
-export const getFullSquareInfo = (info: string | number): SquareInfoType  => {
+export const getFullSquareInfo = (info: string | number): Required<SquareInfoType>  => {
     if(info === "-"){
         return { index: undefined, code: undefined };
     }
