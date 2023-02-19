@@ -10,6 +10,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - [ ] Base UI setup
 - [ ] Database setup
 - [ ] Base authorization / user profile
+- [ ] CHess game mechanic basics
 - [ ] Chess game single (manuall play with restrictions possible moves)
 - [ ] Chess game automated (create and teach AI as enemy)
 - [ ] UI refinement
