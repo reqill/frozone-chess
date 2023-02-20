@@ -35,7 +35,8 @@ export type FenNotationObjectType = {
 	fullMoveNumber: number;
 	isKingInCheck: {
 		[key in Side]?: boolean;
-	}
+	};
+	win?: Side;
 };
 
 export type BoundariesType = {

@@ -61,11 +61,26 @@ export const getLegalKingMoves = (
 		const kingSideRook = position.find((pos) => pos.square.index === square.index + 3);
 		const queenSideRook = position.find((pos) => pos.square.index === square.index - 4);
 
-		if (kingSideRook?.piece === 'rook' && gameObject.castling[side].kingSide) {
+		const piecesBetweenKingAndRookQueenSide = position.filter(
+			(pos) => pos.square.index > square.index - 4 && pos.square.index < square.index
+		);
+		const piecesBetweenKingAndRookKingSide = position.filter(
+			(pos) => pos.square.index > square.index && pos.square.index < square.index + 3
+		);
+
+		if (
+			kingSideRook?.piece === 'rook' &&
+			gameObject.castling[side].kingSide &&
+			!piecesBetweenKingAndRookKingSide.length
+		) {
 			tmpMoves.push(getFullSquareInfo(square.index + 2));
 		}
 
-		if (queenSideRook?.piece === 'rook' && gameObject.castling[side].queenSide) {
+		if (
+			queenSideRook?.piece === 'rook' &&
+			gameObject.castling[side].queenSide &&
+			!piecesBetweenKingAndRookQueenSide.length
+		) {
 			tmpMoves.push(getFullSquareInfo(square.index - 2));
 		}
 	}
@@ -82,7 +97,7 @@ export const getLegalKingMoves = (
 			legalMoves.push(move);
 			continue;
 		}
-	}	
+	}
 
 	return legalMoves;
 };

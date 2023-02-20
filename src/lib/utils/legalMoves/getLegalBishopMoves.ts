@@ -23,7 +23,7 @@ export const getLegalBishopMoves = (
 
 	// All square to top left
 	for (let i = square.index; i >= topLeftLimit; i -= 9) {
-		if(i < 0){
+		if (i < 0) {
 			break;
 		}
 
@@ -48,7 +48,7 @@ export const getLegalBishopMoves = (
 
 	// All square to top right
 	for (let i = square.index; i >= topRightLimit; i -= 7) {
-		if(i < 0){
+		if (i < 0) {
 			break;
 		}
 
@@ -73,7 +73,7 @@ export const getLegalBishopMoves = (
 
 	// All square to bottom left
 	for (let i = square.index; i <= bottomLeftLimit; i += 7) {
-		if(i > 63){
+		if (i > 63) {
 			break;
 		}
 
@@ -98,7 +98,7 @@ export const getLegalBishopMoves = (
 
 	// All square to bottom right
 	for (let i = square.index; i <= bottomRightLimit; i += 9) {
-		if(i > 63){
+		if (i > 63) {
 			break;
 		}
 

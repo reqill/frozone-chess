@@ -18,6 +18,7 @@
 	let legalMoves: SquareInfoType[] = [];
 	let startSquare: Required<SquareInfoType> | undefined = undefined;
 	let selectedSquare: SquareInfoType | undefined = undefined;
+	let boardEl: any;
 	$: squareBoundaries = getSquareBoundaries(boundaries);
 
 	$: intersectIndex = boardSquares.findIndex((square) => {
@@ -29,15 +30,7 @@
 
 	let gameObject = parseFEN.toObject(gameFEN);
 
-	const onMouseEnter = (e: any) => {
-		const { top, left, right, bottom } = e.target.getBoundingClientRect();
-		boundaries = {
-			top,
-			left,
-			right,
-			bottom,
-		};
-	};
+	$: boundaries = boardEl ? boardEl.getBoundingClientRect() : DEFAULT_BOARD_BOUNDARIES;
 
 	type PieceEvent = {
 		mousePos: MousePositionType;
@@ -47,7 +40,7 @@
 	};
 
 	const onPieceMove = (e: CustomEvent<PieceEvent>) => {
-		if (!isMoving) return;
+		if (!isMoving || e.detail.side !== gameObject.move) return;
 
 		selectedSquare = undefined;
 
@@ -55,6 +48,8 @@
 	};
 
 	const onPieceUp = (e: CustomEvent<PieceEvent>) => {
+		if (e.detail.side !== gameObject.move) return;
+
 		isMoving = true;
 
 		selectedSquare = undefined;
@@ -66,7 +61,7 @@
 	};
 
 	const onPieceDown = (e: CustomEvent<PieceEvent>) => {
-		if (!isMoving || !startSquare) return;
+		if (!isMoving || !startSquare || e.detail.side !== gameObject.move) return;
 
 		selectedSquare = undefined;
 
@@ -80,13 +75,17 @@
 
 		if (isLegalMove(gameObject, pieceToMove, newSquare)) {
 			const finalPosition = { ...pieceToMove, square: newSquare } as PiecePositionInfoType;
-			gameObject = updateGameObject(gameObject, pieceToMove, finalPosition);
+			gameObject = { ...updateGameObject(gameObject, pieceToMove, finalPosition) };
 		}
 
 		cursorPos = { x: 0, y: 0 };
 		startSquare = undefined;
 		isMoving = false;
 		legalMoves = [];
+	};
+
+	const onWindowResize = () => {
+		boundaries = boardEl.getBoundingClientRect();
 	};
 
 	const onMouseClick = ({
@@ -105,8 +104,6 @@
 					(piece) => piece.square.index === selectedSquare?.index
 				);
 
-				console.log(pieceToMove, newSquare);
-
 				if (isLegalMove(gameObject, pieceToMove, newSquare)) {
 					const finalPosition = { ...pieceToMove, square: newSquare } as PiecePositionInfoType;
 					gameObject = updateGameObject(gameObject, pieceToMove, finalPosition);
@@ -114,26 +111,38 @@
 
 				selectedSquare = undefined;
 				legalMoves = [];
-			} else if (pos.piece !== undefined) {
-				console.log('click LMB');
+			} else if (pos.piece !== undefined && pos.side === gameObject.move) {
 				legalMoves = getFilteredLegalMoves(gameObject, pos);
 				selectedSquare = pos.square;
 			}
 		} else if (e.button === 2) {
+			legalMoves = [];
 			selectedSquare = undefined;
-			console.log('click RMB');
 		}
 	};
 
 	const onBoardFlip = () => {
 		boardSquares = boardSquares.reverse();
 	};
+
+	const onOutsideClick = (e: MouseEvent) => {
+		if (
+			e.clientX < boundaries.left ||
+			e.clientX > boundaries.right ||
+			e.clientY > boundaries.bottom ||
+			e.clientY < boundaries.top
+		) {
+			selectedSquare = undefined;
+			intersectIndex = -1;
+			legalMoves = [];
+		}
+	};
 </script>
 
-<div class="relative h-full">
+<div class="relative h-full select-none">
 	<div
 		class="grid-rows-8 m-auto grid aspect-square max-h-[85vh] max-w-[99vw] grid-cols-8 p-3"
-		on:mouseenter={onMouseEnter}
+		bind:this={boardEl}
 	>
 		{#key gameObject}
 			{#each boardSquares as square, i (`chess-square-${square.code}`)}
@@ -143,6 +152,7 @@
 					{square}
 					renderIndex={i}
 					isSelected={selectedSquare?.index === square.index}
+					sideMove={gameObject.move}
 					isLegal={legalMoves.find((legalSquare) => legalSquare.index === square.index)
 						? true
 						: false}
@@ -182,3 +192,5 @@
 		</button>
 	</div>
 </div>
+
+<svelte:window on:click={onOutsideClick} on:resize={onWindowResize} />

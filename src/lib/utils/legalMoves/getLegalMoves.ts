@@ -23,7 +23,7 @@ export const getLegalMoves = (
 
 	switch (pieceInfo.piece) {
 		case 'pawn':
-			const {legalMoves: pawnLegalMoves} = getLegalPawnMoves(gameObject, pieceInfo);
+			const { legalMoves: pawnLegalMoves } = getLegalPawnMoves(gameObject, pieceInfo);
 			legalMoves.push(...pawnLegalMoves);
 			break;
 		case 'rook':

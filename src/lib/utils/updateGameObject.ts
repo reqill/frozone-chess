@@ -16,7 +16,9 @@ export const updateGameObject = (
 		throw new Error(`No piece found at ${oldPosition}`);
 	}
 
-	tmpGameObject.position = tmpGameObject.position.filter((pos) => pos.square.index !== oldPosition.square.index);
+	tmpGameObject.position = tmpGameObject.position.filter(
+		(pos) => pos.square.index !== oldPosition.square.index
+	);
 
 	const pieceToCapture = tmpGameObject.position.find(
 		(pos) => pos.square.index === newPosition.square.index
@@ -26,18 +28,16 @@ export const updateGameObject = (
 		tmpGameObject.position = tmpGameObject.position.filter((pos) => pos !== pieceToCapture);
 	}
 
-	// castling 
-	const kingMovement = newPosition.square.index- oldPosition.square.index
+	// castling
+	const kingMovement = newPosition.square.index - oldPosition.square.index;
 	if (oldPosition.piece === 'king' && Math.abs(kingMovement) === 2) {
 		const rookToMove = tmpGameObject.position.find(
 			(pos) =>
 				pos.piece === 'rook' &&
-				pos.side === oldPosition.side && 
-				(
-					kingMovement > 0 ? 
-					(pos.square.index % 8 === 7 && tmpGameObject.castling[oldPosition.side].kingSide) : 
-					(pos.square.index % 8 === 0 && tmpGameObject.castling[oldPosition.side].queenSide)
-				)
+				pos.side === oldPosition.side &&
+				(kingMovement > 0
+					? pos.square.index % 8 === 7 && tmpGameObject.castling[oldPosition.side].kingSide
+					: pos.square.index % 8 === 0 && tmpGameObject.castling[oldPosition.side].queenSide)
 		);
 
 		if (rookToMove) {
@@ -99,13 +99,20 @@ export const updateGameObject = (
 				(pos) => pos !== enPassantCapturePiece
 			);
 		}
-	}	
+	}
 
-	tmpGameObject.position.push({piece: newPosition.piece, side: newPosition.side, square: newPosition.square});
+	tmpGameObject.position.push({
+		piece: newPosition.piece,
+		side: newPosition.side,
+		square: newPosition.square,
+	});
 
-	tmpGameObject.isKingInCheck[tmpGameObject.move === 'white' ? 'black' : 'white'] = isKingInCheck(tmpGameObject, tmpGameObject.move);
-	
+	tmpGameObject.isKingInCheck[tmpGameObject.move === 'white' ? 'black' : 'white'] = isKingInCheck(
+		tmpGameObject,
+		tmpGameObject.move
+	);
+
 	tmpGameObject.move = tmpGameObject.move === 'white' ? 'black' : 'white';
-	
+
 	return tmpGameObject;
 };

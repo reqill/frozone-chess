@@ -16,7 +16,7 @@ export const parseFenNotation = (fen: string): FenNotationObjectType => {
 	const isKingInCheck = {
 		white: undefined,
 		black: undefined,
-	}
+	};
 
 	return {
 		position,
@@ -25,6 +25,7 @@ export const parseFenNotation = (fen: string): FenNotationObjectType => {
 		enPassant,
 		halfMoveClock,
 		fullMoveNumber,
-		isKingInCheck
+		isKingInCheck,
+		win: undefined,
 	};
 };

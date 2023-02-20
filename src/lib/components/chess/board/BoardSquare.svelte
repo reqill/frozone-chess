@@ -17,6 +17,7 @@
 	export let isLegal = false;
 	export let isCapture = false;
 	export let renderIndex = -1;
+	export let sideMove: Side | undefined = undefined;
 	export let isSelected = false;
 
 	//TODO: move to a global state
@@ -56,7 +57,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
 	class={`square relative ${
-		isHovered || (isSelected && 'z-50 ring-4 ring-inset ring-opacity-50')
+		(isHovered || isSelected) && 'z-50 ring-4 ring-inset ring-opacity-50'
 	} ${ring[squareColor]}`}
 	style={`background-color: ${squareColors[squareColor]}; 
 	${corner && `border-${corner}-radius: 6%;`}`}
@@ -83,6 +84,7 @@
 	{#if piece && side}
 		<Draggable
 			{boundaries}
+			canInteract={sideMove && side === sideMove}
 			on:piecedown={onPieceDown}
 			on:pieceup={onPieceUp}
 			on:piecemove={onPieceMove}
