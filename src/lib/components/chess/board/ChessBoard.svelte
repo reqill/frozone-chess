@@ -173,12 +173,18 @@
 	<p class="text-center">
 		{gameObject.move} to move
 	</p>
-	<div class="flex w-full flex-row align-middle">
+	<div class="flex w-full flex-row justify-center gap-2 align-middle">
 		<button
 			on:click={() => onBoardFlip()}
-			class="m-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
+			class="ml-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
 		>
 			board flip
+		</button>
+		<button
+			on:click={() => (gameObject = parseFEN.toObject(gameFEN))}
+			class="mr-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
+		>
+			reset game
 		</button>
 	</div>
 </div>
