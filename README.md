@@ -57,6 +57,7 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - Auth0 docs [(link)](https://auth0.com/docs/)
 - Angular Commit Convention [(link)](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
 - tRPC crash course [(link)](https://www.youtube.com/watch?v=UfUbBWIFdJs)
+- deep dive into neural network v1 [(link)]9https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/)
 
 (the more I read the more I add here)
 
