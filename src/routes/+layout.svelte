@@ -4,6 +4,7 @@
 
 <div class="app">
 	<main>
+		<h1 class="-mt-5 select-none pb-8 text-center text-8xl font-semibold blur-sm">frozone-chess</h1>
 		<slot />
 	</main>
 </div>
