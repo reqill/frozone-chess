@@ -12,6 +12,7 @@
 
 	export let gameFEN: string = STARTING_FEN;
 	let boundaries = DEFAULT_BOARD_BOUNDARIES;
+	let boardSquares = SQUARES;
 	let cursorPos: MousePositionType = { x: 0, y: 0 };
 	let isMoving = false;
 	let legalMoves: SquareInfoType[] = [];
@@ -19,7 +20,7 @@
 	let selectedSquare: SquareInfoType | undefined = undefined;
 	$: squareBoundaries = getSquareBoundaries(boundaries);
 
-	$: intersectIndex = SQUARES.findIndex((square) => {
+	$: intersectIndex = boardSquares.findIndex((square) => {
 		const { top, left, right, bottom } = squareBoundaries[square.index];
 		return (
 			cursorPos.x >= left && cursorPos.x <= right && cursorPos.y >= top && cursorPos.y <= bottom
@@ -69,7 +70,7 @@
 
 		selectedSquare = undefined;
 
-		const newSquare = SQUARES.find(
+		const newSquare = boardSquares.find(
 			(square) => square.index === intersectIndex
 		) as Required<SquareInfoType>;
 
@@ -96,7 +97,7 @@
 				selectedSquare !== undefined &&
 				legalMoves.find((legalSquare) => legalSquare.index === pos.square.index)
 			) {
-				const newSquare = SQUARES.find(
+				const newSquare = boardSquares.find(
 					(square) => square.index === pos.square.index
 				) as Required<SquareInfoType>;
 
@@ -123,6 +124,10 @@
 			console.log('click RMB');
 		}
 	};
+
+	const onBoardFlip = () => {
+		boardSquares = boardSquares.reverse();
+	};
 </script>
 
 <div class="relative h-full">
@@ -131,7 +136,7 @@
 		on:mouseenter={onMouseEnter}
 	>
 		{#key gameObject}
-			{#each SQUARES as square, i (`chess-square-${square.code}`)}
+			{#each boardSquares as square, i (`chess-square-${square.code}`)}
 				<BoardSquare
 					on:squareclick={onMouseClick}
 					{boundaries}
@@ -164,5 +169,16 @@
 		{#key gameObject.position.length}
 			<PlayAudio track="capture" />
 		{/key}
+	</div>
+	<p class="text-center">
+		{gameObject.move} to move
+	</p>
+	<div class="flex w-full flex-row align-middle">
+		<button
+			on:click={() => onBoardFlip()}
+			class="m-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
+		>
+			board flip
+		</button>
 	</div>
 </div>
