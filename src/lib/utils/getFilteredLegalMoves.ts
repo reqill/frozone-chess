@@ -31,22 +31,19 @@ export const getFilteredLegalMoves = (
 	if (pieceToMove.piece === 'king') {
 		if (
 			gameObject.castling[pieceToMove.side].queenSide &&
-			movesAfterKingIsChecked.find((square)=>square.index === (pieceToMove.square.index - 1))
+			movesAfterKingIsChecked.find((square) => square.index === pieceToMove.square.index - 1)
 		) {
-			castlePreventingMoves.push(
-				getFullSquareInfo(pieceToMove.square.index - 2)
-			);
-
+			castlePreventingMoves.push(getFullSquareInfo(pieceToMove.square.index - 2));
 		} else if (
 			gameObject.castling[pieceToMove.side].kingSide &&
-			movesAfterKingIsChecked.find((square)=>square.index === (pieceToMove.square.index + 1))
+			movesAfterKingIsChecked.find((square) => square.index === pieceToMove.square.index + 1)
 		) {
-			castlePreventingMoves.push(
-				getFullSquareInfo(pieceToMove.square.index + 2)
-			);
+			castlePreventingMoves.push(getFullSquareInfo(pieceToMove.square.index + 2));
 		}
 	}
 	return legalMoves.filter(
-		(move) => !movesAfterKingIsChecked.includes(move) && !castlePreventingMoves.find((square)=>square.index === move.index)
+		(move) =>
+			!movesAfterKingIsChecked.includes(move) &&
+			!castlePreventingMoves.find((square) => square.index === move.index)
 	);
 };
