@@ -25,6 +25,27 @@ export const DEFAULT_BOARD_BOUNDARIES = {
 	left: -1,
 };
 
+export const DEFAULT_TIMERS = {
+	white: 600_000,
+	black: 600_000,
+};
+
+export const DEFAULT_INCREMENT = {
+	white: 5_000,
+	black: 5_000,
+};
+
+export const DEFAULT_CASTLING_RIGHTS = {
+	white: {
+		kingSide: true,
+		queenSide: true,
+	},
+	black: {
+		kingSide: true,
+		queenSide: true,
+	},
+};
+
 export const SQUARES: Required<SquareInfoType>[] = [
 	{ index: 0, code: 'a8' },
 	{ index: 1, code: 'b8' },
