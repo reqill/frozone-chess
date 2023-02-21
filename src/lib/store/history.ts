@@ -58,10 +58,15 @@ const createHistory = () => {
 
 	const historyFromMoves = (moves: string[]) => {};
 
+	const exportData = () => {
+		return 'history';
+	};
+
 	return {
 		subscribe,
 		add: addToHistory,
 		undo: undoMove,
+		export: exportData,
 		reset: () => set(DEFAULT_HISTORY),
 		resetToMoves: historyFromMoves,
 		override: (history?: MoveHistoryStoreValueType) => set(history || DEFAULT_HISTORY),

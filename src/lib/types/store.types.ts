@@ -15,7 +15,14 @@ export type MoveHistoryStoreValueType = {
 	captured: Map<number, CapturedStoreValueType>;
 };
 
-type GameStatusType = 'pre-game' | 'active' | 'paused' | 'check' | 'checkmate' | 'stalemate' | 'abandoned' | 'timeout';
+type GameStatusType =
+	| 'pre-game'
+	| 'active'
+	| 'paused'
+	| 'checkmate'
+	| 'stalemate'
+	| 'abandoned'
+	| 'timeout';
 
 export type GameStoreValueType = {
 	turn: Side;
@@ -29,6 +36,7 @@ export type GameStoreValueType = {
 	history: MoveHistoryStoreValueType;
 	castingRights: CastlingInfoType;
 	enPassant: SquareInfoType | null;
+	check: { [key in Side]: boolean };
 	fen: string;
 	startTime: Date | null;
 	timer: { [key in Side]: number };

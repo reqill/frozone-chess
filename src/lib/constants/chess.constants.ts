@@ -25,6 +25,15 @@ export const DEFAULT_BOARD_BOUNDARIES = {
 	left: -1,
 };
 
+export const PICE_VALUE = {
+	[PIECES.PAWN]: 1,
+	[PIECES.ROOK]: 5,
+	[PIECES.KNIGHT]: 3,
+	[PIECES.BISHOP]: 3,
+	[PIECES.QUEEN]: 9,
+	[PIECES.KING]: 0,
+};
+
 export const DEFAULT_TIMERS = {
 	white: 600_000,
 	black: 600_000,

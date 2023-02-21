@@ -23,8 +23,8 @@ export type PieceType = {
 	meta: {
 		firstMove: boolean;
 		value: number;
-		possibleMoves?: SquareInfoType[];
-		attackMoves?: SquareInfoType[];
+		possibleMoves: SquareInfoType[];
+		attackMoves: SquareInfoType[];
 	};
 };
 

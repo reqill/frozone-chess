@@ -14,7 +14,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'rook',
 			side: 'black',
 			position: { index: 0, code: 'a8' },
-			meta: { firstMove: true, value: 5 },
+			meta: { firstMove: true, value: 5, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -23,7 +23,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'knight',
 			side: 'black',
 			position: { index: 1, code: 'b8' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -32,7 +32,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'bishop',
 			side: 'black',
 			position: { index: 2, code: 'c8' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -41,7 +41,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'queen',
 			side: 'black',
 			position: { index: 3, code: 'd8' },
-			meta: { firstMove: true, value: 9 },
+			meta: { firstMove: true, value: 9, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -50,7 +50,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'king',
 			side: 'black',
 			position: { index: 4, code: 'e8' },
-			meta: { firstMove: true, value: 0 },
+			meta: { firstMove: true, value: 0, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -59,7 +59,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'bishop',
 			side: 'black',
 			position: { index: 5, code: 'f8' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -68,7 +68,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'knight',
 			side: 'black',
 			position: { index: 6, code: 'g8' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -77,7 +77,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'rook',
 			side: 'black',
 			position: { index: 7, code: 'h8' },
-			meta: { firstMove: true, value: 5 },
+			meta: { firstMove: true, value: 5, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -86,7 +86,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 8, code: 'a7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -95,7 +95,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 9, code: 'b7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -104,7 +104,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 10, code: 'c7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -113,7 +113,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 11, code: 'd7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -122,7 +122,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 12, code: 'e7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -131,7 +131,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 13, code: 'f7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -140,7 +140,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 14, code: 'g7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -149,7 +149,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 15, code: 'h7' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -158,7 +158,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 48, code: 'a2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -167,7 +167,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 49, code: 'b2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -176,7 +176,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 50, code: 'c2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -185,7 +185,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 51, code: 'd2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -194,7 +194,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 52, code: 'e2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -203,7 +203,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 53, code: 'f2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -212,7 +212,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 54, code: 'g2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -221,7 +221,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 55, code: 'h2' },
-			meta: { firstMove: true, value: 1 },
+			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -230,7 +230,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'rook',
 			side: 'white',
 			position: { index: 56, code: 'a1' },
-			meta: { firstMove: true, value: 5 },
+			meta: { firstMove: true, value: 5, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -239,7 +239,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'knight',
 			side: 'white',
 			position: { index: 57, code: 'b1' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -248,7 +248,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'bishop',
 			side: 'white',
 			position: { index: 58, code: 'c1' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -257,7 +257,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'queen',
 			side: 'white',
 			position: { index: 59, code: 'd1' },
-			meta: { firstMove: true, value: 9 },
+			meta: { firstMove: true, value: 9, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -266,7 +266,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'king',
 			side: 'white',
 			position: { index: 60, code: 'e1' },
-			meta: { firstMove: true, value: 0 },
+			meta: { firstMove: true, value: 0, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -275,7 +275,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'bishop',
 			side: 'white',
 			position: { index: 61, code: 'f1' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -284,7 +284,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'knight',
 			side: 'white',
 			position: { index: 62, code: 'g1' },
-			meta: { firstMove: true, value: 3 },
+			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
 		},
 	],
 	[
@@ -293,7 +293,7 @@ export const DEFAULT_POSITION: PositionStoreValueType = new Map([
 			type: 'rook',
 			side: 'white',
 			position: { index: 63, code: 'h1' },
-			meta: { firstMove: true, value: 5 },
+			meta: { firstMove: true, value: 5, possibleMoves: [], attackMoves: [] },
 		},
 	],
 ]);
@@ -331,4 +331,5 @@ export const DEFAULT_GAME: GameStoreValueType = {
 	timer: DEFAULT_TIMERS,
 	increment: DEFAULT_INCREMENT,
 	startTime: null,
+	check: { white: false, black: false },
 };

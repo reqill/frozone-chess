@@ -26,8 +26,13 @@ const createCaptured = () => {
 		});
 	};
 
+	const exportData = () => {
+		return 'captured';
+	};
+
 	return {
 		subscribe,
+		export: exportData,
 		capture: capturePiece,
 		reset: () => set(DEFAULT_CAPTURED),
 		override: (captured?: CapturedStoreValueType) => set(captured || DEFAULT_CAPTURED),
