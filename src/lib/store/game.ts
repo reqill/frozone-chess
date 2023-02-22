@@ -1,6 +1,11 @@
-import { writable, derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 import { position } from './position';
-import type { GameStoreValueType } from '$lib/types/store.types';
+import type {
+	CapturedStoreValueType,
+	GameStoreValueType,
+	MoveHistoryStoreValueType,
+	PositionStoreValueType,
+} from '$lib/types/store.types';
 import { history } from './history';
 import { captured } from './captured';
 import { DEFAULT_GAME } from '$lib/constants/store.constants';
@@ -11,17 +16,6 @@ type GameSetupType = Partial<Pick<GameStoreValueType, 'timer' | 'increment'>>;
 
 const createGame = () => {
 	const { subscribe, set, update } = writable<GameStoreValueType>(DEFAULT_GAME);
-	derived([position, history, captured], ([$position, $history, $captured]) =>
-		update((game) => {
-			game = {
-				...game,
-				position: $position,
-				history: $history,
-				captured: $captured,
-			};
-			return game;
-		})
-	);
 
 	const start = () => {
 		update((game) => {
@@ -178,10 +172,34 @@ const createGame = () => {
 		});
 	};
 
+	const updatePosition = (position: PositionStoreValueType) => {
+		update((game) => {
+			game.position = position;
+			return game;
+		});
+	};
+
+	const updateHistory = (history: MoveHistoryStoreValueType) => {
+		update((game) => {
+			game.history = history;
+			return game;
+		});
+	};
+
+	const updateCaptured = (captured: CapturedStoreValueType) => {
+		update((game) => {
+			game.captured = captured;
+			return game;
+		});
+	};
+
 	return {
 		subscribe,
 		setup,
 		move,
+		updatePosition,
+		updateHistory,
+		updateCaptured,
 		setCheck,
 		resetCheck,
 		export: exportData,

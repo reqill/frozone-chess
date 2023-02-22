@@ -1,3 +1,4 @@
+import { StringifiedMap } from '$lib/common/map';
 import type { PieceType, Side, SquareInfoType } from '$lib/types/chess.types';
 import type { PositionStoreValueType } from '$lib/types/store.types';
 import type { PieceMoveMetaType } from '$lib/types/utils.types';
@@ -64,10 +65,10 @@ export const updateAllPossibleMoves = (
 	positions: PositionStoreValueType,
 	meta: PieceMoveMetaType
 ) => {
-	const positionsCopy = new Map(
+	const positionsCopy = new StringifiedMap(
 		JSON.parse(JSON.stringify(Array.from(positions)))
 	) as PositionStoreValueType;
-	const updatedPossibleMoves = new Map<SquareInfoType, SquareInfoType[]>([]);
+	const updatedPossibleMoves = new StringifiedMap<SquareInfoType, SquareInfoType[]>([]);
 
 	positions.forEach((piece, square) => {
 		positions.set(square, {
@@ -82,14 +83,14 @@ export const updateAllPossibleMoves = (
 		} = piece;
 
 		possibleMoves.filter((move) => {
-			const simulationCopy = new Map(
+			const simulationCopy = new StringifiedMap(
 				JSON.parse(JSON.stringify(Array.from(positions)))
 			) as PositionStoreValueType;
 
 			simulationCopy.delete(square);
 			simulationCopy.set(move, { ...piece, position: move });
 
-			const simulationSecondCopy = new Map(
+			const simulationSecondCopy = new StringifiedMap(
 				JSON.parse(JSON.stringify(Array.from(simulationCopy)))
 			) as PositionStoreValueType;
 

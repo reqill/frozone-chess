@@ -5,6 +5,7 @@ import { writable } from 'svelte/store';
 import { position } from './position';
 import type { PieceType } from '$lib/types/chess.types';
 import { captured } from './captured';
+import { game } from './game';
 
 const createHistory = () => {
 	const { subscribe, set, update } = writable<MoveHistoryStoreValueType>(DEFAULT_HISTORY);
@@ -37,6 +38,8 @@ const createHistory = () => {
 				history.captured.set(history.captured.size, newCapturedInfo);
 			}
 
+			game.updateHistory(history);
+
 			return history;
 		});
 	};
@@ -51,6 +54,8 @@ const createHistory = () => {
 
 			position.override(history.positions?.get(history.positions.size - 1));
 			captured.override(history.captured?.get(history.captured.size - 1));
+
+			game.updateHistory(history);
 
 			return history;
 		});

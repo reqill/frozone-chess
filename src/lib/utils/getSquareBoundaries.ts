@@ -1,3 +1,4 @@
+import { StringifiedMap } from '$lib/common/map';
 import type { BoundariesType, SquareInfoType } from '$lib/types/chess.types';
 import type { SquareBoundariesType } from '$lib/types/store.types';
 import { getFullSquareInfo } from './fenNotationParser/getFullSquareInfo';
@@ -11,7 +12,7 @@ export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
 	const squareHeight = boardHeight / 8;
 	const squareWidth = boardWidth / 8;
 
-	const squareBoundaries = new Map<SquareInfoType, SquareBoundariesType>();
+	const squareBoundaries = new StringifiedMap<SquareInfoType, SquareBoundariesType>();
 
 	for (let i = 0; i < 64; i++) {
 		const row = Math.floor(i / 8);
@@ -21,6 +22,7 @@ export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
 		const squareLeft = left + column * squareWidth;
 
 		const inspectedSquare = getFullSquareInfo(i);
+		if (!inspectedSquare) throw new Error('Invalid square');
 
 		squareBoundaries.set(inspectedSquare, {
 			top: squareTop,

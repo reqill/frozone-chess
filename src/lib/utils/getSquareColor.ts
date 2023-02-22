@@ -7,9 +7,9 @@ export const getSquareColor = (square?: number | string | SquareInfoType): Squar
 	if (typeof square === 'object' && square?.index) {
 		index = square?.index;
 	} else if (typeof square === 'object' && square.code) {
-		index = getFullSquareInfo(square.code).index;
+		index = getFullSquareInfo(square.code)!.index;
 	} else if (typeof square === 'string') {
-		index = getFullSquareInfo(square).index;
+		index = getFullSquareInfo(square)!.index;
 	} else if (typeof square === 'number') {
 		index = square;
 	}

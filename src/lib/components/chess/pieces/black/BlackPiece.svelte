@@ -8,11 +8,11 @@
 	import QueenB from './QueenB.svelte';
 	import RookB from './RookB.svelte';
 
-	export let piece: Piece = 'pawn';
+	export let type: Piece = 'pawn';
 	export let main: HexColor = '#000000';
 	export let accent: HexColor = '#ffffff';
 
-	const pieces = {
+	const types = {
 		bishop: BishopB,
 		king: KingB,
 		knight: KnightB,
@@ -22,4 +22,4 @@
 	};
 </script>
 
-<svelte:component this={pieces[piece]} {main} {accent} />
+<svelte:component this={types[type]} {main} {accent} />

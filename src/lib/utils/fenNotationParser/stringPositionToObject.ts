@@ -1,10 +1,11 @@
+import { StringifiedMap } from '$lib/common/map';
 import type { FenNotationObjectType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from './getFullSquareInfo';
 import { getPieceFromString } from './getPieceFromString';
 
 export const stringPositionToObject = (position: string) => {
 	const rows = position.split('/');
-	const pieces: FenNotationObjectType['position'] = new Map([]);
+	const pieces: FenNotationObjectType['position'] = new StringifiedMap([]);
 
 	if (rows.length !== 8) {
 		throw new Error('Invalid position');

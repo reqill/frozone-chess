@@ -1,3 +1,4 @@
+import type { StringifiedMap } from '$lib/common/map';
 import type { CastlingInfoType, PieceType, Side, SquareInfoType } from './chess.types';
 
 export type CapturedStoreValueType = {
@@ -7,7 +8,7 @@ export type CapturedStoreValueType = {
 	};
 };
 
-export type PositionStoreValueType = Map<SquareInfoType, PieceType>;
+export type PositionStoreValueType = StringifiedMap<SquareInfoType, PieceType>;
 
 export type MoveHistoryStoreValueType = {
 	moves: Map<number, string>;
@@ -47,7 +48,7 @@ export type GameStoreValueType = {
 // TODO: move to chess.types.ts
 export type ChessBoardArrowType = {
 	from: SquareInfoType;
-	to: SquareInfoType;
+	to: SquareInfoType | null;
 };
 
 // TODO: move to chess.types.ts
@@ -67,7 +68,7 @@ export type SquareBoundariesType = {
 };
 
 export type ChessBoardStoreValueType = {
-	squareBoundaries: Map<SquareInfoType, SquareBoundariesType>;
+	squareBoundaries: StringifiedMap<SquareInfoType, SquareBoundariesType>;
 	boundaries: ChessBoardBoundariesType;
 	highlightedSquares: SquareInfoType[];
 	arrows: ChessBoardArrowType[];
@@ -76,4 +77,5 @@ export type ChessBoardStoreValueType = {
 	intersectedSquare: SquareInfoType | null;
 	isDragging: boolean;
 	viewSide: Side;
+	squares: SquareInfoType[];
 };

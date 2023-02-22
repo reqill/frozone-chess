@@ -1,4 +1,6 @@
+import type { StringifiedMap } from '$lib/common/map';
 import type { COLORS, PIECES } from '$lib/constants/chess.constants';
+import type { MousePositionType } from './common.types';
 
 export type HexColor = `#${string}`;
 
@@ -39,12 +41,19 @@ export type PiecePositionInfoType = { piece: Piece; side: Side; square: Required
 export type SquareInfoType = { index: number; code: string };
 
 export type FenNotationObjectType = {
-	position: Map<SquareInfoType, PieceType>;
+	position: StringifiedMap<SquareInfoType, PieceType>;
 	turn: Side;
 	castlingRights: CastlingInfoType;
 	enPassant: SquareInfoType | null;
 	halfMoveClock: number;
 	fullMoveNumber: number;
+};
+
+export type PieceEvent = {
+	mousePos: MousePositionType;
+	type: Piece;
+	side: Side;
+	position: SquareInfoType;
 };
 
 export type BoundariesType = {

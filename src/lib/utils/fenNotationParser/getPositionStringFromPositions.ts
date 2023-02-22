@@ -1,8 +1,9 @@
+import type { StringifiedMap } from '$lib/common/map';
 import type { Piece, PieceType, Side, SquareInfoType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from './getFullSquareInfo';
 
 export const getPositionStringFromPositions = (
-	positions: Map<SquareInfoType, PieceType>
+	positions: StringifiedMap<SquareInfoType, PieceType>
 ): string => {
 	const rows = [];
 

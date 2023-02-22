@@ -51,15 +51,15 @@ const createPosition = () => {
 			// Handle castling
 			if (piece.type === 'king') {
 				const kingMove = endPos.index - startPos.index;
-				const rookKingSideSquare = getFullSquareInfo(startPos.index + 3);
-				const rookQueenSideSquare = getFullSquareInfo(startPos.index - 4);
+				const rookKingSideSquare = getFullSquareInfo(startPos.index + 3)!;
+				const rookQueenSideSquare = getFullSquareInfo(startPos.index - 4)!;
 
 				if (kingMove === 2) {
 					const rook = position.get(rookKingSideSquare);
 
 					if (rook) {
 						rook.meta.firstMove = false;
-						rook.position = getFullSquareInfo(startPos.index + 1);
+						rook.position = getFullSquareInfo(startPos.index + 1)!;
 						position.set(rook.position, rook);
 						position.delete(rookKingSideSquare);
 					}
@@ -68,7 +68,7 @@ const createPosition = () => {
 
 					if (rook) {
 						rook.meta.firstMove = false;
-						rook.position = getFullSquareInfo(startPos.index - 1);
+						rook.position = getFullSquareInfo(startPos.index - 1)!;
 						position.set(rook.position, rook);
 						position.delete(rookQueenSideSquare);
 					}
@@ -82,6 +82,7 @@ const createPosition = () => {
 				!capture
 			) {
 				const enPassantSquare = getFullSquareInfo(endPos.index + (piece.side === 'white' ? 8 : -8));
+				if (!enPassantSquare) throw new Error('En passant square is out of range');
 
 				const enPassantCapture = position.get(enPassantSquare);
 
@@ -113,6 +114,8 @@ const createPosition = () => {
 			}
 
 			history.add(position, capture);
+
+			game.updatePosition(position);
 
 			return position;
 		});

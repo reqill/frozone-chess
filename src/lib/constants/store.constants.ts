@@ -1,3 +1,4 @@
+import { StringifiedMap } from '$lib/common/map';
 import type {
 	CapturedStoreValueType,
 	ChessBoardStoreValueType,
@@ -5,10 +6,10 @@ import type {
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
 } from '$lib/types/store.types';
-import { DEFAULT_INCREMENT, DEFAULT_TIMERS, STARTING_FEN } from './chess.constants';
+import { DEFAULT_INCREMENT, DEFAULT_TIMERS, SQUARES, STARTING_FEN } from './chess.constants';
 import { DEFAULT_CASTLING_RIGHTS } from './chess.constants';
 
-export const DEFAULT_POSITION: PositionStoreValueType = new Map([
+export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 	[
 		{ index: 0, code: 'a8' },
 		{
@@ -344,7 +345,7 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 	},
 	highlightedSquares: [],
 	arrows: [],
-	squareBoundaries: new Map(),
+	squareBoundaries: new StringifiedMap(),
 	selectedSquare: null,
 	intersectedSquare: null,
 	dragPosition: {
@@ -353,4 +354,5 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 	},
 	isDragging: false,
 	viewSide: 'white',
+	squares: SQUARES,
 };

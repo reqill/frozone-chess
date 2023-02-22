@@ -6,10 +6,10 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let xOffset = tweened(0, { duration: 100, easing: cubicOut });
-	export let yOffset = tweened(0, { duration: 100, easing: cubicOut });
-	export let boundaries = DEFAULT_BOARD_BOUNDARIES;
-	export let canInteract = false;
+	export let xOffset = tweened(0, { duration: 100, easing: cubicOut }); // TODO: IDK but link to state
+	export let yOffset = tweened(0, { duration: 100, easing: cubicOut }); // TODO: IDK but link to state
+	export let boundaries = DEFAULT_BOARD_BOUNDARIES; // TODO: delete
+	export let canInteract = true; // TODO: delete
 
 	let moving = false;
 
