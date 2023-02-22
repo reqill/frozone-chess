@@ -21,6 +21,8 @@ Chess portal with custom chessAI - project created to self-improve and learn new
 - [ ] ELO System
 - [ ] Further AI improvements (game analisis, scoring)
 - [ ] CD/CI
+- [ ] Refactor movement logic
+- [ ] Refactor app to use state stores
 - [ ] Refactor FEN notation parser
 - [ ] Add support for mobile dragging
 
