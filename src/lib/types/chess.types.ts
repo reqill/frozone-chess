@@ -16,6 +16,18 @@ export type CastlingSingleType = {
 	kingSide: boolean;
 };
 
+export type PieceType = {
+	type: Piece;
+	side: Side;
+	position: SquareInfoType;
+	meta: {
+		firstMove: boolean;
+		value: number;
+		possibleMoves: SquareInfoType[];
+		attackMoves: SquareInfoType[];
+	};
+};
+
 export type CastleDirection = keyof CastlingSingleType;
 
 export type CastlingInfoType = { [key in Side]: CastlingSingleType };
