@@ -1,0 +1,1 @@
+export { updateAllPossibleMoves } from './updateAllPossibleMoves';
