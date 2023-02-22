@@ -2,6 +2,7 @@ import type { SquareInfoType } from '$lib/types/chess.types';
 
 export const getFullSquareInfo = (info: string | number): SquareInfoType => {
 	if (info === '-') {
+		// TODO: return null instead?
 		return { index: undefined, code: undefined };
 	}
 
