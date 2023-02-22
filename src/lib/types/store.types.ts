@@ -21,6 +21,7 @@ type GameStatusType =
 	| 'paused'
 	| 'checkmate'
 	| 'stalemate'
+	| 'resigned'
 	| 'abandoned'
 	| 'timeout';
 

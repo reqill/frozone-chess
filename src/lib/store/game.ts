@@ -166,7 +166,11 @@ const createGame = () => {
 				game.enPassant = null;
 			}
 
-			position.move(startPos, endPos, promoteTo);
+			const meta = {
+				enPassant: game.enPassant,
+				castlingRights: game.castingRights,
+			};
+			position.move(startPos, endPos, meta, promoteTo);
 
 			game = _changeTurn(game);
 

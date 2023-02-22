@@ -6,13 +6,19 @@ import { captured } from './captured';
 import { history } from './history';
 import { PICE_VALUE } from '$lib/constants/chess.constants';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
-import { getAllLegalMoves } from '$lib/utils/legalMoves/getAllLegalMoves';
 import { game } from './game';
+import { updateAllPossibleMoves } from '$lib/utils/movement';
+import type { PieceMoveMetaType } from '$lib/types/utils.types';
 
 const createPosition = () => {
 	const { subscribe, set, update } = writable<PositionStoreValueType>(DEFAULT_POSITION);
 
-	const move = (startPos: SquareInfoType, endPos: SquareInfoType, promoteTo?: Piece) => {
+	const move = (
+		startPos: SquareInfoType,
+		endPos: SquareInfoType,
+		meta: PieceMoveMetaType,
+		promoteTo?: Piece
+	) => {
 		update((position) => {
 			const piece = position.get(startPos);
 
@@ -85,8 +91,8 @@ const createPosition = () => {
 				}
 			}
 
-			// Update possible moves / attacks
-			position = getAllLegalMoves(position);
+			// Update possible moves / attacks (with exclusion of moves that would cause check)
+			updateAllPossibleMoves(position, meta);
 
 			// Check if move caused check
 			let didMoveCausedCheck = false;
