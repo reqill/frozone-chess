@@ -1,4 +1,6 @@
-import type { BoundariesType, SquareBoundariesType } from '$lib/types/chess.types';
+import type { BoundariesType, SquareInfoType } from '$lib/types/chess.types';
+import type { SquareBoundariesType } from '$lib/types/store.types';
+import { getFullSquareInfo } from './fenNotationParser/getFullSquareInfo';
 
 export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
 	const { top, right, bottom, left } = boardBoundaries;
@@ -9,7 +11,7 @@ export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
 	const squareHeight = boardHeight / 8;
 	const squareWidth = boardWidth / 8;
 
-	const squareBoundaries: SquareBoundariesType = {};
+	const squareBoundaries = new Map<SquareInfoType, SquareBoundariesType>();
 
 	for (let i = 0; i < 64; i++) {
 		const row = Math.floor(i / 8);
@@ -18,12 +20,14 @@ export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
 		const squareTop = top + row * squareHeight;
 		const squareLeft = left + column * squareWidth;
 
-		squareBoundaries[i] = {
+		const inspectedSquare = getFullSquareInfo(i);
+
+		squareBoundaries.set(inspectedSquare, {
 			top: squareTop,
 			right: squareLeft + squareWidth,
 			bottom: squareTop + squareHeight,
 			left: squareLeft,
-		};
+		});
 	}
 
 	return squareBoundaries;

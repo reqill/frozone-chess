@@ -15,19 +15,19 @@ export const pawn = (
 	const { firstMove } = piece.meta;
 
 	const pieceInFront = positions.get(
-		getFullSquareInfo(position + side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
+		getFullSquareInfo(position + side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)!
 	);
 	const pieceInFront2 = positions.get(
 		getFullSquareInfo(
 			position + side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_UP
-		)
+		)!
 	);
 	const captureLeft =
 		position.index % 8 !== 0
 			? positions.get(
 					getFullSquareInfo(
 						position + side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT
-					)
+					)!
 			  )
 			: 'NOT_VALID';
 	const captureRight =
@@ -35,7 +35,7 @@ export const pawn = (
 			? positions.get(
 					getFullSquareInfo(
 						position + side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT
-					)
+					)!
 			  )
 			: 'NOT_VALID';
 
@@ -46,13 +46,15 @@ export const pawn = (
 		possibleMoves.push(
 			getFullSquareInfo(
 				position + side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_DOWN
-			)
+			)!
 		);
 	}
 
 	if (!pieceInFront) {
 		possibleMoves.push(
-			getFullSquareInfo(position + side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
+			getFullSquareInfo(
+				position + side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN
+			)!
 		);
 	}
 
@@ -60,7 +62,7 @@ export const pawn = (
 		attackMoves.push(
 			getFullSquareInfo(
 				position + side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT
-			)
+			)!
 		);
 	}
 
@@ -68,7 +70,7 @@ export const pawn = (
 		attackMoves.push(
 			getFullSquareInfo(
 				position + side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT
-			)
+			)!
 		);
 	}
 

@@ -1,5 +1,6 @@
 import type {
 	CapturedStoreValueType,
+	ChessBoardStoreValueType,
 	GameStoreValueType,
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
@@ -332,4 +333,24 @@ export const DEFAULT_GAME: GameStoreValueType = {
 	increment: DEFAULT_INCREMENT,
 	startTime: null,
 	check: { white: false, black: false },
+};
+
+export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
+	boundaries: {
+		top: -1,
+		right: -1,
+		bottom: -1,
+		left: -1,
+	},
+	highlightedSquares: [],
+	arrows: [],
+	squareBoundaries: new Map(),
+	selectedSquare: null,
+	intersectedSquare: null,
+	dragPosition: {
+		x: -1,
+		y: -1,
+	},
+	isDragging: false,
+	viewSide: 'white',
 };

@@ -1,7 +1,7 @@
-import type { Piece, Side } from '$lib/types/chess.types';
+import type { PieceType, Side } from '$lib/types/chess.types';
 import { PIECES, COLORS } from '$lib/constants/chess.constants';
 
-export const getPieceFromString = (piece: string): { piece: Piece; side: Side } => {
+export const getPieceFromString = (piece: string): Omit<PieceType, 'position'> => {
 	const pieceCode = piece.charCodeAt(0);
 	let side: Side;
 
@@ -17,19 +17,25 @@ export const getPieceFromString = (piece: string): { piece: Piece; side: Side } 
 		throw new Error('Invalid piece');
 	}
 
+	const defaultMeta = {
+		firstMove: true,
+		possibleMoves: [],
+		attackMoves: [],
+	};
+
 	switch (piece.toLowerCase()) {
 		case 'p':
-			return { piece: PIECES.PAWN, side };
+			return { type: PIECES.PAWN, side, meta: { ...defaultMeta, value: 1 } };
 		case 'r':
-			return { piece: PIECES.ROOK, side };
+			return { type: PIECES.ROOK, side, meta: { ...defaultMeta, value: 5 } };
 		case 'n':
-			return { piece: PIECES.KNIGHT, side };
+			return { type: PIECES.KNIGHT, side, meta: { ...defaultMeta, value: 3 } };
 		case 'b':
-			return { piece: PIECES.BISHOP, side };
+			return { type: PIECES.BISHOP, side, meta: { ...defaultMeta, value: 3 } };
 		case 'q':
-			return { piece: PIECES.QUEEN, side };
+			return { type: PIECES.QUEEN, side, meta: { ...defaultMeta, value: 9 } };
 		case 'k':
-			return { piece: PIECES.KING, side };
+			return { type: PIECES.KING, side, meta: { ...defaultMeta, value: 0 } };
 		default:
 			throw new Error('Invalid piece');
 	}

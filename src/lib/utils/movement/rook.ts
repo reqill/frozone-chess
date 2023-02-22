@@ -16,10 +16,12 @@ export const rook = (
 	const attackMoves: SquareInfoType[] = [];
 
 	// up
-	for (let i = position.index; i >= 0; i += MOVE_INDEX_CHANGE.UP) {
+	for (let i = position.index; i >= 0; i -= Math.abs(MOVE_INDEX_CHANGE.UP)) {
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -39,6 +41,8 @@ export const rook = (
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -54,10 +58,12 @@ export const rook = (
 	}
 
 	// left
-	for (let i = position.index; i >= 0; i += MOVE_INDEX_CHANGE.LEFT) {
+	for (let i = position.index; i >= 0; i -= Math.abs(MOVE_INDEX_CHANGE.LEFT)) {
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -77,6 +83,8 @@ export const rook = (
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {

@@ -2,15 +2,15 @@ import type { FenNotationObjectType, Side } from '$lib/types/chess.types';
 import { getPositionStringFromPositions } from './getPositionStringFromPositions';
 
 export const fenObjectToFenNotation = (gameObject: FenNotationObjectType): string => {
-	const { position, move, castling, enPassant, halfMoveClock, fullMoveNumber } = gameObject;
+	const { position, turn, castlingRights, enPassant, halfMoveClock, fullMoveNumber } = gameObject;
 
 	const halfMoveClockStr = halfMoveClock.toString();
 	const fullMoveNumberStr = fullMoveNumber.toString();
-	const moveStr = move === 'white' ? 'w' : 'b';
+	const moveStr = turn === 'white' ? 'w' : 'b';
 	const enPassantStr = enPassant?.code ? enPassant.code : '-';
 
-	const castlingStr = Object.keys(castling).reduce((acc, side) => {
-		const { queenSide, kingSide } = castling[side as Side];
+	const castlingStr = Object.keys(castlingRights).reduce((acc, side) => {
+		const { queenSide, kingSide } = castlingRights[side as Side];
 
 		if (kingSide) {
 			acc += side === 'white' ? 'K' : 'k';

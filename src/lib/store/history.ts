@@ -56,7 +56,10 @@ const createHistory = () => {
 		});
 	};
 
-	const historyFromMoves = (moves: string[]) => {};
+	const historyFromMoves = (moves: string[]) => {
+		// TODO: Implement this
+		console.log('historyFromMoves', moves);
+	};
 
 	const exportData = () => {
 		return 'history';

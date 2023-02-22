@@ -43,3 +43,37 @@ export type GameStoreValueType = {
 	timer: { [key in Side]: number };
 	increment: { [key in Side]: number };
 };
+
+// TODO: move to chess.types.ts
+export type ChessBoardArrowType = {
+	from: SquareInfoType;
+	to: SquareInfoType;
+};
+
+// TODO: move to chess.types.ts
+export type ChessBoardBoundariesType = {
+	top: number;
+	right: number;
+	bottom: number;
+	left: number;
+};
+
+// TODO: move to chess.types.ts
+export type SquareBoundariesType = {
+	top: number;
+	right: number;
+	bottom: number;
+	left: number;
+};
+
+export type ChessBoardStoreValueType = {
+	squareBoundaries: Map<SquareInfoType, SquareBoundariesType>;
+	boundaries: ChessBoardBoundariesType;
+	highlightedSquares: SquareInfoType[];
+	arrows: ChessBoardArrowType[];
+	dragPosition: { x: number; y: number };
+	selectedSquare: SquareInfoType | null;
+	intersectedSquare: SquareInfoType | null;
+	isDragging: boolean;
+	viewSide: Side;
+};

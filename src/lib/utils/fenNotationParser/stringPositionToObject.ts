@@ -1,10 +1,10 @@
-import type { PiecePositionInfoType, SquareInfoType } from '$lib/types/chess.types';
+import type { FenNotationObjectType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from './getFullSquareInfo';
 import { getPieceFromString } from './getPieceFromString';
 
-export const stringPositionToObject = (position: string): PiecePositionInfoType[] => {
+export const stringPositionToObject = (position: string) => {
 	const rows = position.split('/');
-	const pieces: PiecePositionInfoType[] = [];
+	const pieces: FenNotationObjectType['position'] = new Map([]);
 
 	if (rows.length !== 8) {
 		throw new Error('Invalid position');
@@ -22,7 +22,11 @@ export const stringPositionToObject = (position: string): PiecePositionInfoType[
 			} else {
 				const piece = getPieceFromString(char);
 				const index = 63 - ((7 - rowIdx) * 8 + (7 - fileIndex));
-				pieces.push({ ...piece, square: getFullSquareInfo(index) as Required<SquareInfoType> });
+				const square = getFullSquareInfo(index);
+
+				if (square === null) throw new Error('Invalid square');
+
+				pieces.set(square, { ...piece, position: square });
 				fileIndex++;
 			}
 		}

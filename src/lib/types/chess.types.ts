@@ -39,16 +39,12 @@ export type PiecePositionInfoType = { piece: Piece; side: Side; square: Required
 export type SquareInfoType = { index: number; code: string };
 
 export type FenNotationObjectType = {
-	position: PiecePositionInfoType[];
-	move: Side;
-	castling: CastlingInfoType;
-	enPassant: SquareInfoType;
+	position: Map<SquareInfoType, PieceType>;
+	turn: Side;
+	castlingRights: CastlingInfoType;
+	enPassant: SquareInfoType | null;
 	halfMoveClock: number;
 	fullMoveNumber: number;
-	isKingInCheck: {
-		[key in Side]?: boolean;
-	};
-	win?: Side;
 };
 
 export type BoundariesType = {
