@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { position, game, chessboard } from '$lib/store';
 	import type { PieceEvent, PiecePositionInfoType } from '$lib/types/chess.types';
+	import { onMount } from 'svelte';
 	import PlayAudio from '../PlayAudio.svelte';
 	import BoardSquare from './BoardSquare.svelte';
 
 	let boardEl: any;
-	$: () => chessboard.setBoundaries(boardEl?.getBoundingClientRect());
+	$: chessboard.setBoundaries(boardEl?.getBoundingClientRect());
+	// $: console.table($game.position.get($chessboard.selectedSquare)?.meta.possibleMoves);
+
+	onMount(() => {
+		game.start();
+	});
 
 	const onPieceMove = (e: CustomEvent<PieceEvent>) => {
 		// if (!isMoving || e.detail.side !== gameObject.move) return;
@@ -41,6 +47,18 @@
 		// legalMoves = [];
 	};
 
+	const onWindowClick = (e: MouseEvent) => {
+		if (
+			e.clientX < $chessboard.boundaries.left ||
+			e.clientX > $chessboard.boundaries.right ||
+			e.clientY < $chessboard.boundaries.top ||
+			e.clientY > $chessboard.boundaries.bottom
+		) {
+			chessboard.clearSelection();
+			chessboard.clearOverlays();
+		}
+	};
+
 	const onMouseClick = ({
 		detail: { e, pos },
 	}: CustomEvent<{ e: MouseEvent; pos: PiecePositionInfoType }>) => {
@@ -70,19 +88,6 @@
 		// 	selectedSquare = undefined;
 		// }
 	};
-
-	const onOutsideClick = (e: MouseEvent) => {
-		// if (
-		// 	e.clientX < boundaries.left ||
-		// 	e.clientX > boundaries.right ||
-		// 	e.clientY > boundaries.bottom ||
-		// 	e.clientY < boundaries.top
-		// ) {
-		// 	selectedSquare = undefined;
-		// 	intersectIndex = -1;
-		// 	legalMoves = [];
-		// }
-	};
 </script>
 
 <div class="relative h-full select-none">
@@ -91,15 +96,7 @@
 		bind:this={boardEl}
 	>
 		{#each $chessboard.squares as square, i (`chess-square-${square.code}`)}
-			<BoardSquare
-				on:squareclick={onMouseClick}
-				on:piecedown={onPieceDown}
-				on:pieceup={onPieceUp}
-				on:piecemove={onPieceMove}
-				{square}
-				piece={$position.get(square)}
-				renderIndex={i}
-			/>
+			<BoardSquare {square} piece={$position.get(square)} renderIndex={i} />
 		{/each}
 
 		{#key $position.size}
@@ -113,7 +110,7 @@
 		{$game.turn} to move
 	</p>
 	<div class="flex w-full flex-row justify-center gap-2 align-middle">
-		<!-- Create separate button components (primary, secondary, tethiary, actions, icon-btns) -->
+		<!-- TODO: Create separate button components (primary, secondary, tethiary, actions, icon-btns) -->
 		<button
 			on:click={() => chessboard.flip()}
 			class="ml-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
@@ -130,6 +127,7 @@
 </div>
 
 <svelte:window
-	on:click={onOutsideClick}
+	on:click={onWindowClick}
+	on:contextmenu|preventDefault
 	on:resize={() => chessboard.setBoundaries(boardEl?.getBoundingClientRect())}
 />

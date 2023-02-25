@@ -4,6 +4,7 @@ import type { ChessBoardStoreValueType } from '$lib/types/store.types';
 import { getSquareBoundaries } from '$lib/utils/getSquareBoundaries';
 import type { SquareInfoType } from '$lib/types/chess.types';
 import type { MousePositionType } from '$lib/types/common.types';
+import { game } from './game';
 
 const createChessBoard = () => {
 	const { subscribe, set, update } = writable<ChessBoardStoreValueType>(DEFAULT_CHESSBOARD_STATE);
@@ -59,20 +60,32 @@ const createChessBoard = () => {
 		onDrag(square, { x, y });
 	};
 
-	const stopDrag = (square: SquareInfoType, { x, y }: MousePositionType) => {
+	const stopDrag = () => {
 		update((chessboard) => {
+			if (!chessboard.isDragging || !chessboard.selectedSquare) return chessboard;
+
+			console.log("moved from", chessboard.selectedSquare?.code, "to", chessboard.intersectedSquare?.code)
+
+			game.move(chessboard.selectedSquare, chessboard.intersectedSquare)
+
 			chessboard.selectedSquare = null;
+			chessboard.dragPosition = { x: 0, y: 0 };
 			chessboard.isDragging = false;
 
 			return chessboard;
 		});
+
 	};
 
-	const select = (square: SquareInfoType) => {
+	const selectSquare = (square: SquareInfoType) => {
 		update((chessboard) => {
-			if (chessboard.selectedSquare === square) {
+			if (chessboard.selectedSquare && !chessboard.isDragging) {
+				game.move(chessboard.selectedSquare, square)
+
 				chessboard.selectedSquare = null;
-			} else if (!chessboard.isDragging) {
+				chessboard.dragPosition = { x: 0, y: 0 };
+				chessboard.isDragging = false;
+			} else {
 				chessboard.selectedSquare = square;
 			}
 
@@ -136,6 +149,29 @@ const createChessBoard = () => {
 		});
 	};
 
+	const clearSelection = () => {
+		update((chessboard) => {
+			chessboard.selectedSquare = null;
+			chessboard.intersectedSquare = null;
+			chessboard.isDragging = false;
+
+			return chessboard;
+		});
+	}
+
+	const clearOverlays = () => {
+		update((chessboard) => {
+			chessboard.selectedSquare = null;
+			chessboard.dragPosition = { x: 0, y: 0 };
+			chessboard.isDragging = false;
+			chessboard.intersectedSquare = null;
+			chessboard.highlightedSquares = [];
+			chessboard.arrows = [];
+
+			return chessboard;
+		});
+	};
+
 	const flip = () => {
 		update((chessboard) => {
 			if (chessboard.viewSide === 'white') {
@@ -152,11 +188,13 @@ const createChessBoard = () => {
 
 	return {
 		subscribe,
-		select,
+		selectSquare,
 		highlight,
 		resetHighlights,
 		startArrow,
 		stopArrow,
+		clearSelection,
+		clearOverlays,
 		onDrag,
 		flip,
 		stopDrag,

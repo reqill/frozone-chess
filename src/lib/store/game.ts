@@ -127,11 +127,12 @@ const createGame = () => {
 		});
 	};
 
-	const move = (startPos: SquareInfoType, endPos?: SquareInfoType, promoteTo?: Piece) => {
+	const move = (startPos: SquareInfoType, endPos: SquareInfoType | null, promoteTo?: Piece) => {
 		update((game) => {
 			const piece = game.position.get(startPos);
+			console.log("moved piece:", piece)
 
-			if (!piece || !endPos) return game;
+			if (!piece || !endPos || piece.side !== game.turn) return game;
 
 			const isMoveLegal = piece.meta.possibleMoves?.find((move) => move.index === endPos.index);
 

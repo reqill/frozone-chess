@@ -20,7 +20,7 @@ export const bishop = (
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
-		if (!currentPosition) throw new Error('Invalid position | out of range');
+		if (!currentPosition) throw new Error('Invalid position for move left up to index: ' + i);
 
 		const pieceAtPosition = positions.get(currentPosition);
 
@@ -41,7 +41,7 @@ export const bishop = (
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
-		if (!currentPosition) throw new Error('Invalid position | out of range');
+		if (!currentPosition) throw new Error('Invalid position for move right up to index: ' + i);
 
 		const pieceAtPosition = positions.get(currentPosition);
 
@@ -62,7 +62,7 @@ export const bishop = (
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
-		if (!currentPosition) throw new Error('Invalid position | out of range');
+		if (!currentPosition) throw new Error('Invalid position for move left down to index: ' + i);
 
 		const pieceAtPosition = positions.get(currentPosition);
 
@@ -83,7 +83,7 @@ export const bishop = (
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
-		if (!currentPosition) throw new Error('Invalid position | out of range');
+		if (!currentPosition) throw new Error('Invalid position for move right down to index: ' + i);
 
 		const pieceAtPosition = positions.get(currentPosition);
 

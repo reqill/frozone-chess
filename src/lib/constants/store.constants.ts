@@ -6,6 +6,7 @@ import type {
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
 } from '$lib/types/store.types';
+import { updateAllPossibleMoves } from '$lib/utils/movement';
 import { DEFAULT_INCREMENT, DEFAULT_TIMERS, SQUARES, STARTING_FEN } from './chess.constants';
 import { DEFAULT_CASTLING_RIGHTS } from './chess.constants';
 
@@ -25,7 +26,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'knight',
 			side: 'black',
 			position: { index: 1, code: 'b8' },
-			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 3, possibleMoves: [
+					{ index: 18, code: 'c6' },
+					{ index: 16, code: 'a6' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -70,7 +76,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'knight',
 			side: 'black',
 			position: { index: 6, code: 'g8' },
-			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 3, possibleMoves: [
+					{ index: 21, code: 'f6' },
+					{ index: 23, code: 'h6' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -88,7 +99,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 8, code: 'a7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 16, code: 'a6' },
+					{ index: 24, code: 'a5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -97,7 +113,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 9, code: 'b7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 17, code: 'b6' },
+					{ index: 25, code: 'b5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -106,7 +127,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 10, code: 'c7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 18, code: 'c6' },
+					{ index: 26, code: 'c5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -115,7 +141,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 11, code: 'd7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 19, code: 'd6' },
+					{ index: 27, code: 'd5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -124,7 +155,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 12, code: 'e7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 20, code: 'e6' },
+					{ index: 28, code: 'e5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -133,7 +169,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 13, code: 'f7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 21, code: 'f6' },
+					{ index: 29, code: 'f5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -142,7 +183,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 14, code: 'g7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 22, code: 'g6' },
+					{ index: 30, code: 'g5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -151,7 +197,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'black',
 			position: { index: 15, code: 'h7' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 23, code: 'h6' },
+					{ index: 31, code: 'h5' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -160,7 +211,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 48, code: 'a2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 40, code: 'a3' },
+					{ index: 32, code: 'a4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -169,7 +225,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 49, code: 'b2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 41, code: 'b3' },
+					{ index: 33, code: 'b4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -178,7 +239,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 50, code: 'c2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 42, code: 'c3' },
+					{ index: 34, code: 'c4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -187,7 +253,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 51, code: 'd2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 43, code: 'd3' },
+					{ index: 35, code: 'd4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -196,7 +267,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 52, code: 'e2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 44, code: 'e3' },
+					{ index: 36, code: 'e4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -205,7 +281,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 53, code: 'f2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 45, code: 'f3' },
+					{ index: 37, code: 'f4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -214,7 +295,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 54, code: 'g2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 46, code: 'g3' },
+					{ index: 38, code: 'g4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -223,7 +309,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'pawn',
 			side: 'white',
 			position: { index: 55, code: 'h2' },
-			meta: { firstMove: true, value: 1, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 1, possibleMoves: [
+					{ index: 47, code: 'h3' },
+					{ index: 39, code: 'h4' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -241,7 +332,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'knight',
 			side: 'white',
 			position: { index: 57, code: 'b1' },
-			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 3, possibleMoves: [
+					{ index: 42, code: 'c3' },
+					{ index: 40, code: 'a3' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -286,7 +382,12 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			type: 'knight',
 			side: 'white',
 			position: { index: 62, code: 'g1' },
-			meta: { firstMove: true, value: 3, possibleMoves: [], attackMoves: [] },
+			meta: {
+				firstMove: true, value: 3, possibleMoves: [
+					{ index: 47, code: 'h3' },
+					{ index: 45, code: 'f3' },
+				], attackMoves: []
+			},
 		},
 	],
 	[
@@ -298,7 +399,9 @@ export const DEFAULT_POSITION: PositionStoreValueType = new StringifiedMap([
 			meta: { firstMove: true, value: 5, possibleMoves: [], attackMoves: [] },
 		},
 	],
-]);
+])
+
+/*, { castlingRights: { white: { kingSide: true, queenSide: true }, black: { kingSide: true, queenSide: true } }, enPassant: null }*/
 
 export const DEFAULT_CAPTURED: CapturedStoreValueType = {
 	white: {

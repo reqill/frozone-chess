@@ -76,46 +76,48 @@ export const updateAllPossibleMoves = (
 			meta: { ...piece.meta, ...updatePossibleMoves(positionsCopy, piece, meta) },
 		});
 	});
-
-	positions.forEach((piece, square) => {
-		const {
-			meta: { possibleMoves },
-		} = piece;
-
-		possibleMoves.filter((move) => {
-			const simulationCopy = new StringifiedMap(
-				JSON.parse(JSON.stringify(Array.from(positions)))
-			) as PositionStoreValueType;
-
-			simulationCopy.delete(square);
-			simulationCopy.set(move, { ...piece, position: move });
-
-			const simulationSecondCopy = new StringifiedMap(
-				JSON.parse(JSON.stringify(Array.from(simulationCopy)))
-			) as PositionStoreValueType;
-
-			simulationCopy.forEach((piece, square) => {
-				simulationCopy.set(square, {
-					...piece,
-					meta: { ...piece.meta, ...updatePossibleMoves(simulationSecondCopy, piece, meta) },
+	/*
+		positions.forEach((piece, square) => {
+			const {
+				meta: { possibleMoves },
+			} = piece;
+	
+			possibleMoves.filter((move) => {
+				const simulationCopy = new StringifiedMap(
+					JSON.parse(JSON.stringify(Array.from(positions)))
+				) as PositionStoreValueType;
+	
+				simulationCopy.delete(square);
+				simulationCopy.set(move, { ...piece, position: move });
+	
+				const simulationSecondCopy = new StringifiedMap(
+					JSON.parse(JSON.stringify(Array.from(simulationCopy)))
+				) as PositionStoreValueType;
+	
+				simulationCopy.forEach((piece, square) => {
+					simulationCopy.set(square, {
+						...piece,
+						meta: { ...piece.meta, ...updatePossibleMoves(simulationSecondCopy, piece, meta) },
+					});
 				});
+	
+				return !isKingInCheck(simulationCopy, piece.side);
 			});
-
-			return !isKingInCheck(simulationCopy, piece.side);
+	
+			updatedPossibleMoves.set(square, possibleMoves);
 		});
-
-		updatedPossibleMoves.set(square, possibleMoves);
-	});
-
-	positions.forEach((piece, square) => {
-		const newPossibleMoves = updatedPossibleMoves.get(square) || [];
-		const newAttackMoves = piece.meta.attackMoves.filter((move) =>
-			newPossibleMoves.some((possibleMove) => possibleMove.index === move.index)
-		);
-
-		positions.set(square, {
-			...piece,
-			meta: { ...piece.meta, possibleMoves: newPossibleMoves, attackMoves: newAttackMoves },
+	
+		positions.forEach((piece, square) => {
+			const newPossibleMoves = updatedPossibleMoves.get(square) || [];
+			const newAttackMoves = piece.meta.attackMoves.filter((move) =>
+				newPossibleMoves.some((possibleMove) => possibleMove.index === move.index)
+			);
+	
+			positions.set(square, {
+				...piece,
+				meta: { ...piece.meta, possibleMoves: newPossibleMoves, attackMoves: newAttackMoves },
+			});
 		});
-	});
+	*/
+	return positions;
 };
