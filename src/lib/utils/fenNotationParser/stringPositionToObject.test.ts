@@ -1,5 +1,4 @@
-import { stringPositionToObject } from './stringPositionToObject';
-import { describe, it, expect } from 'vitest';
+import { describe, expect } from 'vitest';
 
 describe('stringPositionToObject', () => {
 	/* const testCases = [

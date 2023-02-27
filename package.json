@@ -1,6 +1,6 @@
 {
 	"name": "frozone-chess",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"scripts": {
 		"dev": "vite dev",
 		"qdev": "vite dev --port 3000 --open",
@@ -9,7 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
-		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"lint": "npm run format && eslint --fix \"**/*.{ts,tsx,svelte,js,jsx}\"",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
@@ -24,6 +24,7 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"eslint-plugin-unused-imports": "^2.0.0",
 		"postcss": "^8.4.21",
 		"prettier": "^2.8.0",
 		"prettier-plugin-tailwindcss": "^0.2.3",

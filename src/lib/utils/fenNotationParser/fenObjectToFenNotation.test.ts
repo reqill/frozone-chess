@@ -1,6 +1,4 @@
-import { describe, it, expect } from 'vitest';
-import { fenObjectToFenNotation } from './fenObjectToFenNotation';
-import type { FenNotationObjectType } from '$lib/types/chess.types';
+import { describe, expect } from 'vitest';
 
 describe('fenObjectToFenNotation', () => {
 	/*const testCases = [

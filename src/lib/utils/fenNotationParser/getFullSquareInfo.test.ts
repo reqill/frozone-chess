@@ -1,5 +1,4 @@
-import { getFullSquareInfo } from './getFullSquareInfo';
-import { describe, it, expect } from 'vitest';
+import { describe, expect } from 'vitest';
 
 describe('getFullSquareInfo', () => {
 	/*const testCases = [

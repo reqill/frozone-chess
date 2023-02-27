@@ -91,7 +91,6 @@ const createPosition = () => {
 					position.delete(enPassantSquare);
 				}
 			}
-			console.log('position', position)
 
 			// Update possible moves / attacks (with exclusion of moves that would cause check)
 			position = updateAllPossibleMoves(position, meta);

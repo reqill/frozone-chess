@@ -1,5 +1,4 @@
-import { describe, it, expect } from 'vitest';
-import { getCastlingRightsFromString } from './getCastlingRightsFromString';
+import { describe, expect } from 'vitest';
 
 describe('getCastlingRightsFromString', () => {
 	/*const testCases = [

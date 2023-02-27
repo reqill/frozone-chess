@@ -1,51 +1,16 @@
 <script lang="ts">
 	import { position, game, chessboard } from '$lib/store';
-	import type { PieceEvent, PiecePositionInfoType } from '$lib/types/chess.types';
+	import type { PiecePositionInfoType } from '$lib/types/chess.types';
 	import { onMount } from 'svelte';
 	import PlayAudio from '../PlayAudio.svelte';
 	import BoardSquare from './BoardSquare.svelte';
 
 	let boardEl: any;
 	$: chessboard.setBoundaries(boardEl?.getBoundingClientRect());
-	// $: console.table($game.position.get($chessboard.selectedSquare)?.meta.possibleMoves);
 
 	onMount(() => {
 		game.start();
 	});
-
-	const onPieceMove = (e: CustomEvent<PieceEvent>) => {
-		// if (!isMoving || e.detail.side !== gameObject.move) return;
-		// selectedSquare = undefined;
-		// cursorPos = e.detail.mousePos;
-	};
-
-	const onPieceUp = (e: CustomEvent<PieceEvent>) => {
-		// if (e.detail.side !== gameObject.move) return;
-		// isMoving = true;
-		// selectedSquare = undefined;
-		// legalMoves = getFilteredLegalMoves(gameObject, e.detail);
-		// startSquare = e.detail.square as Required<SquareInfoType>;
-		// cursorPos = e.detail.mousePos;
-	};
-
-	const onPieceDown = (e: CustomEvent<PieceEvent>) => {
-		// if (!isMoving || !startSquare || e.detail.side !== gameObject.move) return;
-		// selectedSquare = undefined;
-		// const newSquare = boardSquares.find(
-		// 	(square) => square.index === intersectIndex
-		// ) as Required<SquareInfoType>;
-		// const pieceToMove = gameObject.position.find(
-		// 	(piece) => piece.square.index === startSquare?.index
-		// );
-		// if (isLegalMove(gameObject, pieceToMove, newSquare)) {
-		// 	const finalPosition = { ...pieceToMove, square: newSquare } as PiecePositionInfoType;
-		// 	gameObject = { ...updateGameObject(gameObject, pieceToMove, finalPosition) };
-		// }
-		// cursorPos = { x: 0, y: 0 };
-		// startSquare = undefined;
-		// isMoving = false;
-		// legalMoves = [];
-	};
 
 	const onWindowClick = (e: MouseEvent) => {
 		if (

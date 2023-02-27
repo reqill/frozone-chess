@@ -23,10 +23,10 @@ const updatePossibleMoves = (
 			return knight(positions, piece, meta);
 		case 'bishop':
 			return bishop(positions, piece, meta);
-		case 'queen':
-			return queen(positions, piece, meta);
 		case 'rook':
 			return rook(positions, piece, meta);
+		case 'queen':
+			return queen(positions, piece, meta);
 		case 'king':
 			return king(positions, piece, meta);
 		default:
@@ -40,8 +40,11 @@ const isKingInCheck = (positions: PositionStoreValueType, checkKingSide: Side) =
 	)?.[0];
 
 	if (!kingSquare) {
-		throw new Error(`King of side ${checkKingSide} not found in positions`);
+		console.error('King not found after simulated move');
+		return true;
 	}
+
+	let result = false;
 
 	positions.forEach((piece, _) => {
 		if (piece.side !== checkKingSide) {
@@ -51,13 +54,13 @@ const isKingInCheck = (positions: PositionStoreValueType, checkKingSide: Side) =
 
 			attackMoves.forEach((move) => {
 				if (move.index === kingSquare.index) {
-					return true;
+					result = true;
 				}
 			});
 		}
 	});
 
-	return false;
+	return result;
 };
 
 // ! TODO: This function should be implemented more efficiently
@@ -76,48 +79,66 @@ export const updateAllPossibleMoves = (
 			meta: { ...piece.meta, ...updatePossibleMoves(positionsCopy, piece, meta) },
 		});
 	});
-	/*
-		positions.forEach((piece, square) => {
-			const {
-				meta: { possibleMoves },
-			} = piece;
-	
-			possibleMoves.filter((move) => {
-				const simulationCopy = new StringifiedMap(
-					JSON.parse(JSON.stringify(Array.from(positions)))
-				) as PositionStoreValueType;
-	
-				simulationCopy.delete(square);
-				simulationCopy.set(move, { ...piece, position: move });
-	
-				const simulationSecondCopy = new StringifiedMap(
-					JSON.parse(JSON.stringify(Array.from(simulationCopy)))
-				) as PositionStoreValueType;
-	
-				simulationCopy.forEach((piece, square) => {
-					simulationCopy.set(square, {
-						...piece,
-						meta: { ...piece.meta, ...updatePossibleMoves(simulationSecondCopy, piece, meta) },
-					});
+
+	// at this point we have all possible moves for all pieces with squares they can attack
+
+	positions.forEach((piece, square) => {
+		let possibleMoves = Array.from(piece.meta.possibleMoves);
+
+		possibleMoves = possibleMoves.filter((move) => {
+			const simulationCopy = new StringifiedMap(
+				JSON.parse(JSON.stringify(Array.from(positions)))
+			) as PositionStoreValueType;
+
+			simulationCopy.delete(square);
+			simulationCopy.set(move, { ...piece, position: move });
+
+			const simulationSecondCopy = new StringifiedMap(
+				JSON.parse(JSON.stringify(Array.from(simulationCopy)))
+			) as PositionStoreValueType;
+
+			simulationCopy.forEach((piece, square) => {
+				simulationCopy.set(square, {
+					...piece,
+					meta: { ...piece.meta, ...updatePossibleMoves(simulationSecondCopy, piece, meta) },
 				});
-	
-				return !isKingInCheck(simulationCopy, piece.side);
 			});
-	
-			updatedPossibleMoves.set(square, possibleMoves);
+
+			return !isKingInCheck(simulationCopy, piece.side);
 		});
-	
-		positions.forEach((piece, square) => {
-			const newPossibleMoves = updatedPossibleMoves.get(square) || [];
-			const newAttackMoves = piece.meta.attackMoves.filter((move) =>
-				newPossibleMoves.some((possibleMove) => possibleMove.index === move.index)
-			);
-	
+
+		if (piece.type === 'king' && !possibleMoves.some((move) => move.index === square.index + 1)) {
+			possibleMoves = possibleMoves.filter((move) => move.index !== square.index + 2);
+		}
+
+		if (piece.type === 'king' && !possibleMoves.some((move) => move.index === square.index - 1)) {
+			possibleMoves = possibleMoves.filter((move) => move.index !== square.index - 2);
+		}
+
+		updatedPossibleMoves.set(square, possibleMoves);
+	});
+
+	positions.forEach((piece, square) => {
+		const newPossibleMoves = updatedPossibleMoves.get(square) || [];
+		const newAttackMoves = piece.meta.attackMoves.filter((move) =>
+			newPossibleMoves.some((possibleMove) => possibleMove.index === move.index)
+		);
+
+		positions.set(square, {
+			...piece,
+			meta: { ...piece.meta, possibleMoves: newPossibleMoves, attackMoves: newAttackMoves },
+		});
+	});
+
+	// filter out every possible move and attack for the opposite side
+	positions.forEach((piece, square) => {
+		if (piece.side !== meta.turn) {
 			positions.set(square, {
 				...piece,
-				meta: { ...piece.meta, possibleMoves: newPossibleMoves, attackMoves: newAttackMoves },
+				meta: { ...piece.meta, possibleMoves: [], attackMoves: [] },
 			});
-		});
-	*/
+		}
+	});
+
 	return positions;
 };

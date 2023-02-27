@@ -64,9 +64,14 @@ const createChessBoard = () => {
 		update((chessboard) => {
 			if (!chessboard.isDragging || !chessboard.selectedSquare) return chessboard;
 
-			console.log("moved from", chessboard.selectedSquare?.code, "to", chessboard.intersectedSquare?.code)
+			console.log(
+				'moved from',
+				chessboard.selectedSquare?.code,
+				'to',
+				chessboard.intersectedSquare?.code
+			);
 
-			game.move(chessboard.selectedSquare, chessboard.intersectedSquare)
+			game.move(chessboard.selectedSquare, chessboard.intersectedSquare);
 
 			chessboard.selectedSquare = null;
 			chessboard.dragPosition = { x: 0, y: 0 };
@@ -74,13 +79,12 @@ const createChessBoard = () => {
 
 			return chessboard;
 		});
-
 	};
 
 	const selectSquare = (square: SquareInfoType) => {
 		update((chessboard) => {
 			if (chessboard.selectedSquare && !chessboard.isDragging) {
-				game.move(chessboard.selectedSquare, square)
+				game.move(chessboard.selectedSquare, square);
 
 				chessboard.selectedSquare = null;
 				chessboard.dragPosition = { x: 0, y: 0 };
@@ -157,7 +161,7 @@ const createChessBoard = () => {
 
 			return chessboard;
 		});
-	}
+	};
 
 	const clearOverlays = () => {
 		update((chessboard) => {

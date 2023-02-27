@@ -8,7 +8,7 @@ import { isInRange } from './isInRange';
 export const knight = (
 	positions: PositionStoreValueType,
 	piece: PieceType,
-	meta?: PieceMoveMetaType
+	_?: PieceMoveMetaType
 ) => {
 	const { side, position } = piece;
 

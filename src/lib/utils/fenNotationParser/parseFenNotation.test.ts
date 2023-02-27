@@ -1,5 +1,4 @@
-import { expect, describe, it } from 'vitest';
-import { parseFenNotation } from './parseFenNotation';
+import { expect, describe } from 'vitest';
 
 describe('parseFanNotation', () => {
 	/*const testCases = [

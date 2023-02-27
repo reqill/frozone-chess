@@ -16,9 +16,11 @@ export const bishop = (
 	const attackMoves: SquareInfoType[] = [];
 
 	// left up
-	for (let i = position.index; i % 8 !== 0 && i >= 0; i += MOVE_INDEX_CHANGE.UP_LEFT) {
-		if (i === position.index) continue;
-
+	for (
+		let i = position.index + MOVE_INDEX_CHANGE.UP_LEFT;
+		i % 8 !== 7 && i >= 0;
+		i += MOVE_INDEX_CHANGE.UP_LEFT
+	) {
 		const currentPosition = getFullSquareInfo(i);
 		if (!currentPosition) throw new Error('Invalid position for move left up to index: ' + i);
 
@@ -37,9 +39,11 @@ export const bishop = (
 	}
 
 	// right up
-	for (let i = position.index; i % 8 !== 7 && i >= 0; i += MOVE_INDEX_CHANGE.UP_RIGHT) {
-		if (i === position.index) continue;
-
+	for (
+		let i = position.index + MOVE_INDEX_CHANGE.UP_RIGHT;
+		i % 8 !== 0 && i >= 0;
+		i += MOVE_INDEX_CHANGE.UP_RIGHT
+	) {
 		const currentPosition = getFullSquareInfo(i);
 		if (!currentPosition) throw new Error('Invalid position for move right up to index: ' + i);
 
@@ -58,9 +62,11 @@ export const bishop = (
 	}
 
 	// left down
-	for (let i = position.index; i % 8 !== 0 && i <= 63; i += MOVE_INDEX_CHANGE.DOWN_LEFT) {
-		if (i === position.index) continue;
-
+	for (
+		let i = position.index + MOVE_INDEX_CHANGE.DOWN_LEFT;
+		i % 8 !== 7 && i <= 63;
+		i += MOVE_INDEX_CHANGE.DOWN_LEFT
+	) {
 		const currentPosition = getFullSquareInfo(i);
 		if (!currentPosition) throw new Error('Invalid position for move left down to index: ' + i);
 
@@ -79,9 +85,11 @@ export const bishop = (
 	}
 
 	// right down
-	for (let i = position.index; i % 8 !== 7 && i <= 63; i += MOVE_INDEX_CHANGE.DOWN_RIGHT) {
-		if (i === position.index) continue;
-
+	for (
+		let i = position.index + MOVE_INDEX_CHANGE.DOWN_RIGHT;
+		i % 8 !== 0 && i <= 63;
+		i += MOVE_INDEX_CHANGE.DOWN_RIGHT
+	) {
 		const currentPosition = getFullSquareInfo(i);
 		if (!currentPosition) throw new Error('Invalid position for move right down to index: ' + i);
 

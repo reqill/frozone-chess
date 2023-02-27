@@ -92,10 +92,11 @@ const createGame = () => {
 	};
 
 	const reset = () => {
-		set(DEFAULT_GAME);
 		position.reset();
 		history.reset();
 		captured.reset();
+		console.log('resetting game');
+		set(DEFAULT_GAME);
 	};
 
 	const override = (game?: GameStoreValueType) => {
@@ -130,7 +131,7 @@ const createGame = () => {
 	const move = (startPos: SquareInfoType, endPos: SquareInfoType | null, promoteTo?: Piece) => {
 		update((game) => {
 			const piece = game.position.get(startPos);
-			console.log("moved piece:", piece)
+			console.log('moved piece:', piece);
 
 			if (!piece || !endPos || piece.side !== game.turn) return game;
 
@@ -161,13 +162,14 @@ const createGame = () => {
 				game.enPassant = null;
 			}
 
+			game = _changeTurn(game);
+
 			const meta = {
 				enPassant: game.enPassant,
 				castlingRights: game.castingRights,
+				turn: game.turn,
 			};
 			position.move(startPos, endPos, meta, promoteTo);
-
-			game = _changeTurn(game);
 
 			return game;
 		});

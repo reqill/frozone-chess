@@ -1,6 +1,4 @@
-import { describe, it, expect } from 'vitest';
-import { getPositionStringFromPositions } from './getPositionStringFromPositions';
-import type { PiecePositionInfoType } from '$lib/types/chess.types';
+import { describe, expect } from 'vitest';
 
 describe('getPositionStringFromPositions', () => {
 	/*const testCases = [
