@@ -1,6 +1,6 @@
 {
 	"name": "frozone-chess",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"scripts": {
 		"dev": "vite dev",
 		"qdev": "vite dev --port 3000 --open",
