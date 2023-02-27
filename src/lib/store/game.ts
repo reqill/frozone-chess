@@ -1,6 +1,11 @@
-import { writable, derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 import { position } from './position';
-import type { GameStoreValueType } from '$lib/types/store.types';
+import type {
+	CapturedStoreValueType,
+	GameStoreValueType,
+	MoveHistoryStoreValueType,
+	PositionStoreValueType,
+} from '$lib/types/store.types';
 import { history } from './history';
 import { captured } from './captured';
 import { DEFAULT_GAME } from '$lib/constants/store.constants';
@@ -11,17 +16,6 @@ type GameSetupType = Partial<Pick<GameStoreValueType, 'timer' | 'increment'>>;
 
 const createGame = () => {
 	const { subscribe, set, update } = writable<GameStoreValueType>(DEFAULT_GAME);
-	derived([position, history, captured], ([$position, $history, $captured]) =>
-		update((game) => {
-			game = {
-				...game,
-				position: $position,
-				history: $history,
-				captured: $captured,
-			};
-			return game;
-		})
-	);
 
 	const start = () => {
 		update((game) => {
@@ -98,10 +92,11 @@ const createGame = () => {
 	};
 
 	const reset = () => {
-		set(DEFAULT_GAME);
 		position.reset();
 		history.reset();
 		captured.reset();
+		console.log('resetting game');
+		set(DEFAULT_GAME);
 	};
 
 	const override = (game?: GameStoreValueType) => {
@@ -133,11 +128,12 @@ const createGame = () => {
 		});
 	};
 
-	const move = (startPos: SquareInfoType, endPos?: SquareInfoType, promoteTo?: Piece) => {
+	const move = (startPos: SquareInfoType, endPos: SquareInfoType | null, promoteTo?: Piece) => {
 		update((game) => {
 			const piece = game.position.get(startPos);
+			console.log('moved piece:', piece);
 
-			if (!piece || !endPos) return game;
+			if (!piece || !endPos || piece.side !== game.turn) return game;
 
 			const isMoveLegal = piece.meta.possibleMoves?.find((move) => move.index === endPos.index);
 
@@ -166,14 +162,36 @@ const createGame = () => {
 				game.enPassant = null;
 			}
 
+			game = _changeTurn(game);
+
 			const meta = {
 				enPassant: game.enPassant,
 				castlingRights: game.castingRights,
+				turn: game.turn,
 			};
 			position.move(startPos, endPos, meta, promoteTo);
 
-			game = _changeTurn(game);
+			return game;
+		});
+	};
 
+	const updatePosition = (position: PositionStoreValueType) => {
+		update((game) => {
+			game.position = position;
+			return game;
+		});
+	};
+
+	const updateHistory = (history: MoveHistoryStoreValueType) => {
+		update((game) => {
+			game.history = history;
+			return game;
+		});
+	};
+
+	const updateCaptured = (captured: CapturedStoreValueType) => {
+		update((game) => {
+			game.captured = captured;
 			return game;
 		});
 	};
@@ -182,6 +200,9 @@ const createGame = () => {
 		subscribe,
 		setup,
 		move,
+		updatePosition,
+		updateHistory,
+		updateCaptured,
 		setCheck,
 		resetCheck,
 		export: exportData,

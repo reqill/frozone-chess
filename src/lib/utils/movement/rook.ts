@@ -1,4 +1,3 @@
-import { MOVE_INDEX_CHANGE } from '$lib/constants/movement.constants';
 import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
 import type { PositionStoreValueType } from '$lib/types/store.types';
 import type { PieceMoveMetaType } from '$lib/types/utils.types';
@@ -16,10 +15,10 @@ export const rook = (
 	const attackMoves: SquareInfoType[] = [];
 
 	// up
-	for (let i = position.index; i >= 0; i += MOVE_INDEX_CHANGE.UP) {
-		if (i === position.index) continue;
-
+	for (let i = position.index - 8; i >= 0; i -= 8) {
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -35,10 +34,10 @@ export const rook = (
 	}
 
 	// down
-	for (let i = position.index; i <= 63; i += MOVE_INDEX_CHANGE.DOWN) {
-		if (i === position.index) continue;
-
+	for (let i = position.index + 8; i <= 63; i += 8) {
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -54,10 +53,12 @@ export const rook = (
 	}
 
 	// left
-	for (let i = position.index; i >= 0; i += MOVE_INDEX_CHANGE.LEFT) {
+	for (let i = position.index - 1; i >= 0 && i % 8 !== 7; i -= 1) {
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -73,10 +74,12 @@ export const rook = (
 	}
 
 	// right
-	for (let i = position.index; i <= 63; i += MOVE_INDEX_CHANGE.RIGHT) {
+	for (let i = position.index + 1; i <= 63 && i % 8 !== 0; i += 1) {
 		if (i === position.index) continue;
 
 		const currentPosition = getFullSquareInfo(i);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {

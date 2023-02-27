@@ -14,6 +14,7 @@
 		setTimeout(() => {
 			move.pause();
 			capture.pause();
+
 			move.currentTime = 0;
 			capture.currentTime = 0;
 		}, 100);

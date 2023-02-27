@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { ChessColorConfig, Piece, Side } from '$lib/types/chess.types';
+	import type { ChessColorConfig, PieceType } from '$lib/types/chess.types';
 	import { BlackPiece } from './black';
 	import { WhitePiece } from './white';
 
-	export let piece: Piece;
-	export let side: Side;
+	export let piece: Pick<PieceType, 'type' | 'side'>;
 	export let colorsOverride: ChessColorConfig = {};
 
 	const defaultColors: Required<ChessColorConfig> = {
@@ -31,9 +30,9 @@
 
 <div class="pointer-events-none cursor-none select-none p-1">
 	<svelte:component
-		this={pieces[side]}
-		{piece}
-		main={colors[side].main}
-		accent={colors[side].accent}
+		this={pieces[piece.side]}
+		type={piece.type}
+		main={colors[piece.side].main}
+		accent={colors[piece.side].accent}
 	/>
 </div>

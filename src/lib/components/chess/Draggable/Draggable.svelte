@@ -9,7 +9,7 @@
 	export let xOffset = tweened(0, { duration: 100, easing: cubicOut });
 	export let yOffset = tweened(0, { duration: 100, easing: cubicOut });
 	export let boundaries = DEFAULT_BOARD_BOUNDARIES;
-	export let canInteract = false;
+	export let canInteract = true; // TODO: decide what to dowith it
 
 	let moving = false;
 
@@ -18,6 +18,7 @@
 
 		moving = true;
 
+		// center the piece on mouse
 		yOffset.set(e.offsetY - (e.target.clientHeight || e.target.parentElement.clientHeight) / 2);
 		xOffset.set(e.offsetX - (e.target.clientWidth || e.target.parentElement.clientWidth) / 2);
 

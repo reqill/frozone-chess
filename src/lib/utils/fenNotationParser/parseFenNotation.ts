@@ -8,24 +8,18 @@ export const parseFenNotation = (fen: string): FenNotationObjectType => {
 		fen.split(' ');
 
 	const position = stringPositionToObject(positionStr);
-	const move = moveStr === 'w' ? 'white' : 'black';
-	const castling = getCastlingRightsFromString(castlingStr);
+	const turn = moveStr === 'w' ? 'white' : 'black';
+	const castlingRights = getCastlingRightsFromString(castlingStr);
 	const enPassant = getFullSquareInfo(enPassantStr);
 	const halfMoveClock = parseInt(halfMoveClockStr);
 	const fullMoveNumber = parseInt(fullMoveNumberStr);
-	const isKingInCheck = {
-		white: undefined,
-		black: undefined,
-	};
 
 	return {
 		position,
-		move,
-		castling,
+		turn,
+		castlingRights,
 		enPassant,
 		halfMoveClock,
 		fullMoveNumber,
-		isKingInCheck,
-		win: undefined,
 	};
 };

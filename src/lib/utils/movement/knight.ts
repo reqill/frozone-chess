@@ -8,7 +8,7 @@ import { isInRange } from './isInRange';
 export const knight = (
 	positions: PositionStoreValueType,
 	piece: PieceType,
-	meta?: PieceMoveMetaType
+	_?: PieceMoveMetaType
 ) => {
 	const { side, position } = piece;
 
@@ -18,6 +18,8 @@ export const knight = (
 	// double up, single left
 	if (position.index + MOVE_INDEX_CHANGE.KNIGHT_UP_UP_LEFT >= 0 && position.index % 8 !== 0) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.KNIGHT_UP_UP_LEFT);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -32,6 +34,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_UP_UP_RIGHT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -46,6 +50,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_DOWN_DOWN_LEFT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -60,6 +66,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_DOWN_DOWN_RIGHT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -74,6 +82,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_UP_LEFT_LEFT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -88,6 +98,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_DOWN_LEFT_LEFT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -102,6 +114,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_UP_RIGHT_RIGHT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -116,6 +130,8 @@ export const knight = (
 		const currentPosition = getFullSquareInfo(
 			position.index + MOVE_INDEX_CHANGE.KNIGHT_DOWN_RIGHT_RIGHT
 		);
+		if (!currentPosition) throw new Error('Invalid position | out of range');
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {

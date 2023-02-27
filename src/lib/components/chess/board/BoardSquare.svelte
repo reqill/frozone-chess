@@ -1,29 +1,49 @@
 <script lang="ts">
-	import { DEFAULT_BOARD_BOUNDARIES } from '$lib/constants/chess.constants';
-	import type { Piece, Side, SquareInfoType } from '$lib/types/chess.types';
 	import type { MousePositionType } from '$lib/types/common.types';
+	import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
+	import { position, chessboard } from '$lib/store';
 	import { getSquareColor } from '$lib/utils';
-	import { createEventDispatcher } from 'svelte';
+	// import { createEventDispatcher } from 'svelte';
 	import { Draggable } from '../Draggable';
 	import { ChessPiece } from '../pieces';
 
-	const dispatch = createEventDispatcher();
+	// const dispatch = createEventDispatcher();
 
-	export let square: Required<SquareInfoType>;
-	export let piece: Piece | undefined = undefined;
-	export let side: Side | undefined = undefined;
-	export let boundaries = DEFAULT_BOARD_BOUNDARIES;
-	export let isHovered = false;
-	export let isLegal = false;
-	export let isCapture = false;
-	export let renderIndex = -1;
-	export let sideMove: Side | undefined = undefined;
-	export let isSelected = false;
+	export let square: SquareInfoType;
+	export let piece: PieceType | undefined = undefined;
+	export let renderIndex: number;
+
+	$: canCaptureHere =
+		$chessboard.selectedSquare &&
+		$chessboard.selectedSquare.index !== square.index &&
+		$position
+			.get($chessboard.selectedSquare)
+			?.meta.attackMoves.some((s) => s.index === square.index);
+
+	$: canMoveHere =
+		$chessboard.selectedSquare &&
+		$chessboard.selectedSquare.index !== square.index &&
+		$position
+			.get($chessboard.selectedSquare)
+			?.meta.possibleMoves.some((s) => s.index === square.index);
+
+	$: isHovered = $chessboard.intersectedSquare?.index === square.index;
+	$: isSelected = $chessboard.selectedSquare?.index === square.index;
+
+	$: shouldShowOutline =
+		$chessboard.intersectedSquare && $chessboard.isDragging ? isHovered : piece && isSelected;
+
+	$: isHighlighted =
+		$chessboard.highlightedSquares.find((s) => s.index === square.index) !== undefined;
 
 	//TODO: move to a global state
 	export let squareColors = {
 		light: '#f0d9b5',
 		dark: '#b58863',
+	};
+	export let highlightColor = {
+		light: '#eb6949',
+		dark: '#d94f34',
 	};
 	export let ring = {
 		// more contrast than the square
@@ -42,28 +62,39 @@
 		(renderIndex === 63 && 'bottom-right');
 
 	const onPieceDown = (e: CustomEvent<MousePositionType>) => {
-		dispatch('piecedown', { mousePos: e.detail, piece, side, square });
+		chessboard.stopDrag();
 	};
 
 	const onPieceUp = (e: CustomEvent<MousePositionType>) => {
-		dispatch('pieceup', { mousePos: e.detail, piece, side, square });
+		chessboard.startDrag(square, e.detail);
 	};
 
 	const onPieceMove = (e: CustomEvent<MousePositionType>) => {
-		dispatch('piecemove', { mousePos: e.detail, piece, side, square });
+		chessboard.onDrag(square, e.detail);
+	};
+
+	const onSquareClick = (e: MouseEvent) => {
+		if (e.button !== 0) return;
+
+		chessboard.selectSquare(square);
+	};
+
+	const onPieceRightClick = () => {
+		chessboard.highlight(square);
 	};
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class={`square relative ${
-		(isHovered || isSelected) && 'z-50 ring-4 ring-inset ring-opacity-50'
-	} ${ring[squareColor]}`}
-	style={`background-color: ${squareColors[squareColor]}; 
+	class={`square relative ${shouldShowOutline && 'z-50 ring-4 ring-inset ring-opacity-50'} ${
+		ring[squareColor]
+	}`}
+	style={`background-color: ${
+		isHighlighted ? highlightColor[squareColor] : squareColors[squareColor]
+	}; 
 	${corner && `border-${corner}-radius: 6%;`}`}
-	on:click={(e) => dispatch('squareclick', { e, pos: { piece, side, square } })}
-	on:contextmenu|preventDefault={(e) =>
-		dispatch('squareclick', { e, pos: { piece, side, square } })}
+	on:click={onSquareClick}
+	on:contextmenu|preventDefault={onPieceRightClick}
 >
 	{#if isBottomEdge}
 		<p
@@ -73,6 +104,7 @@
 			{square.code[0]}
 		</p>
 	{/if}
+
 	{#if isLeftEdge}
 		<p
 			class="absolute top-[1%] left-[4%] select-none text-lg font-medium"
@@ -81,21 +113,33 @@
 			{square.code[1]}
 		</p>
 	{/if}
-	{#if piece && side}
+
+	<div
+		class={`absolute top-[50%] flex h-full w-full -translate-y-[48%] flex-col justify-center text-center opacity-10 `}
+		style={`color: ${squareColors[squareColor === 'light' ? 'dark' : 'light']}`}
+	>
+		<p class="text-xl font-medium">{square.code}</p>
+		<p class="text-xl font-medium">{square.index}</p>
+	</div>
+
+	{#if piece}
 		<Draggable
-			{boundaries}
-			canInteract={sideMove && side === sideMove}
+			boundaries={$chessboard.boundaries}
 			on:piecedown={onPieceDown}
 			on:pieceup={onPieceUp}
 			on:piecemove={onPieceMove}
 		>
-			<ChessPiece {piece} {side} />
+			<ChessPiece {piece} />
 		</Draggable>
 	{/if}
-	{#if isLegal && !isCapture}
+
+	<!-- TODO: adjust styling -->
+	{#if canMoveHere && !canCaptureHere}
 		<div class="absolute inset-0 z-20 m-[35%] rounded-full bg-zinc-700 bg-opacity-30" />
 	{/if}
-	{#if isLegal && isCapture}
+
+	<!-- TODO: adjust styling -->
+	{#if canMoveHere && canCaptureHere}
 		<div
 			class="absolute inset-0 z-20 m-[2%] rounded-full border-[.475rem] border-solid border-zinc-700 border-opacity-30"
 		/>

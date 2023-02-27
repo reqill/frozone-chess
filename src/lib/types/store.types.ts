@@ -1,3 +1,4 @@
+import type { StringifiedMap } from '$lib/common/map';
 import type { CastlingInfoType, PieceType, Side, SquareInfoType } from './chess.types';
 
 export type CapturedStoreValueType = {
@@ -7,7 +8,7 @@ export type CapturedStoreValueType = {
 	};
 };
 
-export type PositionStoreValueType = Map<SquareInfoType, PieceType>;
+export type PositionStoreValueType = StringifiedMap<SquareInfoType, PieceType>;
 
 export type MoveHistoryStoreValueType = {
 	moves: Map<number, string>;
@@ -42,4 +43,39 @@ export type GameStoreValueType = {
 	startTime: Date | null;
 	timer: { [key in Side]: number };
 	increment: { [key in Side]: number };
+};
+
+// TODO: move to chess.types.ts
+export type ChessBoardArrowType = {
+	from: SquareInfoType;
+	to: SquareInfoType | null;
+};
+
+// TODO: move to chess.types.ts
+export type ChessBoardBoundariesType = {
+	top: number;
+	right: number;
+	bottom: number;
+	left: number;
+};
+
+// TODO: move to chess.types.ts
+export type SquareBoundariesType = {
+	top: number;
+	right: number;
+	bottom: number;
+	left: number;
+};
+
+export type ChessBoardStoreValueType = {
+	squareBoundaries: StringifiedMap<SquareInfoType, SquareBoundariesType>;
+	boundaries: ChessBoardBoundariesType;
+	highlightedSquares: SquareInfoType[];
+	arrows: ChessBoardArrowType[];
+	dragPosition: { x: number; y: number };
+	selectedSquare: SquareInfoType | null;
+	intersectedSquare: SquareInfoType | null;
+	isDragging: boolean;
+	viewSide: Side;
+	squares: SquareInfoType[];
 };

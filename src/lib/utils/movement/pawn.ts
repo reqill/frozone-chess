@@ -15,27 +15,32 @@ export const pawn = (
 	const { firstMove } = piece.meta;
 
 	const pieceInFront = positions.get(
-		getFullSquareInfo(position + side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
+		getFullSquareInfo(
+			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
+		)!
 	);
 	const pieceInFront2 = positions.get(
 		getFullSquareInfo(
-			position + side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_UP
-		)
+			position.index +
+				(side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_UP)
+		)!
 	);
 	const captureLeft =
 		position.index % 8 !== 0
 			? positions.get(
 					getFullSquareInfo(
-						position + side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT
-					)
+						position.index +
+							(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT)
+					)!
 			  )
 			: 'NOT_VALID';
 	const captureRight =
 		position.index % 8 !== 7
 			? positions.get(
 					getFullSquareInfo(
-						position + side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT
-					)
+						position.index +
+							(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
+					)!
 			  )
 			: 'NOT_VALID';
 
@@ -45,38 +50,43 @@ export const pawn = (
 	if (firstMove && !pieceInFront && !pieceInFront2) {
 		possibleMoves.push(
 			getFullSquareInfo(
-				position + side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_DOWN
-			)
+				position.index +
+					(side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_DOWN)
+			)!
 		);
 	}
 
 	if (!pieceInFront) {
 		possibleMoves.push(
-			getFullSquareInfo(position + side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
+			getFullSquareInfo(
+				position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
+			)!
 		);
 	}
 
 	if (captureLeft && captureLeft !== 'NOT_VALID' && captureLeft.side !== side) {
 		attackMoves.push(
 			getFullSquareInfo(
-				position + side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT
-			)
+				position.index +
+					(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT)
+			)!
 		);
 	}
 
 	if (captureRight && captureRight !== 'NOT_VALID' && captureRight.side !== side) {
 		attackMoves.push(
 			getFullSquareInfo(
-				position + side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT
-			)
+				position.index +
+					(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
+			)!
 		);
 	}
 
-	if (enPassant && (position.index >= 24 || position.index <= 31) && side === 'white') {
+	if (enPassant && position.index >= 24 && position.index <= 31 && side === 'white') {
 		attackMoves.push(enPassant);
 	}
 
-	if (enPassant && (position.index >= 32 || position.index <= 39) && side === 'black') {
+	if (enPassant && position.index >= 32 && position.index <= 39 && side === 'black') {
 		attackMoves.push(enPassant);
 	}
 

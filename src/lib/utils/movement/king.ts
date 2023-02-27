@@ -3,6 +3,7 @@ import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
 import type { PositionStoreValueType } from '$lib/types/store.types';
 import type { PieceMoveMetaType } from '$lib/types/utils.types';
 import { getFullSquareInfo } from '../fenNotationParser/getFullSquareInfo';
+import { isInRange } from './isInRange';
 
 export const king = (
 	positions: PositionStoreValueType,
@@ -22,6 +23,11 @@ export const king = (
 	// move up
 	if (position.index + MOVE_INDEX_CHANGE.UP >= 0) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.UP);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move up to index: ' + (position.index + MOVE_INDEX_CHANGE.UP)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -34,6 +40,11 @@ export const king = (
 	// move down
 	if (position.index + MOVE_INDEX_CHANGE.DOWN <= 63) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.DOWN);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move down to index: ' + (position.index + MOVE_INDEX_CHANGE.DOWN)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -46,6 +57,11 @@ export const king = (
 	// move left
 	if (position.index % 8 !== 0) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.LEFT);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move left to index: ' + (position.index + MOVE_INDEX_CHANGE.LEFT)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -58,6 +74,11 @@ export const king = (
 	// move right
 	if (position.index % 8 !== 7) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.RIGHT);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move right to index: ' + (position.index + MOVE_INDEX_CHANGE.RIGHT)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -68,8 +89,18 @@ export const king = (
 	}
 
 	// move up left
-	if (position.index + MOVE_INDEX_CHANGE.UP_LEFT >= 0 && position.index % 8 !== 0) {
+	if (
+		position.index + MOVE_INDEX_CHANGE.UP_LEFT >= 0 &&
+		position.index + MOVE_INDEX_CHANGE.UP_LEFT <= 63 &&
+		position.index % 8 !== 0
+	) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.UP_LEFT);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move up left to index: ' +
+					(position.index + MOVE_INDEX_CHANGE.UP_LEFT)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -80,8 +111,18 @@ export const king = (
 	}
 
 	// move up right
-	if (position.index + MOVE_INDEX_CHANGE.UP_RIGHT <= 63 && position.index % 8 !== 7) {
+	if (
+		position.index + MOVE_INDEX_CHANGE.UP_RIGHT <= 63 &&
+		position.index + MOVE_INDEX_CHANGE.UP_RIGHT >= 0 &&
+		position.index % 8 !== 7
+	) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.UP_RIGHT);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move up right to index: ' +
+					(position.index + MOVE_INDEX_CHANGE.UP_RIGHT)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -92,8 +133,18 @@ export const king = (
 	}
 
 	// move down left
-	if (position.index + MOVE_INDEX_CHANGE.DOWN_LEFT >= 0 && position.index % 8 !== 0) {
+	if (
+		position.index + MOVE_INDEX_CHANGE.DOWN_LEFT >= 0 &&
+		position.index + MOVE_INDEX_CHANGE.DOWN_LEFT <= 63 &&
+		position.index % 8 !== 0
+	) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.DOWN_LEFT);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move down left to index: ' +
+					(position.index + MOVE_INDEX_CHANGE.DOWN_LEFT)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -104,8 +155,18 @@ export const king = (
 	}
 
 	// move down right
-	if (position.index + MOVE_INDEX_CHANGE.DOWN_RIGHT <= 63 && position.index % 8 !== 7) {
+	if (
+		position.index + MOVE_INDEX_CHANGE.DOWN_RIGHT <= 63 &&
+		position.index + MOVE_INDEX_CHANGE.DOWN_RIGHT >= 0 &&
+		position.index % 8 !== 7
+	) {
 		const currentPosition = getFullSquareInfo(position.index + MOVE_INDEX_CHANGE.DOWN_RIGHT);
+		if (!currentPosition)
+			throw new Error(
+				'Invalid position for move down right to index: ' +
+					(position.index + MOVE_INDEX_CHANGE.DOWN_RIGHT)
+			);
+
 		const pieceAtPosition = positions.get(currentPosition);
 
 		if (!pieceAtPosition) {
@@ -117,9 +178,9 @@ export const king = (
 
 	// king side castling
 	if (castlingRights.kingSide && firstMove) {
-		const kingSideRook = positions.get(getFullSquareInfo(position.index + 3));
-		const pieceBetweenKingAndRook1 = positions.get(getFullSquareInfo(position.index + 2));
-		const pieceBetweenKingAndRook2 = positions.get(getFullSquareInfo(position.index + 1));
+		const kingSideRook = positions.get(getFullSquareInfo(position.index + 3)!);
+		const pieceBetweenKingAndRook1 = positions.get(getFullSquareInfo(position.index + 2)!);
+		const pieceBetweenKingAndRook2 = positions.get(getFullSquareInfo(position.index + 1)!);
 
 		if (
 			kingSideRook &&
@@ -128,16 +189,16 @@ export const king = (
 			!pieceBetweenKingAndRook1 &&
 			!pieceBetweenKingAndRook2
 		) {
-			possibleMoves.push(getFullSquareInfo(position.index + 2));
+			possibleMoves.push(getFullSquareInfo(position.index + 2)!);
 		}
 	}
 
 	// queen side castling
 	if (castlingRights.queenSide) {
-		const queenSideRook = positions.get(getFullSquareInfo(position.index - 4));
-		const pieceBetweenKingAndRook1 = positions.get(getFullSquareInfo(position.index - 3));
-		const pieceBetweenKingAndRook2 = positions.get(getFullSquareInfo(position.index - 2));
-		const pieceBetweenKingAndRook3 = positions.get(getFullSquareInfo(position.index - 1));
+		const queenSideRook = positions.get(getFullSquareInfo(position.index - 4)!);
+		const pieceBetweenKingAndRook1 = positions.get(getFullSquareInfo(position.index - 3)!);
+		const pieceBetweenKingAndRook2 = positions.get(getFullSquareInfo(position.index - 2)!);
+		const pieceBetweenKingAndRook3 = positions.get(getFullSquareInfo(position.index - 1)!);
 
 		if (
 			queenSideRook &&
@@ -147,9 +208,14 @@ export const king = (
 			!pieceBetweenKingAndRook2 &&
 			!pieceBetweenKingAndRook3
 		) {
-			possibleMoves.push(getFullSquareInfo(position.index - 2));
+			possibleMoves.push(getFullSquareInfo(position.index - 2)!);
 		}
 	}
+
+	possibleMoves.push(...attackMoves);
+
+	possibleMoves.filter((item, index) => possibleMoves.indexOf(item) === index && isInRange(item));
+	attackMoves.filter((item, index) => attackMoves.indexOf(item) === index && isInRange(item));
 
 	return { possibleMoves, attackMoves };
 };

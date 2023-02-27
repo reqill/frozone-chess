@@ -1,7 +1,3 @@
-<script>
-	import ChessPiece from '$lib/components/chess/pieces/ChessPiece.svelte';
-</script>
-
 <svelte:head>
 	<title>frozone-chess</title>
 	<meta name="description" content="Chess online platform" />

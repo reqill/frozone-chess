@@ -1,19 +1,23 @@
-import type { Piece, PiecePositionInfoType, Side } from '$lib/types/chess.types';
+import type { StringifiedMap } from '$lib/common/map';
+import type { Piece, PieceType, Side, SquareInfoType } from '$lib/types/chess.types';
+import { getFullSquareInfo } from './getFullSquareInfo';
 
-export const getPositionStringFromPositions = (positions: PiecePositionInfoType[]): string => {
-	const sortedPositions = positions.sort((a, b) => a.square.index - b.square.index);
-
+export const getPositionStringFromPositions = (
+	positions: StringifiedMap<SquareInfoType, PieceType>
+): string => {
 	const rows = [];
 
 	for (let i = 0; i < 8; i++) {
 		let row: string[] = [];
 
 		for (let j = 0; j < 8; j++) {
-			const squareIndex = i * 8 + j;
-			const piece = sortedPositions.find((p) => p.square.index === squareIndex);
+			const square = getFullSquareInfo(i * 8 + j);
+			if (!square) throw new Error('Invalid position | out of range');
+
+			const piece = positions.get(square);
 
 			if (piece) {
-				row.push(getPieceChar(piece.piece, piece.side));
+				row.push(getPieceChar(piece.type, piece.side));
 			} else {
 				row.push('1');
 			}
