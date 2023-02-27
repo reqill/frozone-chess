@@ -1,17 +1,20 @@
 <script lang="ts">
 	import type { MousePositionType } from '$lib/types/common.types';
 	import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
-	import { position, chessboard } from '$lib/store';
+	import { position, chessboard, game } from '$lib/store';
 	import { getSquareColor } from '$lib/utils';
 	// import { createEventDispatcher } from 'svelte';
 	import { Draggable } from '../Draggable';
 	import { ChessPiece } from '../pieces';
+	import { onDestroy } from 'svelte';
 
 	// const dispatch = createEventDispatcher();
 
 	export let square: SquareInfoType;
 	export let piece: PieceType | undefined = undefined;
 	export let renderIndex: number;
+	export let showTileCode = false;
+	let gameInterval: any = undefined;
 
 	$: canCaptureHere =
 		$chessboard.selectedSquare &&
@@ -35,6 +38,8 @@
 
 	$: isHighlighted =
 		$chessboard.highlightedSquares.find((s) => s.index === square.index) !== undefined;
+
+	$: () => $game.timer.white === 0 || ($game.timer.black === 0 && clearInterval(gameInterval));
 
 	//TODO: move to a global state
 	export let squareColors = {
@@ -61,7 +66,11 @@
 		(renderIndex === 56 && 'bottom-left') ||
 		(renderIndex === 63 && 'bottom-right');
 
-	const onPieceDown = (e: CustomEvent<MousePositionType>) => {
+	const onPieceDown = () => {
+		if ($game.status !== 'active' && $game.status !== 'paused') {
+			gameInterval = game.start();
+		}
+
 		chessboard.stopDrag();
 	};
 
@@ -82,6 +91,10 @@
 	const onPieceRightClick = () => {
 		chessboard.highlight(square);
 	};
+
+	onDestroy(() => {
+		clearInterval(gameInterval);
+	});
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -114,13 +127,15 @@
 		</p>
 	{/if}
 
-	<div
-		class={`absolute top-[50%] flex h-full w-full -translate-y-[48%] flex-col justify-center text-center opacity-10 `}
-		style={`color: ${squareColors[squareColor === 'light' ? 'dark' : 'light']}`}
-	>
-		<p class="text-xl font-medium">{square.code}</p>
-		<p class="text-xl font-medium">{square.index}</p>
-	</div>
+	{#if showTileCode}
+		<div
+			class={`absolute top-[50%] flex h-full w-full -translate-y-[48%] flex-col justify-center text-center opacity-20 `}
+			style={`color: ${squareColors[squareColor === 'light' ? 'dark' : 'light']}`}
+		>
+			<p class="text-xl font-medium">{square.code}</p>
+			<p class="text-xl font-medium">{square.index}</p>
+		</div>
+	{/if}
 
 	{#if piece}
 		<Draggable

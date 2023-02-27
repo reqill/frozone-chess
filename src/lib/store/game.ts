@@ -12,7 +12,7 @@ import { DEFAULT_GAME } from '$lib/constants/store.constants';
 import type { Piece, SquareInfoType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
 
-type GameSetupType = Partial<Pick<GameStoreValueType, 'timer' | 'increment'>>;
+type GameSetupType = { timer?: number; increment?: number };
 
 const createGame = () => {
 	const { subscribe, set, update } = writable<GameStoreValueType>(DEFAULT_GAME);
@@ -27,17 +27,18 @@ const createGame = () => {
 		const interval = setInterval(() => {
 			update((game) => {
 				if (game.status === 'active') {
-					game.timer[game.turn] -= 100;
+					game.timer[game.turn] -= 50;
 				}
 
 				if (game.timer[game.turn] <= 0) {
 					game.status = 'timeout';
 					game.winner = game.turn === 'white' ? 'black' : 'white';
+					clearInterval(interval);
 				}
 
 				return game;
 			});
-		}, 100);
+		}, 50);
 
 		return interval;
 	};
@@ -72,20 +73,27 @@ const createGame = () => {
 
 	const setup = ({ increment, timer }: GameSetupType) => {
 		update((game) => {
-			if (increment) {
-				game.increment = increment;
+			if (game.status !== 'pre-game') return game;
+
+			if (increment !== undefined) {
+				game.increment.white = increment;
+				game.increment.black = increment;
 			}
 
 			if (timer) {
-				game.timer = timer;
+				game.timer.black = timer;
+				game.timer.white = timer;
+				game.timer.starting = timer;
 			}
 
 			return game;
 		});
 	};
 
-	const _changeTurn = (game: GameStoreValueType) => {
-		game.timer[game.turn] += game.increment[game.turn];
+	const _changeTurn = (game: GameStoreValueType, firstMove = false) => {
+		if (!firstMove) {
+			game.timer[game.turn] += game.increment[game.turn];
+		}
 		game.turn = game.turn === 'white' ? 'black' : 'white';
 
 		return game;
@@ -95,7 +103,6 @@ const createGame = () => {
 		position.reset();
 		history.reset();
 		captured.reset();
-		console.log('resetting game');
 		set(DEFAULT_GAME);
 	};
 
@@ -130,8 +137,11 @@ const createGame = () => {
 
 	const move = (startPos: SquareInfoType, endPos: SquareInfoType | null, promoteTo?: Piece) => {
 		update((game) => {
+			if (game.status !== 'active') return game;
+
+			const firstMove = game.history.moves.size === 0;
+
 			const piece = game.position.get(startPos);
-			console.log('moved piece:', piece);
 
 			if (!piece || !endPos || piece.side !== game.turn) return game;
 
@@ -162,7 +172,7 @@ const createGame = () => {
 				game.enPassant = null;
 			}
 
-			game = _changeTurn(game);
+			game = _changeTurn(game, firstMove);
 
 			const meta = {
 				enPassant: game.enPassant,

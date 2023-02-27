@@ -1,16 +1,11 @@
 <script lang="ts">
 	import { position, game, chessboard } from '$lib/store';
-	import type { PiecePositionInfoType } from '$lib/types/chess.types';
-	import { onMount } from 'svelte';
 	import PlayAudio from '../PlayAudio.svelte';
 	import BoardSquare from './BoardSquare.svelte';
 
 	let boardEl: any;
 	$: chessboard.setBoundaries(boardEl?.getBoundingClientRect());
-
-	onMount(() => {
-		game.start();
-	});
+	let showTileCode = false;
 
 	const onWindowClick = (e: MouseEvent) => {
 		if (
@@ -23,36 +18,6 @@
 			chessboard.clearOverlays();
 		}
 	};
-
-	const onMouseClick = ({
-		detail: { e, pos },
-	}: CustomEvent<{ e: MouseEvent; pos: PiecePositionInfoType }>) => {
-		// if (e.button === 0) {
-		// 	if (
-		// 		selectedSquare !== undefined &&
-		// 		legalMoves.find((legalSquare) => legalSquare.index === pos.square.index)
-		// 	) {
-		// 		const newSquare = boardSquares.find(
-		// 			(square) => square.index === pos.square.index
-		// 		) as Required<SquareInfoType>;
-		// 		const pieceToMove = gameObject.position.find(
-		// 			(piece) => piece.square.index === selectedSquare?.index
-		// 		);
-		// 		if (isLegalMove(gameObject, pieceToMove, newSquare)) {
-		// 			const finalPosition = { ...pieceToMove, square: newSquare } as PiecePositionInfoType;
-		// 			gameObject = updateGameObject(gameObject, pieceToMove, finalPosition);
-		// 		}
-		// 		selectedSquare = undefined;
-		// 		legalMoves = [];
-		// 	} else if (pos.piece !== undefined && pos.side === gameObject.move) {
-		// 		legalMoves = getFilteredLegalMoves(gameObject, pos);
-		// 		selectedSquare = pos.square;
-		// 	}
-		// } else if (e.button === 2) {
-		// 	legalMoves = [];
-		// 	selectedSquare = undefined;
-		// }
-	};
 </script>
 
 <div class="relative h-full select-none">
@@ -61,7 +26,7 @@
 		bind:this={boardEl}
 	>
 		{#each $chessboard.squares as square, i (`chess-square-${square.code}`)}
-			<BoardSquare {square} piece={$position.get(square)} renderIndex={i} />
+			<BoardSquare {square} piece={$position.get(square)} renderIndex={i} {showTileCode} />
 		{/each}
 
 		{#key $position.size}
@@ -84,9 +49,15 @@
 		</button>
 		<button
 			on:click={() => game.reset()}
-			class="mr-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
+			class="rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
 		>
 			reset
+		</button>
+		<button
+			on:click={() => (showTileCode = !showTileCode)}
+			class="mr-auto rounded-md bg-zinc-300 px-4 py-1 transition-colors hover:bg-zinc-400"
+		>
+			{showTileCode ? 'hide labels' : 'show labels'}
 		</button>
 	</div>
 </div>

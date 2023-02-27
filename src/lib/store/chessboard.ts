@@ -64,13 +64,6 @@ const createChessBoard = () => {
 		update((chessboard) => {
 			if (!chessboard.isDragging || !chessboard.selectedSquare) return chessboard;
 
-			console.log(
-				'moved from',
-				chessboard.selectedSquare?.code,
-				'to',
-				chessboard.intersectedSquare?.code
-			);
-
 			game.move(chessboard.selectedSquare, chessboard.intersectedSquare);
 
 			chessboard.selectedSquare = null;

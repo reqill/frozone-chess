@@ -41,7 +41,7 @@ export type GameStoreValueType = {
 	check: { [key in Side]: boolean };
 	fen: string;
 	startTime: Date | null;
-	timer: { [key in Side]: number };
+	timer: { [key in Side]: number } & { starting: number };
 	increment: { [key in Side]: number };
 };
 
