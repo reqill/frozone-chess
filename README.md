@@ -53,8 +53,9 @@ Mind that even if feature is marked as completed it more likely means that it wo
 - Portal UI
 - Chess engine AI
 - Game synchronization
+- Dark theme
 - Game spectators
-- Suppoort for keyboard-only chess (or blindfolded)
+- Support for keyboard-only chess (or blindfolded)
 - Proper support for local games (to be precised)
 - Proper support for multiplayer internet games (to be precised)
 - Proper support for singleplayr games (to be precised)
