@@ -2,7 +2,7 @@
 
 Online chess portal with custom chess engine AI. Main focus of the project is to explore new technologies, tools, as well as improve on currently known ones. Hopefully combining ambitous idea with learning will fruit satisfying results
 
-> :construction::construction::construction: This project is still in version `< 1.0.0`, so expect bugs and unfinished mechanics, but if you're here to learn and observe the progress - now it's the perfect time for that! Check current preview build [here](https://frozone-chess.vercel.app/).
+> :construction::construction::construction: This project is still in version `< 1.0.0`, so expect bugs and unfinished mechanics, but if you're here to learn and observe the progress - now it's the perfect time for that! Check current preview build [here](https://frozone-chess.vercel.app/), or some of the designs [over here](https://xd.adobe.com/view/a64d7437-8e09-4688-8888-ed3acba4f3b6-f31e/?fullscreen).
 
 ## Table of content
   - [Blog](#blog)
