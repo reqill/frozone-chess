@@ -44,6 +44,7 @@ Mind that even if feature is marked as completed it more likely means that it wo
 
 ### Planned :bookmark_tabs:
 - Move history
+- Drawing arrows
 - Go back to certain move
 - Game preview
 - Starting game from given position
