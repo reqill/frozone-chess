@@ -28,10 +28,10 @@
 	<button on:click={() => game.setup({ increment: 1_000, timer: 120_000 })}>set short timers</button
 	>
 	<button on:click={() => game.setup({ increment: 5_000, timer: 600_000 })}>set long timers</button>
+	{#if $game.status === 'active'}
+		<button on:click={() => game.pause()}> pause game </button>
+	{/if}
+	{#if $game.status === 'paused'}
+		<button on:click={() => game.resume()}> resume game </button>
+	{/if}
 </section>
-{#if $game.status === 'active'}
-	<button on:click={() => game.pause()}> pause game </button>
-{/if}
-{#if $game.status === 'paused'}
-	<button on:click={() => game.resume()}> resume game </button>
-{/if}
