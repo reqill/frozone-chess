@@ -37,6 +37,7 @@ export const PICE_VALUE = {
 export const DEFAULT_TIMERS = {
 	white: 600_000,
 	black: 600_000,
+	starting: 600_000,
 };
 
 export const DEFAULT_INCREMENT = {

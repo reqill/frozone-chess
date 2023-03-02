@@ -45,7 +45,7 @@
 		moving = false;
 
 		if (e.clientX >= boundaries.left && e.clientX <= boundaries.right) {
-			dispatch('piecedown', { x: e.clientX, y: e.clientY });
+			dispatch('piecedown');
 		}
 
 		xOffset.set(0);

@@ -107,11 +107,17 @@ export const updateAllPossibleMoves = (
 			return !isKingInCheck(simulationCopy, piece.side);
 		});
 
-		if (piece.type === 'king' && !possibleMoves.some((move) => move.index === square.index + 1)) {
+		if (
+			piece.type === 'king' &&
+			!possibleMoves.some((move) => move.index === square.index + 1 || move.index === square.index)
+		) {
 			possibleMoves = possibleMoves.filter((move) => move.index !== square.index + 2);
 		}
 
-		if (piece.type === 'king' && !possibleMoves.some((move) => move.index === square.index - 1)) {
+		if (
+			piece.type === 'king' &&
+			!possibleMoves.some((move) => move.index === square.index - 1 || move.index === square.index)
+		) {
 			possibleMoves = possibleMoves.filter((move) => move.index !== square.index - 2);
 		}
 
