@@ -8,7 +8,6 @@
 
 <div class="app">
 	<main class="flex h-full w-full flex-col justify-center align-top">
-		<h1 class="-mt-5 select-none pb-8 text-center text-8xl font-semibold blur-sm">frozone-chess</h1>
 		<slot />
 	</main>
 </div>
