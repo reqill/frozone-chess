@@ -1,5 +1,5 @@
 import type { StringifiedMap } from '$lib/common/map';
-import type { CastlingInfoType, PieceType, Side, SquareInfoType } from './chess.types';
+import type { CastlingInfoType, GameMode, PieceType, Side, SquareInfoType } from './chess.types';
 
 export type CapturedStoreValueType = {
 	[key in Side]: {
@@ -54,6 +54,7 @@ export type GameStoreValueType = {
 	startTime: Date | null;
 	timer: { [key in Side]: number } & { starting: number };
 	increment: { [key in Side]: number };
+	gamemode?: GameMode;
 	audio: {
 		[key in GameAudioType]?: HTMLAudioElement;
 	};
@@ -92,4 +93,30 @@ export type ChessBoardStoreValueType = {
 	isDragging: boolean;
 	viewSide: Side;
 	squares: SquareInfoType[];
+};
+
+export type ConfigurationStoreValueType = {
+	boardSquares: {
+		light: string;
+		dark: string;
+	};
+	pieceColors: {
+		[key in Side]: {
+			main: string;
+			accent: string;
+		};
+	};
+	outlineColors: {
+		light: string;
+		dark: string;
+	};
+	highlightColors: {
+		light: string;
+		dark: string;
+	};
+	arrowColor: string;
+	possibleMoveColor: string;
+	pieceSize: 'small' | 'medium' | 'large';
+	flipOnMove: boolean;
+	showTileLabels: boolean;
 };

@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { game } from '$lib/store';
 	import { GameConfiguration } from '.';
-
-	$: gamemodeTimer = Math.floor($game.timer.starting / 60000);
-	$: gamemodeIncremet = (($game.increment.white % 60000) / 1000).toFixed(0);
 </script>
 
 <section class="w-72">

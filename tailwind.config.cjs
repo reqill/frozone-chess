@@ -19,7 +19,7 @@ module.exports = {
 				'btn-shadow': '#BBBBBB',
 				'app-white': '#ffffff',
 				'app-bg': '#F3F3F3',
-				'app-black': '#000000',
+				'app-black': '#1A1A1A',
 				'disabled-bg': '#EBEBEB',
 				'disabled-text': '#7A7A7A',
 			},

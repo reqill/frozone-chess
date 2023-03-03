@@ -27,7 +27,10 @@
 		if (!selectedTimer || !selectedGameMode || gameModeOptions[selectedGameMode] !== 'hotseats')
 			return;
 
-		game.setup({ ...timerOptions[selectedTimer] }, true);
+		game.setup(
+			{ ...timerOptions[selectedTimer], gamemode: gameModeOptions[selectedGameMode] },
+			true
+		);
 	};
 </script>
 

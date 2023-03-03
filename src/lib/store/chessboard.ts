@@ -5,6 +5,7 @@ import { getSquareBoundaries } from '$lib/utils/getSquareBoundaries';
 import type { SquareInfoType } from '$lib/types/chess.types';
 import type { MousePositionType } from '$lib/types/common.types';
 import { game } from './game';
+import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
 
 const createChessBoard = () => {
 	const { subscribe, set, update } = writable<ChessBoardStoreValueType>(DEFAULT_CHESSBOARD_STATE);
@@ -41,7 +42,11 @@ const createChessBoard = () => {
 					x >= boundaries.left &&
 					x <= boundaries.right
 				) {
-					chessboard.intersectedSquare = square;
+					if (chessboard.viewSide === 'white') {
+						chessboard.intersectedSquare = square;
+					} else {
+						chessboard.intersectedSquare = getFullSquareInfo(63 - square.index);
+					}
 				}
 			});
 
@@ -178,6 +183,7 @@ const createChessBoard = () => {
 			}
 
 			chessboard.squares = chessboard.squares.reverse();
+			chessboard.squareBoundaries = getSquareBoundaries(chessboard.boundaries, true);
 
 			return chessboard;
 		});
