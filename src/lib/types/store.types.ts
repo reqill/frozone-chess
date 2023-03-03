@@ -17,6 +17,7 @@ export type MoveHistoryStoreValueType = {
 };
 
 type GameStatusType =
+	| 'setup'
 	| 'pre-game'
 	| 'active'
 	| 'paused'
@@ -24,6 +25,16 @@ type GameStatusType =
 	| 'stalemate'
 	| 'resigned'
 	| 'abandoned'
+	| 'timeout';
+
+export type GameAudioType =
+	| 'move'
+	| 'capture'
+	| 'check'
+	| 'checkmate'
+	| 'stalemate'
+	| 'resign'
+	| 'draw'
 	| 'timeout';
 
 export type GameStoreValueType = {
@@ -43,6 +54,9 @@ export type GameStoreValueType = {
 	startTime: Date | null;
 	timer: { [key in Side]: number } & { starting: number };
 	increment: { [key in Side]: number };
+	audio: {
+		[key in GameAudioType]?: HTMLAudioElement;
+	};
 };
 
 // TODO: move to chess.types.ts

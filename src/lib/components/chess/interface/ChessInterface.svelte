@@ -1,13 +1,19 @@
 <script lang="ts">
-	import { game, captured } from '$lib/store';
-	import { parseMillisecondsToGameTime } from '$lib/utils';
+	import { game } from '$lib/store';
+	import { GameConfiguration } from '.';
 
 	$: gamemodeTimer = Math.floor($game.timer.starting / 60000);
 	$: gamemodeIncremet = (($game.increment.white % 60000) / 1000).toFixed(0);
 </script>
 
-<section class="min-w-[12rem] max-w-[20rem] bg-gray-500">
-	<p>
+<section class="w-72">
+	{#if $game.status === 'setup'}
+		<GameConfiguration />
+	{/if}
+	{#if $game.status !== 'setup'}
+		<p>{$game.status}</p>
+	{/if}
+	<!-- <p>
 		{gamemodeTimer} | {gamemodeIncremet}
 	</p>
 	<p>{$game.turn} to move</p>
@@ -33,5 +39,5 @@
 	{/if}
 	{#if $game.status === 'paused'}
 		<button on:click={() => game.resume()}> resume game </button>
-	{/if}
+	{/if} -->
 </section>

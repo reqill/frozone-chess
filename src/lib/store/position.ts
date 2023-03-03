@@ -117,6 +117,12 @@ const createPosition = () => {
 
 			game.updatePosition(position);
 
+			if (capture) {
+				game.playSound('capture');
+			} else {
+				game.playSound('move');
+			}
+
 			return position;
 		});
 	};
