@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import { position } from './position';
 import type {
 	CapturedStoreValueType,
+	GameAudioType,
 	GameStoreValueType,
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
@@ -12,7 +13,7 @@ import { DEFAULT_GAME } from '$lib/constants/store.constants';
 import type { Piece, SquareInfoType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
 
-type GameSetupType = { timer?: number; increment?: number };
+export type GameSetupType = { timer?: number; increment?: number };
 
 const createGame = () => {
 	const { subscribe, set, update } = writable<GameStoreValueType>(DEFAULT_GAME);
@@ -71,9 +72,9 @@ const createGame = () => {
 		});
 	};
 
-	const setup = ({ increment, timer }: GameSetupType) => {
+	const setup = ({ increment, timer }: GameSetupType, final = false) => {
 		update((game) => {
-			if (game.status !== 'pre-game') return game;
+			if (game.status !== 'setup') return game;
 
 			if (increment !== undefined) {
 				game.increment.white = increment;
@@ -84,6 +85,10 @@ const createGame = () => {
 				game.timer.black = timer;
 				game.timer.white = timer;
 				game.timer.starting = timer;
+			}
+
+			if (final) {
+				game.status = 'pre-game';
 			}
 
 			return game;
@@ -137,6 +142,11 @@ const createGame = () => {
 
 	const move = (startPos: SquareInfoType, endPos: SquareInfoType | null, promoteTo?: Piece) => {
 		update((game) => {
+			if (game.status === 'pre-game') {
+				start();
+				game.status = 'active';
+			}
+
 			if (game.status !== 'active') return game;
 
 			const firstMove = game.history.moves.size === 0;
@@ -206,10 +216,32 @@ const createGame = () => {
 		});
 	};
 
+	const bindAudioPlayer = (actionType: GameAudioType, player: HTMLAudioElement) => {
+		update((game) => {
+			game.audio[actionType] = player;
+			return game;
+		});
+	};
+
+	const playSound = (actionType: GameAudioType) => {
+		update((game) => {
+			if (game.audio?.[actionType]) {
+				game.audio[actionType]?.play();
+
+				setTimeout(() => {
+					game.audio[actionType]?.pause();
+					game.audio[actionType]!.currentTime = 0;
+				}, 200);
+			}
+			return game;
+		});
+	};
+
 	return {
 		subscribe,
 		setup,
 		move,
+		playSound,
 		updatePosition,
 		updateHistory,
 		updateCaptured,
@@ -221,6 +253,7 @@ const createGame = () => {
 		resume,
 		reset,
 		override,
+		bindAudioPlayer,
 	};
 };
 

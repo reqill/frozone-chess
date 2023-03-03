@@ -13,6 +13,8 @@ export type ChessColorConfig = {
 	};
 };
 
+export type GameMode = 'singleplayer' | 'online' | 'hotseats';
+
 export type CastlingSingleType = {
 	queenSide: boolean;
 	kingSide: boolean;

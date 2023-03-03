@@ -430,7 +430,7 @@ export const DEFAULT_HISTORY: MoveHistoryStoreValueType = {
 
 export const DEFAULT_GAME: GameStoreValueType = {
 	turn: 'white',
-	status: 'pre-game',
+	status: 'setup',
 	winner: null,
 	draw: false,
 	halfMoveClock: 0,
@@ -445,6 +445,7 @@ export const DEFAULT_GAME: GameStoreValueType = {
 	increment: DEFAULT_INCREMENT,
 	startTime: null,
 	check: { white: false, black: false },
+	audio: {},
 };
 
 export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {

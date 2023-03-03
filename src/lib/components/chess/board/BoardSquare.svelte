@@ -3,12 +3,9 @@
 	import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
 	import { position, chessboard, game } from '$lib/store';
 	import { getSquareColor } from '$lib/utils';
-	// import { createEventDispatcher } from 'svelte';
 	import { Draggable } from '../Draggable';
 	import { ChessPiece } from '../pieces';
 	import { onDestroy } from 'svelte';
-
-	// const dispatch = createEventDispatcher();
 
 	export let square: SquareInfoType;
 	export let piece: PieceType | undefined = undefined;
@@ -25,6 +22,7 @@
 
 	$: canMoveHere =
 		$chessboard.selectedSquare &&
+		($game.status === 'active' || $game.status === 'pre-game') &&
 		$chessboard.selectedSquare.index !== square.index &&
 		$position
 			.get($chessboard.selectedSquare)
@@ -67,10 +65,6 @@
 		(renderIndex === 63 && 'bottom-right');
 
 	const onPieceDown = () => {
-		if ($game.status !== 'active' && $game.status !== 'paused') {
-			gameInterval = game.start();
-		}
-
 		chessboard.stopDrag();
 	};
 
