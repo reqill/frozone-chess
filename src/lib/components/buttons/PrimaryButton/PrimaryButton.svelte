@@ -25,10 +25,12 @@
 			: 'bg-disabled-bg text-disabled-text'
 		: active
 		? `bg-primary text-app-white ${
-				!inactive && 'group-hover:bg-primary-light group-active:translate-y-1'
+				!inactive &&
+				'group-hover:bg-primary-light group-active:translate-y-1 group-active:bg-primary-light'
 		  }`
 		: `bg-app-white text-app-black ${
-				!inactive && 'group-hover:bg-primary group-hover:text-app-white group-active:translate-y-1'
+				!inactive &&
+				'group-hover:bg-primary group-hover:text-app-white group-active:translate-y-1 group-active:bg-primary group-active:text-app-white'
 		  }`;
 
 	$: shadowStyles = disabled
@@ -36,8 +38,12 @@
 			? 'bg-primary-shadow-disabled'
 			: 'bg-btn-shadow'
 		: active
-		? `bg-primary-shadow ${!inactive && 'group-hover:bg-primary-shadow-light'}`
-		: `bg-btn-shadow ${!inactive && 'group-hover:bg-primary-shadow'}`;
+		? `bg-primary-shadow ${
+				!inactive && 'group-hover:bg-primary-shadow-light group-active:bg-primary-shadow-light'
+		  }`
+		: `bg-btn-shadow ${
+				!inactive && 'group-hover:bg-primary-shadow group-active:bg-primary-shadow'
+		  }`;
 </script>
 
 <!-- horizontal -->

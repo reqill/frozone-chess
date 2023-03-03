@@ -1,19 +1,18 @@
+<script>
+	import { PrimaryButton } from '$lib/components/buttons';
+	import { goto } from '$app/navigation';
+</script>
+
 <svelte:head>
 	<title>frozone-chess</title>
 	<meta name="description" content="Chess online platform" />
 </svelte:head>
 
-<div class="flex w-full">
-	<a
-		href="/play"
-		class="m-auto mr-2 rounded-xl bg-blue-400 py-4 px-12 text-4xl font-bold text-gray-100 shadow-md transition-all hover:px-14 hover:no-underline hover:shadow-xl"
-	>
-		Play
-	</a>
-	<a
-		href="/preview"
-		class="m-auto ml-2 rounded-xl bg-blue-400 py-4 px-12 text-4xl font-bold text-gray-100 shadow-md transition-all hover:px-14 hover:no-underline hover:shadow-xl"
-	>
-		Preview
-	</a>
+<div class="mx-auto mt-10 flex w-64 flex-col gap-2">
+	<PrimaryButton label="Play" fullWidth on:click={() => setTimeout(() => goto('/play'), 100)} />
+	<PrimaryButton
+		label="Preview"
+		fullWidth
+		on:click={() => setTimeout(() => goto('/preview'), 100)}
+	/>
 </div>

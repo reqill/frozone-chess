@@ -4,11 +4,22 @@
 	import { ChessInterface } from '$lib/components/chess/interface';
 	import { PlayerInfoBar } from '$lib/components/chess/PlayerInfoBar';
 	import { MatchScoreBar } from '$lib/components/chess/MatchScoreBar';
+	import Cog from 'svelte-material-icons/Cog.svelte';
+
+	const openConfiguration = () => {};
 </script>
 
 <div class="flex h-full w-full flex-row justify-center gap-7 p-3 align-top">
-	<div class="py-11">
+	<div class="relative py-11">
 		<MatchScoreBar />
+		<div class="absolute bottom-[.4rem] flex w-full justify-center">
+			<button
+				on:click={openConfiguration}
+				class="text-app-black/25 transition-all ease-in hover:text-app-black/50"
+			>
+				<Cog size={24} />
+			</button>
+		</div>
 	</div>
 	<div class="flex w-full max-w-[80vh] flex-col gap-2">
 		<PlayerInfoBar side={$chessboard.viewSide === 'white' ? 'black' : 'white'} />

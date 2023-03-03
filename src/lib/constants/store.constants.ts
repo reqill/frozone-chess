@@ -2,6 +2,7 @@ import { StringifiedMap } from '$lib/common/map';
 import type {
 	CapturedStoreValueType,
 	ChessBoardStoreValueType,
+	ConfigurationStoreValueType,
 	GameStoreValueType,
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
@@ -467,4 +468,34 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 	isDragging: false,
 	viewSide: 'white',
 	squares: SQUARES,
+};
+
+export const DEFAULT_CONFIGURATION: ConfigurationStoreValueType = {
+	boardSquares: {
+		light: '#f0d9b5',
+		dark: '#b58863',
+	},
+	flipOnMove: false,
+	pieceSize: 'large',
+	pieceColors: {
+		white: {
+			main: '#FBFBFB',
+			accent: '#1A1A1A',
+		},
+		black: {
+			main: '#1A1A1A',
+			accent: '#FBFBFB',
+		},
+	},
+	highlightColors: {
+		light: '#eb6949',
+		dark: '#d94f34',
+	},
+	outlineColors: {
+		light: 'ring-[#b58863]',
+		dark: 'ring-[#f0d9b5]',
+	},
+	possibleMoveColor: '',
+	arrowColor: '',
+	showTileLabels: false,
 };

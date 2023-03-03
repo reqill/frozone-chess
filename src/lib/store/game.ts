@@ -10,10 +10,12 @@ import type {
 import { history } from './history';
 import { captured } from './captured';
 import { DEFAULT_GAME } from '$lib/constants/store.constants';
-import type { Piece, SquareInfoType } from '$lib/types/chess.types';
+import type { GameMode, Piece, SquareInfoType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
+import { configuration } from './configuration';
+import { chessboard } from './chessboard';
 
-export type GameSetupType = { timer?: number; increment?: number };
+export type GameSetupType = { timer?: number; increment?: number; gamemode?: GameMode };
 
 const createGame = () => {
 	const { subscribe, set, update } = writable<GameStoreValueType>(DEFAULT_GAME);
@@ -72,7 +74,7 @@ const createGame = () => {
 		});
 	};
 
-	const setup = ({ increment, timer }: GameSetupType, final = false) => {
+	const setup = ({ increment, timer, gamemode }: GameSetupType, final = false) => {
 		update((game) => {
 			if (game.status !== 'setup') return game;
 
@@ -87,7 +89,11 @@ const createGame = () => {
 				game.timer.starting = timer;
 			}
 
-			if (final) {
+			if (gamemode) {
+				game.gamemode = gamemode;
+			}
+
+			if (final && game.timer && game.increment && game.gamemode) {
 				game.status = 'pre-game';
 			}
 
@@ -191,6 +197,9 @@ const createGame = () => {
 			};
 			position.move(startPos, endPos, meta, promoteTo);
 
+			if (configuration.shouldFlipBoard()) {
+				chessboard.flip();
+			}
 			return game;
 		});
 	};

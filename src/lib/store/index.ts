@@ -3,3 +3,4 @@ export { captured } from './captured';
 export { position } from './position';
 export { game } from './game';
 export { chessboard } from './chessboard';
+export { configuration } from './configuration';

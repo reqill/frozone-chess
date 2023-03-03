@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { MousePositionType } from '$lib/types/common.types';
 	import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
-	import { position, chessboard, game } from '$lib/store';
+	import { position, chessboard, game, configuration } from '$lib/store';
 	import { getSquareColor } from '$lib/utils';
 	import { Draggable } from '../Draggable';
 	import { ChessPiece } from '../pieces';
@@ -10,7 +10,6 @@
 	export let square: SquareInfoType;
 	export let piece: PieceType | undefined = undefined;
 	export let renderIndex: number;
-	export let showTileCode = false;
 	let gameInterval: any = undefined;
 
 	$: canCaptureHere =
@@ -39,20 +38,9 @@
 
 	$: () => $game.timer.white === 0 || ($game.timer.black === 0 && clearInterval(gameInterval));
 
-	//TODO: move to a global state
-	export let squareColors = {
-		light: '#f0d9b5',
-		dark: '#b58863',
-	};
-	export let highlightColor = {
-		light: '#eb6949',
-		dark: '#d94f34',
-	};
-	export let ring = {
-		// more contrast than the square
-		light: 'ring-[#b58863]',
-		dark: 'ring-[#f0d9b5]',
-	};
+	$: squareColors = $configuration.boardSquares;
+	$: highlightColor = $configuration.highlightColors;
+	$: ring = $configuration.outlineColors;
 
 	$: isBottomEdge = renderIndex > 55;
 	$: isLeftEdge = renderIndex % 8 === 0;
@@ -121,7 +109,7 @@
 		</p>
 	{/if}
 
-	{#if showTileCode}
+	{#if $configuration.showTileLabels}
 		<div
 			class={`absolute top-[50%] flex h-full w-full -translate-y-[48%] flex-col justify-center text-center opacity-20 `}
 			style={`color: ${squareColors[squareColor === 'light' ? 'dark' : 'light']}`}

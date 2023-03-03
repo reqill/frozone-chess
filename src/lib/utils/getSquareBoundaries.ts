@@ -3,7 +3,7 @@ import type { BoundariesType, SquareInfoType } from '$lib/types/chess.types';
 import type { SquareBoundariesType } from '$lib/types/store.types';
 import { getFullSquareInfo } from './fenNotationParser/getFullSquareInfo';
 
-export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
+export const getSquareBoundaries = (boardBoundaries: BoundariesType, flipped = false) => {
 	const { top, right, bottom, left } = boardBoundaries;
 
 	const boardHeight = bottom - top;
@@ -14,22 +14,42 @@ export const getSquareBoundaries = (boardBoundaries: BoundariesType) => {
 
 	const squareBoundaries = new StringifiedMap<SquareInfoType, SquareBoundariesType>();
 
-	for (let i = 0; i < 64; i++) {
-		const row = Math.floor(i / 8);
-		const column = i % 8;
+	if (!flipped) {
+		for (let i = 0; i < 64; i++) {
+			const row = Math.floor(i / 8);
+			const column = i % 8;
 
-		const squareTop = top + row * squareHeight;
-		const squareLeft = left + column * squareWidth;
+			const squareTop = top + row * squareHeight;
+			const squareLeft = left + column * squareWidth;
 
-		const inspectedSquare = getFullSquareInfo(i);
-		if (!inspectedSquare) throw new Error('Invalid square');
+			const inspectedSquare = getFullSquareInfo(i);
+			if (!inspectedSquare) throw new Error('Invalid square');
 
-		squareBoundaries.set(inspectedSquare, {
-			top: squareTop,
-			right: squareLeft + squareWidth,
-			bottom: squareTop + squareHeight,
-			left: squareLeft,
-		});
+			squareBoundaries.set(inspectedSquare, {
+				top: squareTop,
+				right: squareLeft + squareWidth,
+				bottom: squareTop + squareHeight,
+				left: squareLeft,
+			});
+		}
+	} else {
+		for (let i = 63; i >= 0; i--) {
+			const row = Math.floor(i / 8);
+			const column = i % 8;
+
+			const squareTop = top + row * squareHeight;
+			const squareLeft = left + column * squareWidth;
+
+			const inspectedSquare = getFullSquareInfo(i);
+			if (!inspectedSquare) throw new Error('Invalid square');
+
+			squareBoundaries.set(inspectedSquare, {
+				top: squareTop,
+				right: squareLeft + squareWidth,
+				bottom: squareTop + squareHeight,
+				left: squareLeft,
+			});
+		}
 	}
 
 	return squareBoundaries;
