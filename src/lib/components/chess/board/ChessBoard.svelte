@@ -24,14 +24,7 @@
 	{#each $chessboard.squares as square, i (`chess-square-${square.code}`)}
 		<BoardSquare {square} piece={$position.get(square)} renderIndex={i} {showTileCode} />
 	{/each}
-
-	<!-- TODO: move this to position store / game store on move action -->
-	{#key $position.size}
-		<PlayAudio track="capture" />
-	{/key}
-	{#key $position}
-		<PlayAudio track="move" />
-	{/key}
+	<PlayAudio />
 </div>
 
 <svelte:window

@@ -7,8 +7,11 @@
 </script>
 
 <section class="w-72">
-	{#if $game.status === 'pre-game'}
+	{#if $game.status === 'setup'}
 		<GameConfiguration />
+	{/if}
+	{#if $game.status !== 'setup'}
+		<p>{$game.status}</p>
 	{/if}
 	<!-- <p>
 		{gamemodeTimer} | {gamemodeIncremet}
