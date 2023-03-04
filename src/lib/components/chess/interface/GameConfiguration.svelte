@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { OptionButton, PrimaryButton } from '$lib/components/buttons';
+	import { Tooltip } from '$lib/components/Tooltip';
 	import { game } from '$lib/store';
 	import type { GameSetupType } from '$lib/store/game';
 	import type { GameMode } from '$lib/types/chess.types';
@@ -41,22 +42,26 @@
 		<h6 class="-mb-1 mt-1 pl-1 font-normal">Game type</h6>
 
 		<div class="flex flex-row">
-			<OptionButton
-				label="one-player"
-				icon={Account}
-				fullWidth
-				disabled
-				active={selectedGameMode === 0}
-				on:click={() => (selectedGameMode = 0)}
-			/>
-			<OptionButton
-				label="online"
-				icon={Laptop}
-				fullWidth
-				disabled
-				active={selectedGameMode === 1}
-				on:click={() => (selectedGameMode = 1)}
-			/>
+			<Tooltip title="This gamemode is not supported yet." className="w-full">
+				<OptionButton
+					label="one-player"
+					icon={Account}
+					fullWidth
+					disabled
+					active={selectedGameMode === 0}
+					on:click={() => (selectedGameMode = 0)}
+				/>
+			</Tooltip>
+			<Tooltip title="This gamemode is not supported yet." className="w-full">
+				<OptionButton
+					label="online"
+					icon={Laptop}
+					fullWidth
+					disabled
+					active={selectedGameMode === 1}
+					on:click={() => (selectedGameMode = 1)}
+				/>
+			</Tooltip>
 			<OptionButton
 				label="hot-seats"
 				icon={AccountMultiple}

@@ -4,7 +4,9 @@
 	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
 	import Laptop from 'svelte-material-icons/Laptop.svelte';
 	import { OptionButton, PrimaryButton } from '$lib/components/buttons';
+	import { Dialog } from '$lib/components/Dialog';
 
+	let open = false;
 	let active = true;
 </script>
 
@@ -31,3 +33,8 @@
 	<OptionButton label="online" icon={Laptop} />
 	<OptionButton label="hot-seats" icon={AccountMultiple} />
 </div>
+<PrimaryButton label="Open dialog" fullWidth on:click={() => (open = true)} />
+
+<Dialog bind:open title="Test Dialog" subtitle="Subtitle test">
+	<p>lol</p>
+</Dialog>

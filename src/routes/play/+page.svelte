@@ -5,8 +5,10 @@
 	import { PlayerInfoBar } from '$lib/components/chess/PlayerInfoBar';
 	import { MatchScoreBar } from '$lib/components/chess/MatchScoreBar';
 	import Cog from 'svelte-material-icons/Cog.svelte';
+	import { Dialog } from '$lib/components/Dialog';
+	import { ConfigurationMenu } from '$lib/components/chess/ConfiguarionMenu';
 
-	const openConfiguration = () => {};
+	let openConfiguration = false;
 </script>
 
 <div class="flex h-full w-full flex-row justify-center gap-7 p-3 align-top">
@@ -14,7 +16,7 @@
 		<MatchScoreBar />
 		<div class="absolute bottom-[.4rem] flex w-full justify-center">
 			<button
-				on:click={openConfiguration}
+				on:click={() => (openConfiguration = true)}
 				class="text-app-black/25 transition-all ease-in hover:text-app-black/50"
 			>
 				<Cog size={24} />
@@ -28,3 +30,7 @@
 	</div>
 	<ChessInterface />
 </div>
+
+<Dialog bind:open={openConfiguration} subtitle="Configuration" title="Chess styles">
+	<ConfigurationMenu />
+</Dialog>

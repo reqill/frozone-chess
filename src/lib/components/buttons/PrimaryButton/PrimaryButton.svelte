@@ -47,6 +47,7 @@
 </script>
 
 <!-- horizontal -->
+
 <div
 	class="border-box group {center && 'mx-auto'} relative inline-flex {fullWidth
 		? 'w-full'
