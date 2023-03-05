@@ -43,11 +43,11 @@ Mind that even if feature is marked as completed it more likely means that it wo
 ### In progress :building_construction:
 
 - Pawn promotion
-- End game conditions (with surrendering)
 
 ### Planned :bookmark_tabs:
 
 - Move history
+- End game conditions (with surrendering)
 - Drawing arrows
 - Go back to certain move
 - Game preview
