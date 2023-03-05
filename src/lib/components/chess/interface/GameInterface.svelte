@@ -8,7 +8,7 @@
 
 	$: gameTime = $game.timer?.white ? Math.floor($game.timer.white / 60000) : 0;
 	$: gameIncrement = $game.increment.white ? Math.floor($game.increment.white / 1000) : 0;
-	$: gameText = gameTime > 0 ? `${gameTime} | ${gameIncrement}` : 'Unlimited';
+	$: gameText = gameTime > 0 ? `${gameTime} | ${gameIncrement}` : '';
 	$: gameMode =
 		$game.gamemode === 'hotseats'
 			? 'hot-seats'
