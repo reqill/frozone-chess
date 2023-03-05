@@ -29,11 +29,13 @@ const createGame = () => {
 
 		const interval = setInterval(() => {
 			update((game) => {
+				if (game.timer?.[game.turn] === undefined) return game;
+
 				if (game.status === 'active') {
-					game.timer[game.turn] -= 50;
+					game.timer[game.turn]! -= 50;
 				}
 
-				if (game.timer[game.turn] <= 0) {
+				if (game.timer[game.turn]! <= 0) {
 					game.status = 'timeout';
 					game.winner = game.turn === 'white' ? 'black' : 'white';
 					clearInterval(interval);
@@ -87,6 +89,9 @@ const createGame = () => {
 				game.timer.black = timer;
 				game.timer.white = timer;
 				game.timer.starting = timer;
+			} else {
+				game.timer.black = undefined;
+				game.timer.white = undefined;
 			}
 
 			if (gamemode) {
@@ -102,8 +107,8 @@ const createGame = () => {
 	};
 
 	const _changeTurn = (game: GameStoreValueType, firstMove = false) => {
-		if (!firstMove) {
-			game.timer[game.turn] += game.increment[game.turn];
+		if (!firstMove && game.timer?.[game.turn] !== undefined) {
+			game.timer[game.turn]! += game.increment[game.turn];
 		}
 		game.turn = game.turn === 'white' ? 'black' : 'white';
 

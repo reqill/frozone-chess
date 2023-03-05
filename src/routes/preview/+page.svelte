@@ -32,6 +32,7 @@
 	<OptionButton label="one-player" icon={Account} />
 	<OptionButton label="online" icon={Laptop} />
 	<OptionButton label="hot-seats" icon={AccountMultiple} />
+	<PrimaryButton fullWidth label="Blitz 5 | 2" info="hot-seats" active inactive />
 </div>
 <PrimaryButton label="Open dialog" fullWidth on:click={() => (open = true)} />
 

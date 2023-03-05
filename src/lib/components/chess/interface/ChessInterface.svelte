@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { game } from '$lib/store';
 	import { GameConfiguration } from '.';
+	import GameInterface from './GameInterface.svelte';
 </script>
 
 <section class="w-72">
@@ -8,7 +9,7 @@
 		<GameConfiguration />
 	{/if}
 	{#if $game.status !== 'setup'}
-		<p>{$game.status}</p>
+		<GameInterface />
 	{/if}
 	<!-- <p>
 		{gamemodeTimer} | {gamemodeIncremet}
