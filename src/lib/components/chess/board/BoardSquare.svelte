@@ -1,16 +1,20 @@
 <script lang="ts">
 	import type { MousePositionType } from '$lib/types/common.types';
-	import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
+	import type { Piece, PieceType, SquareInfoType } from '$lib/types/chess.types';
 	import { position, chessboard, game, configuration } from '$lib/store';
 	import { getSquareColor } from '$lib/utils';
 	import { Draggable } from '../Draggable';
 	import { ChessPiece } from '../pieces';
 	import { onDestroy } from 'svelte';
+	import { PromotionWindow } from '../PromotionWindow';
+	import { fade } from 'svelte/transition';
 
 	export let square: SquareInfoType;
 	export let piece: PieceType | undefined = undefined;
 	export let renderIndex: number;
 	let gameInterval: any = undefined;
+	$: promoting =
+		$chessboard?.pendingPromotion && $chessboard.pendingPromotion.to.index === square.index;
 
 	$: canCaptureHere =
 		$chessboard.selectedSquare &&
@@ -57,7 +61,7 @@
 	};
 
 	const onPieceUp = (e: CustomEvent<MousePositionType>) => {
-		chessboard.startDrag(square, e.detail);
+		chessboard.startDrag(square, e.detail, piece);
 	};
 
 	const onPieceMove = (e: CustomEvent<MousePositionType>) => {
@@ -67,11 +71,15 @@
 	const onSquareClick = (e: MouseEvent) => {
 		if (e.button !== 0) return;
 
-		chessboard.selectSquare(square);
+		chessboard.selectSquare(square, piece);
 	};
 
 	const onPieceRightClick = () => {
 		chessboard.highlight(square);
+	};
+
+	const onPromotion = ({ detail }: CustomEvent<Piece>) => {
+		chessboard.promote(detail);
 	};
 
 	onDestroy(() => {
@@ -109,6 +117,18 @@
 		</p>
 	{/if}
 
+	{#if promoting}
+		<div
+			in:fade={{ duration: 125 }}
+			out:fade={{ duration: 125 }}
+			class="absolute left-0 right-0 {$chessboard.viewSide === $game.turn
+				? 'top-0'
+				: 'bottom-0'} z-40"
+		>
+			<PromotionWindow side={$game.turn} on:promotion={onPromotion} />
+		</div>
+	{/if}
+
 	{#if $configuration.showTileLabels}
 		<div
 			class={`absolute top-[50%] flex h-full w-full -translate-y-[48%] flex-col justify-center text-center opacity-20 `}
@@ -122,9 +142,9 @@
 	{#if piece}
 		<Draggable
 			boundaries={$chessboard.boundaries}
-			on:piecedown={onPieceDown}
-			on:pieceup={onPieceUp}
-			on:piecemove={onPieceMove}
+			on:piecedown={() => onPieceDown()}
+			on:pieceup={(e) => onPieceUp(e)}
+			on:piecemove={(e) => onPieceMove(e)}
 		>
 			<ChessPiece {piece} />
 		</Draggable>

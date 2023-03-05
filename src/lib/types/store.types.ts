@@ -91,8 +91,10 @@ export type ChessBoardStoreValueType = {
 	selectedSquare: SquareInfoType | null;
 	intersectedSquare: SquareInfoType | null;
 	isDragging: boolean;
+	pendingPromotion: { from: SquareInfoType; to: SquareInfoType } | null;
 	viewSide: Side;
 	squares: SquareInfoType[];
+	selectedPiece: PieceType | null;
 };
 
 export type ConfigurationStoreValueType = {

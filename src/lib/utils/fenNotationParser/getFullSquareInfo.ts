@@ -9,6 +9,8 @@ export const getFullSquareInfo = (info: string | number): SquareInfoType | null 
 
 		return { index, code: info };
 	} else if (typeof info === 'number') {
+		if (info < 0 || info > 63) return null;
+
 		const file = String.fromCharCode(97 + (info % 8));
 		const rank = 8 - Math.floor(info / 8);
 		const code = `${file}${rank}`;
