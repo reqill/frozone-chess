@@ -94,6 +94,7 @@ export type ChessBoardStoreValueType = {
 	pendingPromotion: { from: SquareInfoType; to: SquareInfoType } | null;
 	viewSide: Side;
 	squares: SquareInfoType[];
+	selectedPiece: PieceType | null;
 };
 
 export type ConfigurationStoreValueType = {

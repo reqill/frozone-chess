@@ -2,7 +2,7 @@ import { DEFAULT_CHESSBOARD_STATE } from '$lib/constants/store.constants';
 import { writable } from 'svelte/store';
 import type { ChessBoardStoreValueType } from '$lib/types/store.types';
 import { getSquareBoundaries } from '$lib/utils/getSquareBoundaries';
-import type { Piece, SquareInfoType } from '$lib/types/chess.types';
+import type { Piece, PieceType, SquareInfoType } from '$lib/types/chess.types';
 import type { MousePositionType } from '$lib/types/common.types';
 import { game } from './game';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
@@ -54,10 +54,14 @@ const createChessBoard = () => {
 		});
 	};
 
-	const startDrag = (square: SquareInfoType, { x, y }: MousePositionType) => {
+	const startDrag = (square: SquareInfoType, { x, y }: MousePositionType, piece?: PieceType) => {
 		update((chessboard) => {
 			chessboard.selectedSquare = square;
 			chessboard.isDragging = true;
+
+			if (piece) {
+				chessboard.selectedPiece = piece;
+			}
 
 			return chessboard;
 		});
@@ -65,40 +69,63 @@ const createChessBoard = () => {
 		onDrag(square, { x, y });
 	};
 
-	const stopDrag = (piece?: Piece) => {
+	const stopDrag = () => {
 		update((chessboard) => {
-			if (!chessboard.isDragging || !chessboard.selectedSquare) return chessboard;
+			if (
+				!chessboard.isDragging ||
+				!chessboard.selectedSquare ||
+				!chessboard.selectedPiece?.meta.possibleMoves.some(
+					(move) => move.index === chessboard.intersectedSquare?.index
+				)
+			)
+				return chessboard;
 
-			// if (piece === "pawn" && chessboard.intersectedSquare && (chessboard.intersectedSquare?.index >= 56 || chessboard.intersectedSquare?.index <= 7)) {
-			// 	console.log("should enable promotion on move from", chessboard.selectedSquare, "to", chessboard.intersectedSquare)
-			// 	// chessboard.pendingPromotion = { from: chessboard.selectedSquare, to: chessboard.intersectedSquare };
-			// } else {
-			game.move(chessboard.selectedSquare, chessboard.intersectedSquare);
-			// }
+			if (
+				chessboard.selectedPiece &&
+				chessboard.selectedPiece.type === 'pawn' &&
+				chessboard.intersectedSquare &&
+				(chessboard.intersectedSquare?.index >= 56 || chessboard.intersectedSquare?.index <= 7)
+			) {
+				chessboard.pendingPromotion = {
+					from: chessboard.selectedSquare,
+					to: chessboard.intersectedSquare,
+				};
+			} else {
+				game.move(chessboard.selectedSquare, chessboard.intersectedSquare);
+			}
 
 			chessboard.selectedSquare = null;
 			chessboard.dragPosition = { x: 0, y: 0 };
 			chessboard.isDragging = false;
+			chessboard.selectedPiece = null;
 
 			return chessboard;
 		});
 	};
 
-	const selectSquare = (square: SquareInfoType, piece?: Piece) => {
+	const selectSquare = (square: SquareInfoType, piece?: PieceType) => {
 		update((chessboard) => {
 			if (chessboard.selectedSquare && !chessboard.isDragging) {
-				// if (piece === "pawn" && (square.index >= 56 || square.index <= 7)) {
-				// 	console.log("should enable promotion on move from", chessboard.selectedSquare, "to", square)
-				// 	// chessboard.pendingPromotion = { from: chessboard.selectedSquare, to: square };
-				// } else {
-				game.move(chessboard.selectedSquare, square);
-				// }
-
+				if (
+					chessboard.selectedPiece &&
+					chessboard.selectedPiece.type === 'pawn' &&
+					(square.index >= 56 || square.index <= 7)
+				) {
+					chessboard.pendingPromotion = { from: chessboard.selectedSquare, to: square };
+				} else {
+					game.move(chessboard.selectedSquare, square);
+				}
+				chessboard.selectedPiece = null;
 				chessboard.selectedSquare = null;
 				chessboard.dragPosition = { x: 0, y: 0 };
 				chessboard.isDragging = false;
 			} else {
 				chessboard.selectedSquare = square;
+				chessboard.isDragging = false;
+
+				if (piece) {
+					chessboard.selectedPiece = piece;
+				}
 			}
 
 			return chessboard;
@@ -164,6 +191,7 @@ const createChessBoard = () => {
 	const clearSelection = () => {
 		update((chessboard) => {
 			chessboard.selectedSquare = null;
+			chessboard.selectedPiece = null;
 			chessboard.intersectedSquare = null;
 			chessboard.isDragging = false;
 
@@ -172,17 +200,24 @@ const createChessBoard = () => {
 	};
 
 	const promote = (piece: Piece) => {
-		// update((chessboard) => {
-		// 	if (!chessboard.pendingPromotion) return chessboard;
-		// 	game.move(chessboard.pendingPromotion.from, chessboard.pendingPromotion.to, piece);
-		// 	chessboard.pendingPromotion = null;
-		// 	return chessboard;
-		// });
+		update((chessboard) => {
+			if (!chessboard.pendingPromotion) return chessboard;
+
+			game.move(chessboard.pendingPromotion.from, chessboard.pendingPromotion.to, piece);
+			chessboard.pendingPromotion = null;
+			chessboard.selectedSquare = null;
+			chessboard.selectedPiece = null;
+			chessboard.dragPosition = { x: 0, y: 0 };
+			chessboard.isDragging = false;
+
+			return chessboard;
+		});
 	};
 
 	const clearOverlays = () => {
 		update((chessboard) => {
 			chessboard.selectedSquare = null;
+			chessboard.selectedPiece = null;
 			chessboard.dragPosition = { x: 0, y: 0 };
 			chessboard.isDragging = false;
 			chessboard.intersectedSquare = null;
@@ -202,7 +237,6 @@ const createChessBoard = () => {
 			}
 
 			chessboard.squares = chessboard.squares.reverse();
-			chessboard.squareBoundaries = getSquareBoundaries(chessboard.boundaries, true);
 
 			return chessboard;
 		});

@@ -22,7 +22,7 @@ export const pawn = (
 	const pieceInFront2 = positions.get(
 		getFullSquareInfo(
 			position.index +
-				(side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_UP)
+				(side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_DOWN)
 		)!
 	);
 	const captureLeft =
@@ -30,7 +30,7 @@ export const pawn = (
 			? positions.get(
 					getFullSquareInfo(
 						position.index +
-							(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT)
+							(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
 					)!
 			  )
 			: 'NOT_VALID';
@@ -39,7 +39,7 @@ export const pawn = (
 			? positions.get(
 					getFullSquareInfo(
 						position.index +
-							(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
+							(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_LEFT)
 					)!
 			  )
 			: 'NOT_VALID';
@@ -48,38 +48,44 @@ export const pawn = (
 	const attackMoves: SquareInfoType[] = [];
 
 	if (firstMove && !pieceInFront && !pieceInFront2) {
-		possibleMoves.push(
-			getFullSquareInfo(
-				position.index +
-					(side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_DOWN)
-			)!
+		const move = getFullSquareInfo(
+			position.index +
+				(side === 'white' ? MOVE_INDEX_CHANGE.DOUBLE_UP : MOVE_INDEX_CHANGE.DOUBLE_DOWN)
 		);
+
+		// if (!move) throw new Error('Move is not defined: ' + move);
+
+		possibleMoves.push(move!);
 	}
 
 	if (!pieceInFront) {
-		possibleMoves.push(
-			getFullSquareInfo(
-				position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
-			)!
+		const move = getFullSquareInfo(
+			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP : MOVE_INDEX_CHANGE.DOWN)
 		);
+
+		// if (!move) throw new Error('Move is not defined: ' + move);
+
+		possibleMoves.push(move!);
 	}
 
 	if (captureLeft && captureLeft !== 'NOT_VALID' && captureLeft.side !== side) {
-		attackMoves.push(
-			getFullSquareInfo(
-				position.index +
-					(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT)
-			)!
+		const move = getFullSquareInfo(
+			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
 		);
+
+		// if (!move) throw new Error('Move is not defined: ' + move);
+
+		attackMoves.push(move!);
 	}
 
 	if (captureRight && captureRight !== 'NOT_VALID' && captureRight.side !== side) {
-		attackMoves.push(
-			getFullSquareInfo(
-				position.index +
-					(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
-			)!
+		const move = getFullSquareInfo(
+			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_LEFT)
 		);
+
+		// if (!move) throw new Error('Move is not defined: ' + move);
+
+		attackMoves.push(move!);
 	}
 
 	if (enPassant && position.index >= 24 && position.index <= 31 && side === 'white') {
@@ -92,8 +98,12 @@ export const pawn = (
 
 	possibleMoves.push(...attackMoves);
 
-	possibleMoves.filter((item, index) => possibleMoves.indexOf(item) === index && isInRange(item));
-	attackMoves.filter((item, index) => attackMoves.indexOf(item) === index && isInRange(item));
+	possibleMoves.filter(
+		(item, index) => possibleMoves.indexOf(item) === index && item && isInRange(item)
+	);
+	attackMoves.filter(
+		(item, index) => attackMoves.indexOf(item) === index && item && isInRange(item)
+	);
 
 	return { possibleMoves, attackMoves };
 };

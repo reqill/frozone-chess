@@ -57,11 +57,11 @@
 		(renderIndex === 63 && 'bottom-right');
 
 	const onPieceDown = () => {
-		chessboard.stopDrag(piece?.type);
+		chessboard.stopDrag();
 	};
 
 	const onPieceUp = (e: CustomEvent<MousePositionType>) => {
-		chessboard.startDrag(square, e.detail);
+		chessboard.startDrag(square, e.detail, piece);
 	};
 
 	const onPieceMove = (e: CustomEvent<MousePositionType>) => {
@@ -71,7 +71,7 @@
 	const onSquareClick = (e: MouseEvent) => {
 		if (e.button !== 0) return;
 
-		chessboard.selectSquare(square, piece?.type);
+		chessboard.selectSquare(square, piece);
 	};
 
 	const onPieceRightClick = () => {
@@ -79,7 +79,6 @@
 	};
 
 	const onPromotion = ({ detail }: CustomEvent<Piece>) => {
-		console.log('promote to: ', detail);
 		chessboard.promote(detail);
 	};
 
@@ -143,9 +142,9 @@
 	{#if piece}
 		<Draggable
 			boundaries={$chessboard.boundaries}
-			on:piecedown={onPieceDown}
-			on:pieceup={onPieceUp}
-			on:piecemove={onPieceMove}
+			on:piecedown={() => onPieceDown()}
+			on:pieceup={(e) => onPieceUp(e)}
+			on:piecemove={(e) => onPieceMove(e)}
 		>
 			<ChessPiece {piece} />
 		</Draggable>

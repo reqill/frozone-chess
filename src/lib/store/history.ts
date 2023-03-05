@@ -38,6 +38,7 @@ const createHistory = () => {
 				history.captured.set(history.captured.size, newCapturedInfo);
 			}
 
+			console.log('new history', history);
 			game.updateHistory(history);
 
 			return history;
