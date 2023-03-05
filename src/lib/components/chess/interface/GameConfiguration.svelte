@@ -25,7 +25,11 @@
 	$: !!selectedTimer && game.setup({ ...timerOptions[selectedTimer] });
 
 	const endSetup = () => {
-		if (!selectedTimer || !selectedGameMode || gameModeOptions[selectedGameMode] !== 'hotseats')
+		if (
+			selectedTimer === undefined ||
+			selectedGameMode === undefined ||
+			gameModeOptions[selectedGameMode] !== 'hotseats'
+		)
 			return;
 
 		game.setup(

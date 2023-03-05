@@ -468,6 +468,7 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 	isDragging: false,
 	viewSide: 'white',
 	squares: SQUARES,
+	pendingPromotion: null,
 };
 
 export const DEFAULT_CONFIGURATION: ConfigurationStoreValueType = {

@@ -1,16 +1,20 @@
 <script lang="ts">
 	import type { MousePositionType } from '$lib/types/common.types';
-	import type { PieceType, SquareInfoType } from '$lib/types/chess.types';
+	import type { Piece, PieceType, SquareInfoType } from '$lib/types/chess.types';
 	import { position, chessboard, game, configuration } from '$lib/store';
 	import { getSquareColor } from '$lib/utils';
 	import { Draggable } from '../Draggable';
 	import { ChessPiece } from '../pieces';
 	import { onDestroy } from 'svelte';
+	import { PromotionWindow } from '../PromotionWindow';
+	import { fade } from 'svelte/transition';
 
 	export let square: SquareInfoType;
 	export let piece: PieceType | undefined = undefined;
 	export let renderIndex: number;
 	let gameInterval: any = undefined;
+	$: promoting =
+		$chessboard?.pendingPromotion && $chessboard.pendingPromotion.to.index === square.index;
 
 	$: canCaptureHere =
 		$chessboard.selectedSquare &&
@@ -53,7 +57,7 @@
 		(renderIndex === 63 && 'bottom-right');
 
 	const onPieceDown = () => {
-		chessboard.stopDrag();
+		chessboard.stopDrag(piece?.type);
 	};
 
 	const onPieceUp = (e: CustomEvent<MousePositionType>) => {
@@ -67,11 +71,16 @@
 	const onSquareClick = (e: MouseEvent) => {
 		if (e.button !== 0) return;
 
-		chessboard.selectSquare(square);
+		chessboard.selectSquare(square, piece?.type);
 	};
 
 	const onPieceRightClick = () => {
 		chessboard.highlight(square);
+	};
+
+	const onPromotion = ({ detail }: CustomEvent<Piece>) => {
+		console.log('promote to: ', detail);
+		chessboard.promote(detail);
 	};
 
 	onDestroy(() => {
@@ -107,6 +116,18 @@
 		>
 			{square.code[1]}
 		</p>
+	{/if}
+
+	{#if promoting}
+		<div
+			in:fade={{ duration: 125 }}
+			out:fade={{ duration: 125 }}
+			class="absolute left-0 right-0 {$chessboard.viewSide === $game.turn
+				? 'top-0'
+				: 'bottom-0'} z-40"
+		>
+			<PromotionWindow side={$game.turn} on:promotion={onPromotion} />
+		</div>
 	{/if}
 
 	{#if $configuration.showTileLabels}
