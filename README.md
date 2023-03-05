@@ -34,16 +34,16 @@ Mind that even if feature is marked as completed it more likely means that it wo
 - En passant mechanics
 - FEN notation support
 - Board flip
+- Game clock with increments
+- Captured pieces
+- Game configuration / setup
+- Game UI
+- Pausing game
 
 ### In progress :building_construction:
 
-- Game clock with increments
--
-- Captured pieces
-- Game configuration / setup
-- Pausing game
+- Pawn promotion
 - End game conditions (with surrendering)
-- Game UI
 
 ### Planned :bookmark_tabs:
 
@@ -52,7 +52,6 @@ Mind that even if feature is marked as completed it more likely means that it wo
 - Go back to certain move
 - Game preview
 - Starting game from given position
-- Pawn promotion
 - Export game FEN and move history
 - Portal UI
 - Chess engine AI
