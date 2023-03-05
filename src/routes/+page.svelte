@@ -9,10 +9,6 @@
 </svelte:head>
 
 <div class="mx-auto mt-10 flex w-64 flex-col gap-2">
-	<PrimaryButton label="Play" fullWidth on:click={() => setTimeout(() => goto('/play'), 100)} />
-	<PrimaryButton
-		label="Preview"
-		fullWidth
-		on:click={() => setTimeout(() => goto('/preview'), 100)}
-	/>
+	<PrimaryButton label="Play" fullWidth on:click={() => goto('/play')} />
+	<PrimaryButton label="Preview" fullWidth on:click={() => goto('/preview')} />
 </div>

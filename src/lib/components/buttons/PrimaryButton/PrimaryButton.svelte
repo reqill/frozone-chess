@@ -3,9 +3,11 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let label = '';
+	export let label: string | undefined = undefined;
+	export let info: undefined | string = undefined;
 	export let icon: SVGElement | any | undefined = undefined;
 	export let iconPlacement: 'left' | 'right' = 'left';
+	export let narrow = false;
 
 	export let disabled = false;
 	export let inactive = false;
@@ -56,20 +58,37 @@
 	<button
 		on:click={handleClick}
 		{disabled}
-		class="relative {inactive &&
-			'pointer-events-none'} my-1 mx-1 inline-flex w-full justify-center whitespace-nowrap py-[.85rem] px-7 align-middle {buttonStyles} btn-base"
+		class="relative {inactive && 'pointer-events-none'} my-1 mx-1 inline-flex {label
+			? 'py-[.85rem] '
+			: 'py-[.975rem] '} w-full justify-center whitespace-nowrap
+			 {narrow ? 'px-[1.15rem]' : 'px-7'} align-middle {buttonStyles} btn-base"
 	>
 		{#if icon && iconPlacement === 'left'}
-			<span class="btn-icon" data-placement="left">
+			<span
+				class="{info && '-mt-[.35rem] mb-[.35rem]'} {label && 'mr-2 -ml-1'} btn-icon btn-label"
+				data-placement="left"
+			>
 				<svelte:component this={icon} size={28} />
 			</span>
 		{/if}
 
-		<span class="btn-label">{label}</span>
+		{#if label}
+			<span class="btn-label {info && '-mt-[.35rem] mb-[.35rem]'}">{label}</span>
+		{/if}
 
 		{#if icon && iconPlacement === 'right'}
-			<span class="btn-icon btn-label" data-placement="right">
+			<span
+				class=" {info && '-mt-[.35rem] mb-[.35rem]'} {label && 'ml-2 mr-1'} btn-icon btn-label"
+				data-placement="right"
+			>
 				<svelte:component this={icon} size={28} />
+			</span>
+		{/if}
+		{#if info}
+			<span
+				class="absolute right-0 left-0 bottom-[.45rem] text-center font-test text-[.7rem] font-bold uppercase leading-3"
+			>
+				{info}
 			</span>
 		{/if}
 	</button>
@@ -83,14 +102,6 @@
 
 	.btn-icon {
 		@apply m-auto inline-block justify-center stroke-[3] align-middle;
-	}
-
-	.btn-icon[data-placement='left'] {
-		@apply mr-2 -ml-1;
-	}
-
-	.btn-icon[data-placement='right'] {
-		@apply ml-2 mr-1;
 	}
 
 	.btn-label {

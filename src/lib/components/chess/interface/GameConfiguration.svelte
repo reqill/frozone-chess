@@ -16,7 +16,7 @@
 		{ timer: 600_000, increment: 0 },
 		{ timer: 120_000, increment: 1_000 },
 		{ timer: 1_200_000, increment: 15_000 },
-		{ timer: 39_999_999, increment: 60_000 },
+		{ timer: undefined, increment: 0 },
 	];
 
 	let selectedGameMode: undefined | number = undefined;

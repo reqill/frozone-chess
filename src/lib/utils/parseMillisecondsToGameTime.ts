@@ -1,4 +1,6 @@
-export const parseMillisecondsToGameTime = (milliseconds: number): string => {
+export const parseMillisecondsToGameTime = (milliseconds?: number): string => {
+	if (milliseconds === undefined) return '0:00';
+
 	const minutes = Math.floor(milliseconds / 60000);
 	const seconds = Math.floor((milliseconds % 60000) / 1000);
 	const ms = Math.floor((milliseconds % 1000) / 10);
