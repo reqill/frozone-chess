@@ -42,7 +42,7 @@ Mind that even if feature is marked as completed it more likely means that it wo
 
 ### In progress :building_construction:
 
-- Pawn promotion
+You can check out progress on [this board](https://github.com/users/reqill/projects/2)
 
 ### Planned :bookmark_tabs:
 
