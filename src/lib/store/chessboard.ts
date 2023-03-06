@@ -90,7 +90,7 @@ const createChessBoard = () => {
 					from: chessboard.selectedSquare,
 					to: chessboard.intersectedSquare,
 				};
-			} else {
+			} else if (!chessboard?.pendingPromotion) {
 				game.move(chessboard.selectedSquare, chessboard.intersectedSquare);
 			}
 
@@ -112,9 +112,10 @@ const createChessBoard = () => {
 					(square.index >= 56 || square.index <= 7)
 				) {
 					chessboard.pendingPromotion = { from: chessboard.selectedSquare, to: square };
-				} else {
+				} else if (!chessboard?.pendingPromotion) {
 					game.move(chessboard.selectedSquare, square);
 				}
+
 				chessboard.selectedPiece = null;
 				chessboard.selectedSquare = null;
 				chessboard.dragPosition = { x: 0, y: 0 };
