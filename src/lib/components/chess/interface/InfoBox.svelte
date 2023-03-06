@@ -9,7 +9,7 @@
 	{/if}
 	<div
 		style={label ? 'height: calc(100% - 1.25rem)' : 'height: 100%;'}
-		class="rounded-md border-2 border-gray-500/10 bg-app-white py-2 px-3"
+		class="rounded-md border-2 border-gray-500/10 bg-app-white"
 	>
 		<slot />
 	</div>

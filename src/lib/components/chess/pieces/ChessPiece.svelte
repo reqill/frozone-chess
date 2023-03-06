@@ -5,18 +5,20 @@
 	import { WhitePiece } from './white';
 
 	export let piece: Pick<PieceType, 'type' | 'side'>;
+	export let overridePadding: string | undefined = undefined;
 
 	const pieces = {
 		black: BlackPiece,
 		white: WhitePiece,
 	};
 
-	$: size =
-		$configuration.pieceSize === 'large'
-			? 'p-[.15rem]'
-			: $configuration.pieceSize === 'medium'
-			? 'p-1'
-			: 'p-[.4rem]';
+	$: size = overridePadding
+		? overridePadding
+		: $configuration.pieceSize === 'large'
+		? 'p-[.15rem]'
+		: $configuration.pieceSize === 'medium'
+		? 'p-1'
+		: 'p-[.4rem]';
 </script>
 
 <div class="pointer-events-none cursor-none select-none {size}">
