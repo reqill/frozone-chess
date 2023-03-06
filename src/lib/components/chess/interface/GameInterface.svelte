@@ -1,10 +1,11 @@
 <script lang="ts">
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton/PrimaryButton.svelte';
-	import { game } from '$lib/store';
+	import { chessboard, game } from '$lib/store';
 	import Flag from 'svelte-material-icons/Flag.svelte';
 	import Restore from 'svelte-material-icons/Restore.svelte';
 	import FractionOneHalf from 'svelte-material-icons/FractionOneHalf.svelte';
 	import InfoBox from './InfoBox.svelte';
+	import CapturedPieces from './CapturedPieces.svelte';
 
 	$: gameTime = $game.timer?.white ? Math.floor($game.timer.white / 60000) : 0;
 	$: gameIncrement = $game.increment.white ? Math.floor($game.increment.white / 1000) : 0;
@@ -26,7 +27,10 @@
 
 	<div class="flex grow gap-3 px-1 py-3">
 		<InfoBox label="Move history" />
-		<InfoBox label="Captured" width="w-3/5" />
+		<InfoBox label="Captured" width="w-3/5">
+			<CapturedPieces side={$chessboard.viewSide === 'white' ? 'black' : 'white'} placement="top" />
+			<CapturedPieces side={$chessboard.viewSide} placement="bottom" />
+		</InfoBox>
 	</div>
 	<PrimaryButton
 		fullWidth

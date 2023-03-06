@@ -9,8 +9,10 @@ const createCaptured = () => {
 
 	const capturePiece = (piece: Omit<PieceType, 'position'>) => {
 		update((captured) => {
-			captured[piece.side].value += piece.meta.value;
-			captured[piece.side].pieces.push(piece);
+			const oppositeSide = piece.side === 'white' ? 'black' : 'white';
+
+			captured[oppositeSide].value += piece.meta.value;
+			captured[oppositeSide].pieces.push(piece);
 
 			game.updateCaptured(captured);
 
