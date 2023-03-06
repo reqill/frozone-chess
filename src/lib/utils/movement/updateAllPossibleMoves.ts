@@ -86,6 +86,20 @@ export const updateAllPossibleMoves = (
 		let possibleMoves = Array.from(piece.meta.possibleMoves);
 
 		possibleMoves = possibleMoves.filter((move) => {
+			const isChecked = isKingInCheck(positions, piece.side);
+
+			if (
+				isChecked &&
+				piece.type === 'king' &&
+				(move.index === square.index + 2 || move.index === square.index - 2)
+			) {
+				return false;
+			}
+
+			return true;
+		});
+
+		possibleMoves = possibleMoves.filter((move) => {
 			const simulationCopy = new StringifiedMap(
 				JSON.parse(JSON.stringify(Array.from(positions)))
 			) as PositionStoreValueType;
