@@ -13,11 +13,13 @@
 	export let piece: PieceType | undefined = undefined;
 	export let renderIndex: number;
 	let gameInterval: any = undefined;
+
 	$: promoting =
 		$chessboard?.pendingPromotion && $chessboard.pendingPromotion.to.index === square.index;
 
 	$: canCaptureHere =
 		$chessboard.selectedSquare &&
+		!$chessboard?.pendingPromotion &&
 		$chessboard.selectedSquare.index !== square.index &&
 		$position
 			.get($chessboard.selectedSquare)
@@ -25,6 +27,7 @@
 
 	$: canMoveHere =
 		$chessboard.selectedSquare &&
+		!$chessboard?.pendingPromotion &&
 		($game.status === 'active' || $game.status === 'pre-game') &&
 		$chessboard.selectedSquare.index !== square.index &&
 		$position
@@ -89,7 +92,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class={`square relative ${shouldShowOutline && 'z-50 ring-4 ring-inset ring-opacity-50'} ${
+	class={`square relative ${shouldShowOutline && 'z-30 ring-4 ring-inset ring-opacity-50'} ${
 		ring[squareColor]
 	}`}
 	style={`background-color: ${

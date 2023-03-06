@@ -30,7 +30,7 @@ export const pawn = (
 			? positions.get(
 					getFullSquareInfo(
 						position.index +
-							(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
+							(side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT)
 					)!
 			  )
 			: 'NOT_VALID';
@@ -39,7 +39,7 @@ export const pawn = (
 			? positions.get(
 					getFullSquareInfo(
 						position.index +
-							(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_LEFT)
+							(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
 					)!
 			  )
 			: 'NOT_VALID';
@@ -70,7 +70,7 @@ export const pawn = (
 
 	if (captureLeft && captureLeft !== 'NOT_VALID' && captureLeft.side !== side) {
 		const move = getFullSquareInfo(
-			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
+			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP_LEFT : MOVE_INDEX_CHANGE.DOWN_LEFT)
 		);
 
 		// if (!move) throw new Error('Move is not defined: ' + move);
@@ -80,7 +80,8 @@ export const pawn = (
 
 	if (captureRight && captureRight !== 'NOT_VALID' && captureRight.side !== side) {
 		const move = getFullSquareInfo(
-			position.index + (side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_LEFT)
+			position.index +
+				(side === 'white' ? MOVE_INDEX_CHANGE.UP_RIGHT : MOVE_INDEX_CHANGE.DOWN_RIGHT)
 		);
 
 		// if (!move) throw new Error('Move is not defined: ' + move);
