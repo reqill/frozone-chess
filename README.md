@@ -39,6 +39,7 @@ Mind that even if feature is marked as completed it more likely means that it wo
 - Game configuration / setup
 - Game UI
 - Pausing game
+- Move history
 
 ### In progress :building_construction:
 
@@ -46,14 +47,12 @@ You can check out progress on [this board](https://github.com/users/reqill/proje
 
 ### Planned :bookmark_tabs:
 
-- Move history
 - End game conditions (with surrendering)
 - Drawing arrows
 - Go back to certain move
 - Game preview
 - Starting game from given position
 - Export game FEN and move history
-- Portal UI
 - Chess engine AI
 - Game synchronization
 - Dark theme
