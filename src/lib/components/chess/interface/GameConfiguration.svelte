@@ -46,7 +46,7 @@
 		<h6 class="-mb-1 mt-1 pl-1 font-normal">Game type</h6>
 
 		<div class="flex flex-row">
-			<Tooltip title="This gamemode is not supported yet." className="w-full">
+			<Tooltip title="This gamemode is not supported yet" className="w-full">
 				<OptionButton
 					label="one-player"
 					icon={Account}
@@ -56,7 +56,7 @@
 					on:click={() => (selectedGameMode = 0)}
 				/>
 			</Tooltip>
-			<Tooltip title="This gamemode is not supported yet." className="w-full">
+			<Tooltip title="This gamemode is not supported yet" className="w-full">
 				<OptionButton
 					label="online"
 					icon={Laptop}
@@ -130,11 +130,17 @@
 	</div>
 
 	<div class="pb-[.05rem]">
-		<PrimaryButton
-			label="Play"
-			fullWidth
-			on:click={endSetup}
-			disabled={selectedTimer === undefined || selectedGameMode === undefined}
-		/>
+		<Tooltip
+			title="Please finish creating your game before playing"
+			className="w-full"
+			disabled={selectedTimer !== undefined && selectedGameMode !== undefined}
+		>
+			<PrimaryButton
+				label="Play"
+				fullWidth
+				on:click={endSetup}
+				disabled={selectedTimer === undefined || selectedGameMode === undefined}
+			/>
+		</Tooltip>
 	</div>
 </div>

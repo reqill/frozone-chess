@@ -7,6 +7,7 @@ import type {
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
 } from '$lib/types/store.types';
+import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
 import { updateAllPossibleMoves } from '$lib/utils/movement';
 import { DEFAULT_INCREMENT, DEFAULT_TIMERS, SQUARES, STARTING_FEN } from './chess.constants';
 import { DEFAULT_CASTLING_RIGHTS } from './chess.constants';
@@ -425,7 +426,7 @@ export const DEFAULT_CAPTURED: CapturedStoreValueType = {
 
 export const DEFAULT_HISTORY: MoveHistoryStoreValueType = {
 	moves: new Map([]),
-	positions: new Map([[0, DEFAULT_POSITION]]),
+	positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
 	captured: new Map([]),
 };
 

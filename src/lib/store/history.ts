@@ -3,22 +3,46 @@ import type { MoveHistoryStoreValueType, PositionStoreValueType } from '$lib/typ
 import { getMoveNotation } from '$lib/utils';
 import { writable } from 'svelte/store';
 import { position } from './position';
-import type { PieceType } from '$lib/types/chess.types';
+import type { Piece, PieceType, SquareInfoType } from '$lib/types/chess.types';
 import { captured } from './captured';
 import { game } from './game';
+import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
 
 const createHistory = () => {
 	const { subscribe, set, update } = writable<MoveHistoryStoreValueType>(DEFAULT_HISTORY);
 
-	const addToHistory = (newPositions: PositionStoreValueType, captured?: PieceType) => {
+	const addToHistory = (
+		newPositions: PositionStoreValueType,
+		meta: {
+			startSquare: SquareInfoType;
+			endSquare: SquareInfoType;
+			capture?: PieceType | null;
+			promotion?: Piece | null;
+			check: boolean;
+			castling?: 'kingside' | 'queenside' | null;
+			checkmate: boolean;
+			draw: boolean;
+			win?: 'white' | 'black' | null;
+		}
+	) => {
 		update((history) => {
-			const move = getMoveNotation(newPositions, history.positions.get(history.positions.size - 1));
+			const move = getMoveNotation(meta.startSquare, meta.endSquare, {
+				newPositions,
+				oldPositions: history.positions.get(history.positions.size - 1),
+				captured: meta.capture,
+				promotion: meta.promotion,
+				check: meta.check,
+				castling: meta.castling,
+				checkmate: meta.checkmate,
+				draw: meta.draw,
+				win: meta.win,
+			});
 
 			history.moves.set(history.moves.size, move);
-			history.positions.set(history.positions.size, newPositions);
+			history.positions.set(history.positions.size, copyStringifiedMap(newPositions));
 
-			if (captured) {
-				const side = captured.side;
+			if (meta.capture) {
+				const side = meta.capture.side;
 				const lastCapture = history.captured.get(history.captured.size - 1);
 
 				const newCapturedInfo = {
@@ -32,13 +56,13 @@ const createHistory = () => {
 					},
 				};
 
-				newCapturedInfo[side].value += captured.meta.value;
-				newCapturedInfo[side].pieces.push(captured);
+				newCapturedInfo[side].value += meta.capture.meta.value;
+				newCapturedInfo[side].pieces.push(meta.capture);
 
 				history.captured.set(history.captured.size, newCapturedInfo);
 			}
 
-			console.log('new history', history);
+			console.log(move);
 			game.updateHistory(history);
 
 			return history;

@@ -9,9 +9,12 @@ import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInf
 import { game } from './game';
 import { updateAllPossibleMoves } from '$lib/utils/movement';
 import type { PieceMoveMetaType } from '$lib/types/utils.types';
+import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
 
 const createPosition = () => {
-	const { subscribe, set, update } = writable<PositionStoreValueType>(DEFAULT_POSITION);
+	const { subscribe, set, update } = writable<PositionStoreValueType>(
+		copyStringifiedMap(DEFAULT_POSITION)
+	);
 
 	const move = (
 		startPos: SquareInfoType,
@@ -47,6 +50,7 @@ const createPosition = () => {
 			}
 
 			position.set(endPos, piece);
+			let castling: null | 'kingside' | 'queenside' = null;
 
 			// Handle castling
 			if (piece.type === 'king') {
@@ -62,6 +66,7 @@ const createPosition = () => {
 						rook.position = getFullSquareInfo(startPos.index + 1)!;
 						position.set(rook.position, rook);
 						position.delete(rookKingSideSquare);
+						castling = 'kingside';
 					}
 				} else if (kingMove === -2) {
 					const rook = position.get(rookQueenSideSquare);
@@ -71,9 +76,12 @@ const createPosition = () => {
 						rook.position = getFullSquareInfo(startPos.index - 1)!;
 						position.set(rook.position, rook);
 						position.delete(rookQueenSideSquare);
+						castling = 'queenside';
 					}
 				}
 			}
+
+			let enPassantCapture = null;
 
 			// Handle en passant
 			if (
@@ -84,7 +92,7 @@ const createPosition = () => {
 				const enPassantSquare = getFullSquareInfo(endPos.index + (piece.side === 'white' ? 8 : -8));
 				if (!enPassantSquare) throw new Error('En passant square is out of range');
 
-				const enPassantCapture = position.get(enPassantSquare);
+				enPassantCapture = position.get(enPassantSquare);
 
 				if (enPassantCapture) {
 					captured.capture(enPassantCapture);
@@ -93,7 +101,7 @@ const createPosition = () => {
 			}
 
 			// Update possible moves / attacks (with exclusion of moves that would cause check)
-			position = updateAllPossibleMoves(position, meta);
+			position = updateAllPossibleMoves(position, meta, false);
 
 			// Check if move caused check
 			let didMoveCausedCheck = false;
@@ -102,7 +110,11 @@ const createPosition = () => {
 			)?.[0];
 
 			position.forEach((piece) => {
-				if (piece.meta.possibleMoves?.find((move) => move.index === enemyKingSquare?.index)) {
+				const pieceAttack = piece.meta.attackMoves.find(
+					(move) => move.index === enemyKingSquare?.index
+				);
+
+				if (pieceAttack) {
 					didMoveCausedCheck = true;
 				}
 			});
@@ -113,7 +125,26 @@ const createPosition = () => {
 				game.resetCheck();
 			}
 
-			history.add(position, capture);
+			history.add(position, {
+				startSquare: startPos,
+				endSquare: endPos,
+				promotion: promoteTo,
+				capture: capture || enPassantCapture,
+				check: didMoveCausedCheck,
+				castling,
+				checkmate: false,
+				draw: false,
+				win: null,
+			});
+
+			position.forEach((piece, square) => {
+				if (piece.side !== meta.turn) {
+					position.set(square, {
+						...piece,
+						meta: { ...piece.meta, possibleMoves: [], attackMoves: [] },
+					});
+				}
+			});
 
 			game.updatePosition(position);
 
@@ -135,7 +166,7 @@ const createPosition = () => {
 		subscribe,
 		export: exportData,
 		move,
-		reset: () => set(DEFAULT_POSITION),
+		reset: () => set(copyStringifiedMap(DEFAULT_POSITION)),
 		override: (position?: PositionStoreValueType) => set(position || DEFAULT_POSITION),
 	};
 };

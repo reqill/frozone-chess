@@ -8,6 +8,7 @@
 	export let className = '';
 	export let disabled = false;
 	export let distance = 3;
+	export let timeToActive = 0;
 
 	let open = false;
 	let anchorEl: HTMLDivElement | null = null;
@@ -16,11 +17,17 @@
 	$: childBoundaries = anchorEl?.getBoundingClientRect();
 	$: tooltipBoundaries = tooltipEl?.getBoundingClientRect();
 
+	// eslint-disable-next-line no-undef
+	let timer: undefined | NodeJS.Timeout;
+
 	const onMouseEnter = (e: MouseEvent) => {
-		open = true;
+		timer = setTimeout(() => {
+			open = true;
+		}, timeToActive);
 	};
 
 	const onMouseLeave = (e: MouseEvent) => {
+		timer && clearTimeout(timer);
 		open = false;
 	};
 </script>
