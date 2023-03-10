@@ -66,7 +66,8 @@ const isKingInCheck = (positions: PositionStoreValueType, checkKingSide: Side) =
 // ! TODO: This function should be implemented more efficiently
 export const updateAllPossibleMoves = (
 	positions: PositionStoreValueType,
-	meta: PieceMoveMetaType
+	meta: PieceMoveMetaType,
+	filterEnemyMoves = true
 ) => {
 	const positionsCopy = new StringifiedMap(
 		JSON.parse(JSON.stringify(Array.from(positions)))
@@ -150,15 +151,17 @@ export const updateAllPossibleMoves = (
 		});
 	});
 
-	// filter out every possible move and attack for the opposite side
-	positions.forEach((piece, square) => {
-		if (piece.side !== meta.turn) {
-			positions.set(square, {
-				...piece,
-				meta: { ...piece.meta, possibleMoves: [], attackMoves: [] },
-			});
-		}
-	});
+	if (filterEnemyMoves) {
+		// filter out every possible move and attack for the opposite side
+		positions.forEach((piece, square) => {
+			if (piece.side !== meta.turn) {
+				positions.set(square, {
+					...piece,
+					meta: { ...piece.meta, possibleMoves: [], attackMoves: [] },
+				});
+			}
+		});
+	}
 
 	return positions;
 };
