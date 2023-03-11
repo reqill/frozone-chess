@@ -24,10 +24,10 @@
 	$: isGameActive = $game.status === 'paused' || $game.status === 'active';
 </script>
 
-<div class="flex h-full w-full flex-col pt-[2.65rem] pb-11">
+<div class="flex h-full max-h-max w-full flex-col">
 	<PrimaryButton fullWidth label="{gameType} {gameText}" info={gameMode} active inactive />
 
-	<div class="flex grow gap-3 px-1 py-3">
+	<div class="mb-auto flex h-full max-h-[calc(100%_-_7rem)] gap-3 px-1 py-3">
 		<InfoBox label="Move history">
 			<GameHistory />
 		</InfoBox>
@@ -35,6 +35,9 @@
 			<CapturedPieces side={$chessboard.viewSide === 'white' ? 'black' : 'white'} placement="top" />
 			<CapturedPieces side={$chessboard.viewSide} placement="bottom" />
 		</InfoBox>
+	</div>
+	<div class="mx-1 mb-2 h-[3rem] rounded-[.25rem] bg-app-white">
+		<p class="my-[.15rem] ml-2 font-test text-app-black/20">Not available</p>
 	</div>
 	<Tooltip title="You can only pause active game" className="w-full" disabled={isGameActive}>
 		<PrimaryButton

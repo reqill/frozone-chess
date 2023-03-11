@@ -6,7 +6,7 @@
 	export let side: Side;
 </script>
 
-<div class="flex h-[2.35rem] w-full flex-row justify-between">
+<div class="flex h-full w-full flex-row justify-between">
 	<div class="flex h-full flex-row gap-2">
 		<div
 			class=" aspect-square h-full rounded-[.25rem] {side === 'white'
@@ -16,7 +16,7 @@
 			<!-- User Avatar -->
 		</div>
 		<div class="font-test">
-			<h5 class="whitespace-nowrap text-base font-bold capitalize leading-[1.3rem] text-app-black">
+			<h5 class="whitespace-nowrap text-base font-bold capitalize leading-[1.2rem] text-app-black">
 				{side} Player
 			</h5>
 			<p class="text-sm leading-3 text-app-black/75">(1000)</p>
@@ -24,7 +24,7 @@
 	</div>
 	{#if $game.timer[side] !== undefined}
 		<div
-			class="flex  justify-center rounded-[.25rem] py-[.3rem] px-[.6rem] align-middle {side ===
+			class="flex h-full w-[10ch] max-w-[10ch] justify-center rounded-[.25rem] align-middle {side ===
 			'white'
 				? 'bg-app-white'
 				: 'bg-app-black'}"
