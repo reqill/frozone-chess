@@ -39,7 +39,7 @@
 	};
 </script>
 
-<div class="flex h-full w-72 grow flex-col justify-between py-11">
+<div class="flex h-full w-72 grow flex-col justify-between">
 	<div class="flex flex-col gap-1">
 		<h4 class="text-[2rem] font-bold text-app-black">Create your game</h4>
 

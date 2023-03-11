@@ -4,7 +4,7 @@
 	import GameInterface from './GameInterface.svelte';
 </script>
 
-<section class="w-72">
+<section class="h-full w-72 pb-1">
 	{#if $game.status === 'setup'}
 		<GameConfiguration />
 	{/if}

@@ -76,11 +76,11 @@
 	}
 
 	.narrow-row {
-		@apply mx-auto flex h-9 w-full flex-row justify-center gap-3;
+		@apply mx-auto flex h-9 w-full flex-row justify-center gap-2;
 	}
 
 	.max-row {
-		@apply mx-auto flex w-full flex-row justify-center gap-3;
+		@apply mx-auto flex w-full flex-row justify-center gap-2;
 	}
 
 	.main-col {

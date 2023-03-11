@@ -30,6 +30,11 @@
 		timer && clearTimeout(timer);
 		open = false;
 	};
+
+	const onResize = () => {
+		childBoundaries = anchorEl?.getBoundingClientRect();
+		tooltipBoundaries = tooltipEl?.getBoundingClientRect();
+	};
 </script>
 
 {#if title && open && !disabled && childBoundaries}
@@ -53,6 +58,8 @@
 >
 	<slot />
 </div>
+
+<svelte:window on:resize={onResize} />
 
 <style lang="postcss">
 	span {

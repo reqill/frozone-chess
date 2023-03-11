@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { history } from '$lib/store';
+	import { onMount } from 'svelte';
 
 	let historyArray: { moveNumber: number; whiteMove: string; blackMove?: string }[] = [];
 
@@ -10,9 +11,19 @@
 			historyArray[(i - 1) / 2].blackMove = move;
 		}
 	});
+
+	let mountHeight: number | null = null;
+
+	onMount(() => {
+		mountHeight = document.querySelector('#history-panel')?.clientHeight || null;
+	});
 </script>
 
-<div class="overflow-x-auto">
+<div
+	class="h-full overflow-x-auto"
+	id="history-panel"
+	style="max-height: {mountHeight || 'auto'}{mountHeight ? 'px' : ''};"
+>
 	<table>
 		<thead>
 			<tr>
