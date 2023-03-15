@@ -14,7 +14,7 @@
 <div class="main-col">
 	<div class="narrow-row">
 		<div class="narrow-corner" />
-		<div class="player-info max-w-[calc(100vh_-_7.5rem)]">
+		<div class="player-info max-w-[calc(100vh_-_10rem)]">
 			<PlayerInfoBar side={$chessboard.viewSide === 'white' ? 'black' : 'white'} />
 		</div>
 		<div class="wide-corner" />
@@ -23,7 +23,7 @@
 		<div class="score">
 			<MatchScoreBar />
 		</div>
-		<div class="chessboard max-w-[calc(100vh_-_7.5rem)]">
+		<div class="chessboard max-w-[calc(100vh_-_10rem)]">
 			<ChessBoard />
 		</div>
 		<div class="controls">
@@ -39,7 +39,7 @@
 				<Cog size={24} />
 			</button>
 		</div>
-		<div class="player-info max-w-[calc(100vh_-_7.5rem)]">
+		<div class="player-info max-w-[calc(100vh_-_10rem)]">
 			<PlayerInfoBar side={$chessboard.viewSide === 'black' ? 'black' : 'white'} />
 		</div>
 		<div class="wide-corner" />
