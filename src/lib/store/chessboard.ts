@@ -27,6 +27,7 @@ const createChessBoard = () => {
 		},
 		lastMove: null,
 		isDragging: false,
+		isDrawing: false,
 		viewSide: 'white',
 		squares: [...SQUARES],
 		selectedPiece: null,
@@ -167,10 +168,16 @@ const createChessBoard = () => {
 		});
 	};
 
-	const highlight = (square: SquareInfoType) => {
+	const highlight = (square?: SquareInfoType | null) => {
 		update((chessboard) => {
-			if (chessboard.highlightedSquares.includes(square)) {
-				chessboard.highlightedSquares = chessboard.highlightedSquares.filter((s) => s !== square);
+			if (!square) {
+				return chessboard;
+			}
+
+			if (chessboard.highlightedSquares.some((s) => s.index === square.index)) {
+				chessboard.highlightedSquares = chessboard.highlightedSquares.filter(
+					(s) => s.index !== square.index
+				);
 			} else {
 				chessboard.highlightedSquares.push(square);
 			}
@@ -179,37 +186,115 @@ const createChessBoard = () => {
 		});
 	};
 
-	const startArrow = (square: SquareInfoType) => {
+	const startArrow = (e: MouseEvent) => {
+		const { clientX: x, clientY: y } = e;
+		let startSquare: SquareInfoType | null = null;
+		let startCenter: { x: number; y: number } | null = null;
+
 		update((chessboard) => {
+			if (chessboard.isDrawing) return chessboard;
+
+			chessboard.isDrawing = true;
+			chessboard.squareBoundaries.forEach((boundaries, square) => {
+				if (
+					y >= boundaries.top &&
+					y <= boundaries.bottom &&
+					x >= boundaries.left &&
+					x <= boundaries.right
+				) {
+					if (chessboard.viewSide === 'white') {
+						startSquare = square;
+					} else {
+						startSquare = getFullSquareInfo(63 - square.index);
+					}
+
+					startCenter = {
+						x: boundaries.left,
+						y: boundaries.top,
+					};
+				}
+			});
+
 			chessboard.arrows.filter((arrow) => arrow.to !== null);
 
-			chessboard.arrows.push({
-				from: square,
-				to: null,
-			});
+			if (startSquare) {
+				chessboard.arrows.push({
+					from: startSquare,
+					to: null,
+					drawingStart: startCenter,
+					drawingEnd: null,
+				});
+			}
 
 			return chessboard;
 		});
 	};
 
-	const stopArrow = (square: SquareInfoType) => {
-		update((chessboard) => {
-			const arrow = chessboard.arrows.find((arrow) => arrow.to === null);
+	const stopArrow = (e: MouseEvent) => {
+		const { clientX: x, clientY: y } = e;
+		let endSquare: SquareInfoType | null = null;
+		let endCenter: { x: number; y: number } | null = null;
 
-			if (arrow) {
-				arrow.to = square;
+		update((chessboard) => {
+			if (!chessboard.isDrawing) {
+				chessboard.arrows = chessboard.arrows.filter((arrow) => arrow.to !== null);
+				return chessboard;
 			}
 
-			const duplicateArrows = chessboard.arrows.filter((arrow) => {
-				return (
-					chessboard.arrows.filter((a) => a.from === arrow.from && a.to === arrow.to).length > 1
-				);
+			chessboard.squareBoundaries.forEach((boundaries, square) => {
+				if (
+					y >= boundaries.top &&
+					y <= boundaries.bottom &&
+					x >= boundaries.left &&
+					x <= boundaries.right
+				) {
+					if (chessboard.viewSide === 'white') {
+						endSquare = square;
+					} else {
+						endSquare = getFullSquareInfo(63 - square.index);
+					}
+
+					endCenter = {
+						x: boundaries.left,
+						y: boundaries.top,
+					};
+				}
 			});
 
-			chessboard.arrows = chessboard.arrows.filter((arrow) => {
-				return !duplicateArrows.includes(arrow);
-			});
+			const arrow = chessboard.arrows.find((arrow) => arrow.to === null);
 
+			if (arrow && arrow?.from.index === endSquare?.index) {
+				chessboard.isDrawing = false;
+
+				highlight(endSquare);
+				chessboard.arrows = chessboard.arrows.filter((arrow) => arrow.to !== null);
+				return chessboard;
+			}
+
+			if (arrow && endSquare) {
+				arrow.to = endSquare;
+				arrow.drawingEnd = endCenter;
+			} else {
+				highlight(endSquare);
+
+				chessboard.arrows = chessboard.arrows.filter((arrow) => arrow.to !== null);
+				return chessboard;
+			}
+
+			chessboard.arrows = chessboard.arrows.filter(
+				(arrow, index, self) =>
+					index ===
+					self.findIndex(
+						(a) => a.from.index === arrow.from.index && a.to?.index === arrow.to?.index
+					)
+			);
+
+			chessboard.arrows = chessboard.arrows.filter((arrow) => arrow.to !== null);
+
+			chessboard.arrows = chessboard.arrows.filter(
+				(arrow) => arrow?.to?.index !== arrow.from.index
+			);
+			chessboard.isDrawing = false;
 			return chessboard;
 		});
 	};
@@ -310,6 +395,7 @@ const createChessBoard = () => {
 					x: -1,
 					y: -1,
 				},
+				isDrawing: false,
 				lastMove: null,
 				isDragging: false,
 				viewSide: 'white',

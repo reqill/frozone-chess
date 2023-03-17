@@ -66,6 +66,8 @@ export type GameStoreValueType = {
 export type ChessBoardArrowType = {
 	from: SquareInfoType;
 	to: SquareInfoType | null;
+	drawingStart: { x: number; y: number } | null;
+	drawingEnd: { x: number; y: number } | null;
 };
 
 // TODO: move to chess.types.ts
@@ -93,6 +95,7 @@ export type ChessBoardStoreValueType = {
 	selectedSquare: SquareInfoType | null;
 	intersectedSquare: SquareInfoType | null;
 	isDragging: boolean;
+	isDrawing: boolean;
 	pendingPromotion: { from: SquareInfoType; to: SquareInfoType } | null;
 	viewSide: Side;
 	lastMove: { from: SquareInfoType; to: SquareInfoType } | null;
