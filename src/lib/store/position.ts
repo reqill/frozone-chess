@@ -191,7 +191,8 @@ const createPosition = () => {
 		export: exportData,
 		move,
 		reset: () => set(copyStringifiedMap(DEFAULT_POSITION)),
-		override: (position?: PositionStoreValueType) => set(position || DEFAULT_POSITION),
+		override: (position?: PositionStoreValueType) =>
+			set(copyStringifiedMap(position || DEFAULT_POSITION)),
 	};
 };
 

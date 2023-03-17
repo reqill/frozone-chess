@@ -1,4 +1,4 @@
-import { DEFAULT_HISTORY } from '$lib/constants/store.constants';
+import { DEFAULT_HISTORY, DEFAULT_POSITION } from '$lib/constants/store.constants';
 import type { MoveHistoryStoreValueType, PositionStoreValueType } from '$lib/types/store.types';
 import { getMoveNotation } from '$lib/utils';
 import { writable } from 'svelte/store';
@@ -9,7 +9,11 @@ import { game } from './game';
 import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
 
 const createHistory = () => {
-	const { subscribe, set, update } = writable<MoveHistoryStoreValueType>(DEFAULT_HISTORY);
+	const { subscribe, set, update } = writable<MoveHistoryStoreValueType>({
+		moves: new Map([]),
+		positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
+		captured: new Map([]),
+	});
 
 	const addToHistory = (
 		newPositions: PositionStoreValueType,
@@ -102,7 +106,14 @@ const createHistory = () => {
 		export: exportData,
 		reset: () => set(DEFAULT_HISTORY),
 		resetToMoves: historyFromMoves,
-		override: (history?: MoveHistoryStoreValueType) => set(history || DEFAULT_HISTORY),
+		override: (history?: MoveHistoryStoreValueType) =>
+			set(
+				history || {
+					moves: new Map([]),
+					positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
+					captured: new Map([]),
+				}
+			),
 	};
 };
 

@@ -5,7 +5,16 @@ import { writable } from 'svelte/store';
 import { game } from './game';
 
 const createCaptured = () => {
-	const { subscribe, set, update } = writable<CapturedStoreValueType>(DEFAULT_CAPTURED);
+	const { subscribe, set, update } = writable<CapturedStoreValueType>({
+		white: {
+			value: 0,
+			pieces: [],
+		},
+		black: {
+			value: 0,
+			pieces: [],
+		},
+	});
 
 	const capturePiece = (piece: Omit<PieceType, 'position'>) => {
 		update((captured) => {
@@ -42,7 +51,19 @@ const createCaptured = () => {
 		export: exportData,
 		capture: capturePiece,
 		reset: () => set(DEFAULT_CAPTURED),
-		override: (captured?: CapturedStoreValueType) => set(captured || DEFAULT_CAPTURED),
+		override: (captured?: CapturedStoreValueType) =>
+			set(
+				captured || {
+					white: {
+						value: 0,
+						pieces: [],
+					},
+					black: {
+						value: 0,
+						pieces: [],
+					},
+				}
+			),
 		revertLast: revertLast,
 	};
 };

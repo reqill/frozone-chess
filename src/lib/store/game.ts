@@ -10,16 +10,64 @@ import type {
 } from '$lib/types/store.types';
 import { history } from './history';
 import { captured } from './captured';
-import { DEFAULT_GAME } from '$lib/constants/store.constants';
+import { DEFAULT_POSITION } from '$lib/constants/store.constants';
 import type { GameMode, Piece, Side, SquareInfoType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
 import { configuration } from './configuration';
 import { chessboard } from './chessboard';
+import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
 
 export type GameSetupType = { timer?: number; increment?: number; gamemode?: GameMode };
 
 const createGame = () => {
-	const { subscribe, set, update } = writable<GameStoreValueType>(DEFAULT_GAME);
+	const { subscribe, set, update } = writable<GameStoreValueType>({
+		turn: 'white',
+		status: 'setup',
+		winner: null,
+		draw: false,
+		halfMoveClock: 0,
+		fullMoveNumber: 0,
+		position: copyStringifiedMap(DEFAULT_POSITION),
+		captured: {
+			white: {
+				value: 0,
+				pieces: [],
+			},
+			black: {
+				value: 0,
+				pieces: [],
+			},
+		},
+		history: {
+			moves: new Map([]),
+			positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
+			captured: new Map([]),
+		},
+		castingRights: {
+			white: {
+				kingSide: true,
+				queenSide: true,
+			},
+			black: {
+				kingSide: true,
+				queenSide: true,
+			},
+		},
+		enPassant: null,
+		fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+		timer: {
+			white: 600_000,
+			black: 600_000,
+			starting: 600_000,
+		},
+		increment: {
+			white: 5_000,
+			black: 5_000,
+		},
+		startTime: null,
+		check: { white: false, black: false },
+		audio: {},
+	});
 
 	const start = () => {
 		update((game) => {
@@ -120,7 +168,54 @@ const createGame = () => {
 		position.reset();
 		history.reset();
 		captured.reset();
-		set(DEFAULT_GAME);
+		set({
+			turn: 'white',
+			status: 'setup',
+			winner: null,
+			draw: false,
+			halfMoveClock: 0,
+			fullMoveNumber: 0,
+			position: copyStringifiedMap(DEFAULT_POSITION),
+			captured: {
+				white: {
+					value: 0,
+					pieces: [],
+				},
+				black: {
+					value: 0,
+					pieces: [],
+				},
+			},
+			history: {
+				moves: new Map([]),
+				positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
+				captured: new Map([]),
+			},
+			castingRights: {
+				white: {
+					kingSide: true,
+					queenSide: true,
+				},
+				black: {
+					kingSide: true,
+					queenSide: true,
+				},
+			},
+			enPassant: null,
+			fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+			timer: {
+				white: 600_000,
+				black: 600_000,
+				starting: 600_000,
+			},
+			increment: {
+				white: 5_000,
+				black: 5_000,
+			},
+			startTime: null,
+			check: { white: false, black: false },
+			audio: {},
+		});
 	};
 
 	const override = (game?: GameStoreValueType) => {

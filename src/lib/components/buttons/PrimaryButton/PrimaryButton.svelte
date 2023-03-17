@@ -105,6 +105,9 @@
 	}
 
 	.btn-label {
-		@apply font-test text-2xl font-bold capitalize;
+		@apply block font-test text-2xl font-bold;
+	}
+	.btn-label:first-letter {
+		@apply uppercase;
 	}
 </style>
