@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton/PrimaryButton.svelte';
-	import { chessboard, game } from '$lib/store';
+	import { chessboard, game, history } from '$lib/store';
 	import Flag from 'svelte-material-icons/Flag.svelte';
 	import Restore from 'svelte-material-icons/Restore.svelte';
 	import FractionOneHalf from 'svelte-material-icons/FractionOneHalf.svelte';
@@ -47,7 +47,7 @@
 			title={isGameActive ? 'Undo the move' : 'Cannot undo move before start'}
 			timeToActive={isGameActive ? 750 : 0}
 		>
-			<PrimaryButton icon={Restore} disabled={!isGameActive} narrow />
+			<PrimaryButton icon={Restore} disabled={!isGameActive} narrow on:click={history.undo} />
 		</Tooltip>
 		<Tooltip title="Resign from the game" className="w-full" timeToActive={750}>
 			<PrimaryButton icon={Flag} fullWidth />

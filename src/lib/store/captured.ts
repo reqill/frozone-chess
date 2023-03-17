@@ -1,4 +1,3 @@
-import { DEFAULT_CAPTURED } from '$lib/constants/store.constants';
 import type { PieceType, Side } from '$lib/types/chess.types';
 import type { CapturedStoreValueType } from '$lib/types/store.types';
 import { writable } from 'svelte/store';
@@ -50,7 +49,17 @@ const createCaptured = () => {
 		subscribe,
 		export: exportData,
 		capture: capturePiece,
-		reset: () => set(DEFAULT_CAPTURED),
+		reset: () =>
+			set({
+				white: {
+					value: 0,
+					pieces: [],
+				},
+				black: {
+					value: 0,
+					pieces: [],
+				},
+			}),
 		override: (captured?: CapturedStoreValueType) =>
 			set(
 				captured || {

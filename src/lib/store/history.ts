@@ -1,4 +1,4 @@
-import { DEFAULT_HISTORY, DEFAULT_POSITION } from '$lib/constants/store.constants';
+import { DEFAULT_POSITION } from '$lib/constants/store.constants';
 import type { MoveHistoryStoreValueType, PositionStoreValueType } from '$lib/types/store.types';
 import { getMoveNotation } from '$lib/utils';
 import { writable } from 'svelte/store';
@@ -46,27 +46,33 @@ const createHistory = () => {
 			history.positions.set(history.positions.size, copyStringifiedMap(newPositions));
 
 			if (meta.capture) {
-				const side = meta.capture.side;
-				const lastCapture = history.captured.get(history.captured.size - 1);
+				const side = meta.capture.side === 'white' ? 'black' : 'white';
+				const lastCapture = { ...history.captured.get(history.captured.size - 1) };
 
 				const newCapturedInfo = {
 					white: {
-						value: lastCapture?.white.value || 0,
-						pieces: lastCapture?.white.pieces || [],
+						value: lastCapture?.white?.value || 0,
+						pieces: lastCapture?.white?.pieces || [],
 					},
 					black: {
-						value: lastCapture?.black.value || 0,
-						pieces: lastCapture?.black.pieces || [],
+						value: lastCapture?.black?.value || 0,
+						pieces: lastCapture?.black?.pieces || [],
 					},
 				};
 
 				newCapturedInfo[side].value += meta.capture.meta.value;
-				newCapturedInfo[side].pieces.push(meta.capture);
+				newCapturedInfo[side].pieces = [...(lastCapture?.[side]?.pieces || []), meta.capture];
 
-				history.captured.set(history.captured.size, newCapturedInfo);
+				history.captured.set(history.captured.size, { ...newCapturedInfo });
+			} else {
+				history.captured.set(
+					history.captured.size,
+					history.captured.get(history.captured.size - 1)!
+				);
 			}
 
-			console.log(move);
+			console.log(new Map(history.captured));
+
 			game.updateHistory(history);
 
 			return history;
@@ -81,10 +87,15 @@ const createHistory = () => {
 			history.positions.delete(history.positions.size - 1);
 			history.captured.delete(history.captured.size - 1);
 
-			position.override(history.positions?.get(history.positions.size - 1));
-			captured.override(history.captured?.get(history.captured.size - 1));
+			const lastPosition = history.positions.get(history.positions.size - 1);
+			const lastCapture = history.captured.get(history.captured.size - 1);
+
+			position.override(lastPosition);
+			captured.override(lastCapture);
+			game.updatePosition(lastPosition);
 
 			game.updateHistory(history);
+			game.swapTurn();
 
 			return history;
 		});
@@ -104,7 +115,12 @@ const createHistory = () => {
 		add: addToHistory,
 		undo: undoMove,
 		export: exportData,
-		reset: () => set(DEFAULT_HISTORY),
+		reset: () =>
+			set({
+				moves: new Map([]),
+				positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
+				captured: new Map([]),
+			}),
 		resetToMoves: historyFromMoves,
 		override: (history?: MoveHistoryStoreValueType) =>
 			set(
