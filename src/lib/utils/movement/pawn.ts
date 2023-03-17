@@ -89,11 +89,25 @@ export const pawn = (
 		attackMoves.push(move!);
 	}
 
-	if (enPassant && position.index >= 24 && position.index <= 31 && side === 'white') {
+	if (
+		enPassant &&
+		position.index >= 24 &&
+		position.index <= 31 &&
+		side === 'white' &&
+		(Math.abs(position.index - enPassant.index) === 9 ||
+			Math.abs(position.index - enPassant.index) === 7)
+	) {
 		attackMoves.push(enPassant);
 	}
 
-	if (enPassant && position.index >= 32 && position.index <= 39 && side === 'black') {
+	if (
+		enPassant &&
+		position.index >= 32 &&
+		position.index <= 39 &&
+		side === 'black' &&
+		(Math.abs(position.index - enPassant.index) === 9 ||
+			Math.abs(position.index - enPassant.index) === 7)
+	) {
 		attackMoves.push(enPassant);
 	}
 

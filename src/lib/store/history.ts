@@ -71,8 +71,6 @@ const createHistory = () => {
 				);
 			}
 
-			console.log(new Map(history.captured));
-
 			game.updateHistory(history);
 
 			return history;

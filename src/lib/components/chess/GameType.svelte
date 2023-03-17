@@ -12,7 +12,7 @@
 			? 'one-player'
 			: $game.gamemode;
 
-	$: gameType = getGameType(gameTime, gameIncrement);
+	$: gameType = getGameType($game.timer?.white ? gameTime : undefined, gameIncrement);
 </script>
 
 <PrimaryButton fullWidth label={gameType} info={gameMode} active inactive />

@@ -310,6 +310,9 @@ const createGame = () => {
 			if (winner) {
 				game.winner = winner;
 				game.status = reason;
+			} else if (reason === 'stalemate') {
+				game.draw = true;
+				game.status = 'stalemate';
 			} else {
 				game.draw = true;
 				game.status = 'draw';
