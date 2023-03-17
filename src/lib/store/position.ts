@@ -10,6 +10,7 @@ import { game } from './game';
 import { updateAllPossibleMoves } from '$lib/utils/movement';
 import type { PieceMoveMetaType } from '$lib/types/utils.types';
 import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
+import { chessboard } from './chessboard';
 
 const createPosition = () => {
 	const { subscribe, set, update } = writable<PositionStoreValueType>(
@@ -180,6 +181,8 @@ const createPosition = () => {
 			} else if (stalemate) {
 				game.end('stalemate');
 			}
+
+			chessboard.setLastMove(startPos, endPos);
 
 			return position;
 		});

@@ -14,6 +14,7 @@ export type MoveHistoryStoreValueType = {
 	moves: Map<number, string>;
 	positions: Map<number, PositionStoreValueType>;
 	captured: Map<number, CapturedStoreValueType>;
+	lastMove: Map<number, { from: SquareInfoType; to: SquareInfoType }>;
 };
 
 export type GameStatusType =
@@ -94,6 +95,7 @@ export type ChessBoardStoreValueType = {
 	isDragging: boolean;
 	pendingPromotion: { from: SquareInfoType; to: SquareInfoType } | null;
 	viewSide: Side;
+	lastMove: { from: SquareInfoType; to: SquareInfoType } | null;
 	squares: SquareInfoType[];
 	selectedPiece: PieceType | null;
 };
