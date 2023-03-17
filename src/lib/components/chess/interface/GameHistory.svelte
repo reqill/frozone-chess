@@ -2,17 +2,8 @@
 	import { history } from '$lib/store';
 	import { onMount } from 'svelte';
 
-	let historyArray: { moveNumber: number; whiteMove: string; blackMove?: string }[] = [];
-
-	$: $history.moves.forEach((move, i) => {
-		if (i % 2 === 0) {
-			historyArray[i / 2] = { moveNumber: i / 2 + 1, whiteMove: move };
-		} else {
-			historyArray[(i - 1) / 2].blackMove = move;
-		}
-	});
-
 	let mountHeight: number | null = null;
+	$: historyArray = Array(Math.ceil($history.moves.size / 2)).fill(null);
 
 	onMount(() => {
 		mountHeight = document.querySelector('#history-panel')?.clientHeight || null;
@@ -33,16 +24,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each historyArray as move}
+			{#each historyArray as _, i}
 				<tr>
 					<td>
-						{move.moveNumber}.
+						{i + 1}.
 					</td>
 					<td>
-						{move.whiteMove}
+						{$history.moves.get(i * 2)}
 					</td>
 					<td>
-						{move?.blackMove || ''}
+						{$history.moves.get(i * 2 + 1) || ''}
 					</td>
 				</tr>
 			{/each}

@@ -319,9 +319,13 @@ const createGame = () => {
 		});
 	};
 
-	const updatePosition = (position: PositionStoreValueType) => {
+	const updatePosition = (position?: PositionStoreValueType) => {
 		update((game) => {
-			game.position = position;
+			if (position) {
+				game.position = position;
+			} else {
+				game.position = copyStringifiedMap(DEFAULT_POSITION);
+			}
 			return game;
 		});
 	};
@@ -361,6 +365,13 @@ const createGame = () => {
 		});
 	};
 
+	const swapTurn = () => {
+		update((game) => {
+			game.turn = game.turn === 'white' ? 'black' : 'white';
+			return game;
+		});
+	};
+
 	return {
 		subscribe,
 		setup,
@@ -369,6 +380,7 @@ const createGame = () => {
 		updatePosition,
 		updateHistory,
 		end,
+		swapTurn,
 		updateCaptured,
 		setCheck,
 		resetCheck,
