@@ -25,6 +25,7 @@ const createChessBoard = () => {
 			x: -1,
 			y: -1,
 		},
+		lastMove: null,
 		isDragging: false,
 		viewSide: 'white',
 		squares: [...SQUARES],
@@ -72,6 +73,17 @@ const createChessBoard = () => {
 				}
 			});
 
+			return chessboard;
+		});
+	};
+
+	const setLastMove = (from?: SquareInfoType, to?: SquareInfoType) => {
+		update((chessboard) => {
+			if (from && to) {
+				chessboard.lastMove = { from, to };
+			} else {
+				chessboard.lastMove = null;
+			}
 			return chessboard;
 		});
 	};
@@ -279,6 +291,7 @@ const createChessBoard = () => {
 		flip,
 		stopDrag,
 		startDrag,
+		setLastMove,
 		setBoundaries,
 		reset: () =>
 			set({
@@ -297,6 +310,7 @@ const createChessBoard = () => {
 					x: -1,
 					y: -1,
 				},
+				lastMove: null,
 				isDragging: false,
 				viewSide: 'white',
 				squares: [...SQUARES],

@@ -457,6 +457,7 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 		bottom: -1,
 		left: -1,
 	},
+	lastMove: null,
 	highlightedSquares: [],
 	arrows: [],
 	squareBoundaries: new StringifiedMap(),

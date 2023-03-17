@@ -25,6 +25,10 @@
 			.get($chessboard.selectedSquare)
 			?.meta.attackMoves.some((s) => s.index === square.index);
 
+	$: isLastMove =
+		$chessboard.lastMove?.from.index === square.index ||
+		$chessboard.lastMove?.to.index === square.index;
+
 	$: canMoveHere =
 		$chessboard.selectedSquare &&
 		!$chessboard?.pendingPromotion &&
@@ -140,6 +144,10 @@
 			<p class="text-xl font-medium">{square.code}</p>
 			<p class="text-xl font-medium">{square.index}</p>
 		</div>
+	{/if}
+
+	{#if isLastMove}
+		<div class="absolute inset-0 bg-amber-300 bg-opacity-30" />
 	{/if}
 
 	{#if piece}

@@ -7,12 +7,14 @@ import type { Piece, PieceType, SquareInfoType } from '$lib/types/chess.types';
 import { captured } from './captured';
 import { game } from './game';
 import { copyStringifiedMap } from '$lib/utils/copyStringifiedMap';
+import { chessboard } from './chessboard';
 
 const createHistory = () => {
 	const { subscribe, set, update } = writable<MoveHistoryStoreValueType>({
 		moves: new Map([]),
 		positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
 		captured: new Map([]),
+		lastMove: new Map([]),
 	});
 
 	const addToHistory = (
@@ -42,6 +44,7 @@ const createHistory = () => {
 				win: meta.win,
 			});
 
+			history.lastMove.set(history.lastMove.size, { from: meta.startSquare, to: meta.endSquare });
 			history.moves.set(history.moves.size, move);
 			history.positions.set(history.positions.size, copyStringifiedMap(newPositions));
 
@@ -84,12 +87,15 @@ const createHistory = () => {
 			history.moves.delete(history.moves.size - 1);
 			history.positions.delete(history.positions.size - 1);
 			history.captured.delete(history.captured.size - 1);
+			history.lastMove.delete(history.lastMove.size - 1);
 
 			const lastPosition = history.positions.get(history.positions.size - 1);
 			const lastCapture = history.captured.get(history.captured.size - 1);
+			const lastMove = history.lastMove.get(history.lastMove.size - 1);
 
 			position.override(lastPosition);
 			captured.override(lastCapture);
+			chessboard.setLastMove(lastMove?.from, lastMove?.to);
 			game.updatePosition(lastPosition);
 
 			game.updateHistory(history);
@@ -118,6 +124,7 @@ const createHistory = () => {
 				moves: new Map([]),
 				positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
 				captured: new Map([]),
+				lastMove: new Map([]),
 			}),
 		resetToMoves: historyFromMoves,
 		override: (history?: MoveHistoryStoreValueType) =>
@@ -126,6 +133,7 @@ const createHistory = () => {
 					moves: new Map([]),
 					positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
 					captured: new Map([]),
+					lastMove: new Map([]),
 				}
 			),
 	};
