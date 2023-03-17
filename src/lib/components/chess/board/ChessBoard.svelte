@@ -24,6 +24,7 @@
 	{#if $game.status === 'paused'}
 		<div in:fade={{ duration: 150 }} out:fade={{ duration: 150 }} class="pause-overlay">
 			<h3>Paused</h3>
+			<p>(resume to continue)</p>
 		</div>
 	{/if}
 	{#each $chessboard.squares as square, i (`chess-square-${square.code}`)}
@@ -40,10 +41,14 @@
 
 <style lang="postcss">
 	.pause-overlay {
-		@apply absolute inset-0 z-[99] flex justify-center rounded-[.6%] bg-clip-content align-middle backdrop-blur-sm;
+		@apply absolute inset-0 z-[99] flex flex-col justify-center rounded-[.6%] bg-clip-content align-middle backdrop-blur-sm;
 	}
 
 	.pause-overlay > h3 {
-		@apply m-auto font-test text-7xl font-bold text-app-black;
+		@apply mx-auto mt-auto font-test text-7xl font-bold text-app-black;
+	}
+
+	.pause-overlay > p {
+		@apply mx-auto mb-auto pt-1 font-test text-xl text-app-black;
 	}
 </style>

@@ -16,13 +16,14 @@ export type MoveHistoryStoreValueType = {
 	captured: Map<number, CapturedStoreValueType>;
 };
 
-type GameStatusType =
+export type GameStatusType =
 	| 'setup'
 	| 'pre-game'
 	| 'active'
 	| 'paused'
 	| 'checkmate'
 	| 'stalemate'
+	| 'draw'
 	| 'resigned'
 	| 'abandoned'
 	| 'timeout';

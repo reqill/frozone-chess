@@ -1,5 +1,5 @@
 import { DEFAULT_POSITION } from '$lib/constants/store.constants';
-import type { Piece, SquareInfoType } from '$lib/types/chess.types';
+import type { Piece, Side, SquareInfoType } from '$lib/types/chess.types';
 import type { PositionStoreValueType } from '$lib/types/store.types';
 import { writable } from 'svelte/store';
 import { captured } from './captured';
@@ -119,10 +119,28 @@ const createPosition = () => {
 				}
 			});
 
+			let checkmate = false;
+			let stalemate = true;
+			let win: Side | null = null;
+
 			if (didMoveCausedCheck) {
 				game.setCheck();
+
+				const enemyKing = position.get(enemyKingSquare!);
+				if (!enemyKing) throw new Error('Enemy king not found');
+
+				if (enemyKing.meta.possibleMoves.length === 0) {
+					checkmate = true;
+					win = piece.side;
+				}
 			} else {
 				game.resetCheck();
+
+				position.forEach((piece) => {
+					if (piece.side !== meta.turn && piece.meta.possibleMoves.length > 0) {
+						stalemate = false;
+					}
+				});
 			}
 
 			history.add(position, {
@@ -132,9 +150,9 @@ const createPosition = () => {
 				capture: capture || enPassantCapture,
 				check: didMoveCausedCheck,
 				castling,
-				checkmate: false,
-				draw: false,
-				win: null,
+				checkmate,
+				draw: stalemate,
+				win,
 			});
 
 			position.forEach((piece, square) => {
@@ -152,6 +170,12 @@ const createPosition = () => {
 				game.playSound('capture');
 			} else {
 				game.playSound('move');
+			}
+
+			if (checkmate) {
+				game.end('checkmate', win!);
+			} else if (stalemate) {
+				game.end('stalemate');
 			}
 
 			return position;
