@@ -119,22 +119,25 @@ const createPosition = () => {
 				}
 			});
 
-			let checkmate = false;
+			let checkmate = true;
 			let stalemate = true;
-			let win: Side | null = null;
+			const win: Side | null = null;
 
 			if (didMoveCausedCheck) {
 				game.setCheck();
 
 				const enemyKing = position.get(enemyKingSquare!);
 				if (!enemyKing) throw new Error('Enemy king not found');
+				stalemate = false;
 
-				if (enemyKing.meta.possibleMoves.length === 0) {
-					checkmate = true;
-					win = piece.side;
-				}
+				position.forEach((piece) => {
+					if (piece.side !== meta.turn && piece.meta.possibleMoves.length > 0) {
+						checkmate = false;
+					}
+				});
 			} else {
 				game.resetCheck();
+				checkmate = false;
 
 				position.forEach((piece) => {
 					if (piece.side !== meta.turn && piece.meta.possibleMoves.length > 0) {

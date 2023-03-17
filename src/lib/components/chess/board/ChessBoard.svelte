@@ -30,7 +30,9 @@
 	{#each $chessboard.squares as square, i (`chess-square-${square.code}`)}
 		<BoardSquare {square} piece={$position.get(square)} renderIndex={i} />
 	{/each}
-	<PlayAudio />
+	{#key $game.status === 'setup'}
+		<PlayAudio />
+	{/key}
 </div>
 
 <svelte:window
