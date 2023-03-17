@@ -8,26 +8,15 @@
 	import CapturedPieces from './CapturedPieces.svelte';
 	import { Tooltip } from '$lib/components/Tooltip';
 	import GameHistory from './GameHistory.svelte';
-
-	$: gameTime = $game.timer?.white ? Math.floor($game.timer.white / 60000) : 0;
-	$: gameIncrement = $game.increment.white ? Math.floor($game.increment.white / 1000) : 0;
-	$: gameText = gameTime > 0 ? `${gameTime} | ${gameIncrement}` : '';
-	$: gameMode =
-		$game.gamemode === 'hotseats'
-			? 'hot-seats'
-			: $game.gamemode === 'singleplayer'
-			? 'one-player'
-			: $game.gamemode;
-
-	$: gameType = gameTime > 0 ? (gameTime <= 10 ? 'Blitz' : 'Normal') : 'Unlimited';
+	import GameType from '../GameType.svelte';
 
 	$: isGameActive = $game.status === 'paused' || $game.status === 'active';
 </script>
 
-<div class="flex h-full max-h-max w-full flex-col">
-	<PrimaryButton fullWidth label="{gameType} {gameText}" info={gameMode} active inactive />
+<div class="flex h-full max-h-max w-full flex-col gap-2">
+	<GameType />
 
-	<div class="mb-auto flex h-full max-h-[calc(100%_-_7rem)] gap-3 px-1 py-3">
+	<div class="flex grow gap-3 px-1">
 		<InfoBox label="Move history">
 			<GameHistory />
 		</InfoBox>
@@ -36,8 +25,13 @@
 			<CapturedPieces side={$chessboard.viewSide} placement="bottom" />
 		</InfoBox>
 	</div>
-	<div class="mx-1 mb-2 h-[3rem] rounded-[.25rem] bg-app-white">
-		<p class="my-[.15rem] ml-2 font-test text-app-black/20">Not available</p>
+	<div>
+		<h5 class="mt-3 pl-[.45rem] pb-[.2rem] text-[.9rem] text-app-black/95 first-letter:font-test">
+			Type your move
+		</h5>
+		<div class="mx-1 rounded-[.4rem] border-2 border-gray-500/10 bg-app-white">
+			<p class="ml-2 mb-[.15rem] py-1 font-test text-app-black/20">Not available yet</p>
+		</div>
 	</div>
 	<Tooltip title="You can only pause active game" className="w-full" disabled={isGameActive}>
 		<PrimaryButton
@@ -48,7 +42,7 @@
 			on:click={() => ($game.status === 'paused' ? game.resume() : game.pause())}
 		/>
 	</Tooltip>
-	<div class="flex w-full gap-[.15rem] pt-1  ">
+	<div class="flex w-full gap-[.15rem]">
 		<Tooltip
 			title={isGameActive ? 'Undo the move' : 'Cannot undo move before start'}
 			timeToActive={isGameActive ? 750 : 0}

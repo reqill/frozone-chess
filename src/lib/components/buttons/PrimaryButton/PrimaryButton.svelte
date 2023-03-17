@@ -61,7 +61,7 @@
 		class="relative {inactive && 'pointer-events-none'} my-1 mx-1 inline-flex {label
 			? 'py-[.85rem] '
 			: 'py-[.975rem] '} w-full justify-center whitespace-nowrap
-			 {narrow ? 'px-[1.15rem]' : 'px-7'} align-middle {buttonStyles} btn-base"
+			 {narrow ? 'px-[1.13rem]' : 'px-7'} align-middle {buttonStyles} btn-base"
 	>
 		{#if icon && iconPlacement === 'left'}
 			<span
@@ -105,6 +105,6 @@
 	}
 
 	.btn-label {
-		@apply font-test text-2xl font-bold;
+		@apply font-test text-2xl font-bold capitalize;
 	}
 </style>

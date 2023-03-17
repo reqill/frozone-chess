@@ -3,6 +3,7 @@ import { position } from './position';
 import type {
 	CapturedStoreValueType,
 	GameAudioType,
+	GameStatusType,
 	GameStoreValueType,
 	MoveHistoryStoreValueType,
 	PositionStoreValueType,
@@ -10,7 +11,7 @@ import type {
 import { history } from './history';
 import { captured } from './captured';
 import { DEFAULT_GAME } from '$lib/constants/store.constants';
-import type { GameMode, Piece, SquareInfoType } from '$lib/types/chess.types';
+import type { GameMode, Piece, Side, SquareInfoType } from '$lib/types/chess.types';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
 import { configuration } from './configuration';
 import { chessboard } from './chessboard';
@@ -209,6 +210,20 @@ const createGame = () => {
 		});
 	};
 
+	const end = (reason: GameStatusType, winner?: Side) => {
+		update((game) => {
+			if (winner) {
+				game.winner = winner;
+				game.status = reason;
+			} else {
+				game.draw = true;
+				game.status = 'draw';
+			}
+
+			return game;
+		});
+	};
+
 	const updatePosition = (position: PositionStoreValueType) => {
 		update((game) => {
 			game.position = position;
@@ -258,6 +273,7 @@ const createGame = () => {
 		playSound,
 		updatePosition,
 		updateHistory,
+		end,
 		updateCaptured,
 		setCheck,
 		resetCheck,
