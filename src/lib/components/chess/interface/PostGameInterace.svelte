@@ -48,6 +48,6 @@
 			active
 			inactive
 		/>
-		<PrimaryButton fullWidth label="Rematch" />
+		<PrimaryButton fullWidth label="Rematch" on:click={game.reset} />
 	</div>
 </div>

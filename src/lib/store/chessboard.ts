@@ -1,4 +1,3 @@
-import { DEFAULT_CHESSBOARD_STATE } from '$lib/constants/store.constants';
 import { writable } from 'svelte/store';
 import type { ChessBoardStoreValueType } from '$lib/types/store.types';
 import { getSquareBoundaries } from '$lib/utils/getSquareBoundaries';
@@ -6,9 +5,32 @@ import type { Piece, PieceType, SquareInfoType } from '$lib/types/chess.types';
 import type { MousePositionType } from '$lib/types/common.types';
 import { game } from './game';
 import { getFullSquareInfo } from '$lib/utils/fenNotationParser/getFullSquareInfo';
+import { StringifiedMap } from '$lib/common/map';
+import { SQUARES } from '$lib/constants/chess.constants';
 
 const createChessBoard = () => {
-	const { subscribe, set, update } = writable<ChessBoardStoreValueType>(DEFAULT_CHESSBOARD_STATE);
+	const { subscribe, set, update } = writable<ChessBoardStoreValueType>({
+		boundaries: {
+			top: -1,
+			right: -1,
+			bottom: -1,
+			left: -1,
+		},
+		highlightedSquares: [],
+		arrows: [],
+		squareBoundaries: new StringifiedMap(),
+		selectedSquare: null,
+		intersectedSquare: null,
+		dragPosition: {
+			x: -1,
+			y: -1,
+		},
+		isDragging: false,
+		viewSide: 'white',
+		squares: [...SQUARES],
+		selectedPiece: null,
+		pendingPromotion: null,
+	});
 
 	const setBoundaries = (boundaries?: ChessBoardStoreValueType['boundaries']) => {
 		update((chessboard) => {
@@ -258,7 +280,29 @@ const createChessBoard = () => {
 		stopDrag,
 		startDrag,
 		setBoundaries,
-		reset: () => set(DEFAULT_CHESSBOARD_STATE),
+		reset: () =>
+			set({
+				boundaries: {
+					top: -1,
+					right: -1,
+					bottom: -1,
+					left: -1,
+				},
+				highlightedSquares: [],
+				arrows: [],
+				squareBoundaries: new StringifiedMap(),
+				selectedSquare: null,
+				intersectedSquare: null,
+				dragPosition: {
+					x: -1,
+					y: -1,
+				},
+				isDragging: false,
+				viewSide: 'white',
+				squares: [...SQUARES],
+				selectedPiece: null,
+				pendingPromotion: null,
+			}),
 	};
 };
 

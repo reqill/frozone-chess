@@ -437,7 +437,7 @@ export const DEFAULT_GAME: GameStoreValueType = {
 	draw: false,
 	halfMoveClock: 0,
 	fullMoveNumber: 0,
-	position: DEFAULT_POSITION,
+	position: copyStringifiedMap(DEFAULT_POSITION),
 	captured: DEFAULT_CAPTURED,
 	history: DEFAULT_HISTORY,
 	castingRights: DEFAULT_CASTLING_RIGHTS,
@@ -468,7 +468,7 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 	},
 	isDragging: false,
 	viewSide: 'white',
-	squares: SQUARES,
+	squares: [...SQUARES],
 	selectedPiece: null,
 	pendingPromotion: null,
 };
