@@ -56,10 +56,12 @@
 	}
 
 	td:nth-child(2) > p {
-		@apply rounded-[.25rem] bg-gray-100 px-2 py-[.1rem] text-center text-sm;
+		@apply break-words rounded-[.25rem] bg-gray-100 px-2 py-[.1rem] text-left text-sm;
+		word-spacing: 10rem;
 	}
 
 	td:nth-child(3) > p {
-		@apply rounded-[.25rem] bg-app-black/75 px-2 py-[.1rem] text-center text-sm  text-app-white;
+		@apply break-words rounded-[.25rem] bg-app-black/75 px-2 py-[.1rem] text-left  text-sm text-app-white;
+		word-spacing: 10rem;
 	}
 </style>

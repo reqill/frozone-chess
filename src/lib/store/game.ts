@@ -42,6 +42,7 @@ const createGame = () => {
 			moves: new Map([]),
 			positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
 			captured: new Map([]),
+			lastMove: new Map([]),
 		},
 		castingRights: {
 			white: {
@@ -190,6 +191,7 @@ const createGame = () => {
 				moves: new Map([]),
 				positions: new Map([[0, copyStringifiedMap(DEFAULT_POSITION)]]),
 				captured: new Map([]),
+				lastMove: new Map([]),
 			},
 			castingRights: {
 				white: {
