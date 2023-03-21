@@ -26,8 +26,9 @@
 			?.meta.attackMoves.some((s) => s.index === square.index);
 
 	$: isLastMove =
-		$chessboard.lastMove?.from.index === square.index ||
-		$chessboard.lastMove?.to.index === square.index;
+		($chessboard.lastMove?.from.index === square.index ||
+			$chessboard.lastMove?.to.index === square.index) &&
+		($game.status === 'active' || $game.status === 'paused');
 
 	$: canMoveHere =
 		$chessboard.selectedSquare &&

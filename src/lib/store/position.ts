@@ -122,7 +122,7 @@ const createPosition = () => {
 
 			let checkmate = true;
 			let stalemate = true;
-			const win: Side | null = null;
+			let win: Side | null = null;
 
 			if (didMoveCausedCheck) {
 				game.setCheck();
@@ -130,9 +130,10 @@ const createPosition = () => {
 				const enemyKing = position.get(enemyKingSquare!);
 				if (!enemyKing) throw new Error('Enemy king not found');
 				stalemate = false;
+				win = piece.side;
 
 				position.forEach((piece) => {
-					if (piece.side !== meta.turn && piece.meta.possibleMoves.length > 0) {
+					if (piece.side === meta.turn && piece.meta.possibleMoves.length > 0) {
 						checkmate = false;
 					}
 				});
@@ -141,7 +142,7 @@ const createPosition = () => {
 				checkmate = false;
 
 				position.forEach((piece) => {
-					if (piece.side !== meta.turn && piece.meta.possibleMoves.length > 0) {
+					if (piece.side === meta.turn && piece.meta.possibleMoves.length > 0) {
 						stalemate = false;
 					}
 				});
