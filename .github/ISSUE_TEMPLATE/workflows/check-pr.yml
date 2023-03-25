@@ -1,0 +1,44 @@
+name: Check pull request
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+    types: [ opened, synchronize, reopened, edited ]
+
+jobs:
+  check-pr:
+  - name: Check pull request title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check pull request title
+        uses: actions-ecosystem/action-regex-match@v2
+        with:
+          text: ${{ github.event.pull_request.title }}
+          regex: '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?: .{3,99}$'
+          flags: 'g'
+          name: 'Pull request title'
+          fail_on_match: 'true'
+          error_message: 'Pull request title must be in the format of <type>(<scope>): <subject>'
+        
+  check-code:
+  - name: Check pull request code
+    needs: [ check-pr ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 19.4.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Check types
+        run: npm run check
+
+      - name: Run tests
+        run: npm test:unit
