@@ -462,6 +462,7 @@ export const DEFAULT_CHESSBOARD_STATE: ChessBoardStoreValueType = {
 	arrows: [],
 	squareBoundaries: new StringifiedMap(),
 	selectedSquare: null,
+	isDrawing: false,
 	intersectedSquare: null,
 	dragPosition: {
 		x: -1,

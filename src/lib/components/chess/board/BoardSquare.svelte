@@ -82,10 +82,6 @@
 		chessboard.selectSquare(square, piece);
 	};
 
-	const onPieceRightClick = () => {
-		chessboard.highlight(square);
-	};
-
 	const onPromotion = ({ detail }: CustomEvent<Piece>) => {
 		chessboard.promote(detail);
 	};
@@ -105,7 +101,7 @@
 	}; 
 	${corner && `border-${corner}-radius: 6%;`}`}
 	on:click={onSquareClick}
-	on:contextmenu|preventDefault={onPieceRightClick}
+	on:contextmenu|preventDefault
 >
 	{#if isBottomEdge}
 		<p
